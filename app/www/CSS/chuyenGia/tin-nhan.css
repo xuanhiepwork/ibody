@@ -1,0 +1,195 @@
+/* Reset chiều cao toàn trang */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Khối chứa toàn bộ */
+.main-content {
+  height: calc(100vh - 60px); /* Trừ đúng chiều cao topbar */
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Container chat chính */
+.chat-container-fixed {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* Sidebar trái */
+.chat-sidebar {
+  width: 280px;
+  min-width: 240px;
+  background: #f4f7fb;
+  border-right: 1px solid #ddd;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-sidebar h3 {
+  margin: 0 0 12px;
+}
+
+#searchInput {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+}
+
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Một item khách hàng */
+.chat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: #eaf3ff;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.2s;
+}
+.chat-item:hover {
+  background: #d0e6ff;
+}
+.chat-item img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.chat-item h3 {
+  margin: 0;
+  font-size: 14px;
+}
+.chat-item p {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+/* Khu vực chat phải */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: white;
+  overflow: hidden;
+}
+
+/* Danh sách tin nhắn */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+/* Tin nhắn từ chuyên gia */
+.message-item.me {
+  align-self: flex-end;
+  background: #A993EC;
+  border-radius: 12px 12px 0 12px;
+  padding: 1px 10px;
+  max-width: 60%;
+  text-align: left;
+}
+
+/* Tin nhắn từ khách */
+.message-item.friend {
+  align-self: flex-start;
+  background: #eef3ff;
+  border-radius: 12px 12px 12px 0;
+  padding: 1px 10px;
+  max-width: 60%;
+  text-align: left;
+}
+.message-item.me,
+.message-item.friend {
+  padding: 4px 8px;       /* ↓ nhỏ hơn nữa */
+  font-size: 12px;        /* ↓ nhẹ font chữ */
+  line-height: 1.3;       /* ↓ chiều cao dòng */
+  max-width: 50%;         /* ↓ thu hẹp chiều rộng */
+}
+.message-item span {
+  font-size: 11px;
+  color: gray;
+  display: block;
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* Footer nhập tin nhắn */
+.chat-footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#message-input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+#sendButton {
+  background: #A993EC;
+  color: white;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#sendButton:hover {
+  background: #5a4d84;
+}
+
+/* Nút gọi video */
+#callButton {
+  padding: 8px 12px;
+  background-color: #A993EC;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+  margin-bottom: 10px;
+}
+
+/* Scrollbar nhẹ */
+.chat-list::-webkit-scrollbar,
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-list::-webkit-scrollbar-thumb,
+.messages::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+/* Dark mode (tuỳ chọn nếu cần) */
+body.dark-mode {
+  background: #1e1e1e;
+  color: #fff;
+}

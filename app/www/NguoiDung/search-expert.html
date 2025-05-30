@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tìm kiếm chuyên gia</title>
+  <link rel="stylesheet" href="../../CSS/NguoiDung/search-expert.css">
+  <link rel="stylesheet" href="../../CSS/index.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span class="symbol">♂♀</span>
+      <span class="brand">ibody</span>
+    </div>
+    
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+  
+      <nav class="nav">
+      <a href="../Index.html" >Trang chủ</a>
+      <a href="https://www.facebook.com/groups/1717452315821331">Cộng Đồng</a>
+      <a href="search-expert.html" class="active">Tư vấn</a>
+      <a href="tin-nhan-user.html">Nhắn tin</a>
+      <a href="lich-hen-user.html">Lịch hẹn</a>
+      <a href="lichSuGoi.html">Lịch sử giao dịch</a>
+      <a href="dang-ky-goi.html">Gói tư vấn</a>
+
+
+      <a href="#" id="loginLink" onclick="openAuthModal()">Đăng nhập/Đăng ký</a>
+      <div class="user-menu" id="userMenu" style="display: none;">
+        <div class="user-button" onclick="toggleUserDropdown()">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
+          <span id="usernameDisplay"></span>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="../profile.html">Trang cá nhân</a>
+          <a href="settings-upgrade.html">Nâng cấp thành chuyên gia</a>
+          <a href="../../HTML/tracnghiem.html">Trắc nghiệm trầm cảm</a>
+          <a href="ho-tro-user.html">Hỗ trợ</a>
+          <a href="#" onclick="logout()">Đăng xuất</a>
+        </div>
+      </div>
+      
+    </nav>
+
+  </header>
+
+      <div class="expert-search-layout">
+  <!-- Danh sách chuyên gia -->
+  <div class="expert-list-area">
+    <div id="expertList" class="expert-list-grid">
+      <!-- Các thẻ chuyên gia sẽ được JS đổ vào -->
+    </div>
+  </div>
+
+  <!-- Sidebar tìm kiếm -->
+  <div class="search-panel">
+    <h3>Tìm chuyên gia</h3>
+    <input type="text" id="searchInput" placeholder="Tìm theo tên hoặc chuyên môn...">
+
+    <label for="specialtyFilter">Chuyên môn</label>
+    <select id="specialtyFilter">
+      <option value="">Tất cả chuyên môn</option>
+    </select>
+
+    <label for="availabilityFilter">Thời gian rảnh</label>
+    <select id="availabilityFilter">
+      <option value="">Tất cả</option>
+      <option value="1">Thứ 2</option>
+      <option value="2">Thứ 3</option>
+      <option value="3">Thứ 4</option>
+      <option value="4">Thứ 5</option>
+      <option value="5">Thứ 6</option>
+      <option value="6">Thứ 7</option>
+      <option value="0">Chủ nhật</option>
+    </select>
+
+    <label for="experienceFilter">Kinh nghiệm</label>
+    <select id="experienceFilter">
+      <option value="">Tất cả</option>
+      <option value="9">Dưới 10 năm</option>
+      <option value="10">Trên 10 năm</option>
+    </select>
+
+    <button id="searchBtn">Tìm chuyên gia</button>
+  </div>
+</div>
+    
+<footer class="footer">
+    <div class="footer-container">
+      <div class="footer-about">
+          <h4>Về chúng tôi</h4>
+          <p>
+            IBODY là dự án kết nối học sinh với chuyên gia tâm lý, giúp các em
+            hiểu và phát triển bản thân một cách lành mạnh.
+          </p>
+        </div>
+        <div class="footer-contact">
+          <h4>Liên hệ</h4>
+          <p>Email: duytruongk22@gmail.com</p>
+          <p>Email: xuanhiep.ht4f@gmail.com</p>
+          <p>Email: baotram.hutech@gmail.com</p>
+          <p>Hotline: 0889 225 315</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 ibody. All rights reserved.</p>
+    </div>
+  </footer>
+          
+<script src="../../JS/NguoiDung/search-expert.js"></script>
+</body>
+</html>
