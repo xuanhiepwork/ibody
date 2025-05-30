@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBODY</title>
+    <link rel="stylesheet" href="../CSS/index.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span class="symbol">♂♀</span>
+      <span class="brand">ibody</span>
+    </div>
+    
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+  
+      <nav class="nav">
+      <a href="/" class="active">Trang chủ</a>
+      <a href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937">Cộng Đồng</a>
+      <a href="/NguoiDung/search-expert.html">Tư vấn</a>
+      <a href="/NguoiDung/tin-nhan-user.html">Nhắn tin</a>
+      <a href="/NguoiDung/lich-hen-user.html">Lịch hẹn</a>
+      <a href="/NguoiDung/lichSuGoi.html">Lịch sử giao dịch</a>
+      <a href="/NguoiDung/dang-ky-goi.html">Gói tư vấn</a>
+
+
+      <!-- hết test  -->
+      <a href="#" id="loginLink" onclick="openAuthModal()">Đăng nhập/Đăng ký</a>
+      <div class="user-menu" id="userMenu" style="display: none;">
+        <div class="user-button" onclick="toggleUserDropdown()">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
+          <span id="usernameDisplay"></span>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="profile.html">Trang cá nhân</a>
+          <a href="/NguoiDung/settings-upgrade.html">Nâng cấp thành chuyên gia</a>
+          <a href="/tracnghiem.html">Trắc nghiệm trầm cảm</a>
+          <a href="/NguoiDung/ho-tro-user.html">Hỗ trợ</a>
+          <a href="#" onclick="logout()">Đăng xuất</a>
+        </div>
+      </div>
+      
+    </nav>
+
+  </header>
+    
+      <!-- Hero -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-text">
+        <h1>
+          Thấu hiểu đứa trẻ bên trong bạn<br />
+           Kết nối để <span class="highlight-primary">chữa lành</span>
+        </h1>
+        <p>
+          Hành trình chữa lành và phát triển con người bên trong.
+          IBODY sẽ luôn đồng hành cùng bạn trong việc kết nối và thấu hiểu đứa trẻ bên trong.
+        </p>
+        <a href="./NguoiDung/search-expert.html" class="btn-primary" style="text-decoration: none;" >Kết nối chuyên gia ngay</a>
+      </div>
+      <div class="hero-image">
+        <img
+          src="https://tapchitamlyhoc.com/wp-content/uploads/2021/09/dia-chi-kham-tam-ly-cho-tre-o-tphcm-10-1.jpg"
+          alt="Hero Image"
+        />
+      </div>
+    </div>
+  </section>
+
+    <!-- Giá trị cốt lõi -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Giá trị cốt lõi của ứng dụng</h2>
+      <div class="card-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-title">SDG 3 (sức khỏe)</div>
+          <div class="step-description">Bảo vệ người dùng trước nguy cơ bị xâm hại</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-title">SDG 5 (bình đẳng giới)</div>
+          <div class="step-description">Giáo dục giới tính thiết thực thông qua gamification</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-title">SDG 4 (giáo dục chất lượng)</div>
+          <div class="step-description">Nâng cao nhận thức, nuôi dưỡng sự tôn trọng và hành động đúng đắn</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Giới thiệu -->
+  <section class="intro">
+    <div class="container intro-container">
+      <div class="intro-text">
+        <h2 class="intro-title-text">Giới thiệu</h2>
+        <div class="intro-box">
+          <p>
+            IBODY là một dự án nhằm kết nối học sinh với các chuyên gia tâm lý đáng tin cậy,
+            hỗ trợ tư vấn những vấn đề tâm lý, sinh lý và tình dục mà các em còn ngần ngại chia sẻ với phụ huynh.
+            Chúng tôi mang đến không gian an toàn, thông tin chính xác và sự đồng hành chuyên nghiệp
+            để giúp học sinh thấu hiểu bản thân, vượt qua lo lắng và phát triển một cách lành mạnh.
+          </p>
+        </div>
+      </div>
+      <div class="intro-image">
+        <img src="https://kenh14cdn.com/203336854389633024/2024/8/6/untitled-1-4-1722838919735848206376-1722935053262-17229350535061849047327.jpg" alt="Giới thiệu" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Chúng tôi hoạt động như thế nào -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Chúng tôi hoạt động như thế nào</h2>
+      <p class="section-subtitle">Hiểu hơn về đứa trẻ bên trong bạn</p>
+      <div class="card-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-title">Trợ lí AI</div>
+          <div class="step-description">Trợ lí AI hoạt động 24/24. Luôn sẵn sàng hỗ trợ bất cứ khi nào bạn cần.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-title">Kết nối chuyên gia</div>
+          <div class="step-description">Trao đổi trực tiếp với các chuyên gia hàng đầu trong lĩnh vực tâm lí.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-title">Kiểm tra trầm cảm</div>
+          <div class="step-description">Thực hiện bài test trầm cảm được kiểm chứng bởi chuyên gia quốc tế.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mục tiêu của IBODY -->
+  <section class="section bg-light">
+    <div class="container">
+      <h2 class="section-title text-primary">Mục tiêu của IBODY</h2>
+      <div class="goal-layout">
+        <div class="goal-image">
+          <img src="https://images2.thanhnien.vn/528068263637045248/2025/5/17/ts-bs-nguyen-huy-luan-va-ths-do-thi-nam-phuong-cung-thao-luan-chu-de-kham-benh-tiem-ngua-khong-thua-mot-phutmmm-17474737972401953892395.jpg" alt="Muc Tieu" />
+        </div>
+        <div class="goal-content">
+          <div class="goal-item">
+            <div class="circle-number">1</div>
+            <div>
+              <h5 class="community-invite">Tạo sân chơi và cộng đồng hỗ trợ tâm lí - <a href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937"  style="text-decoration: none;">THAM GIA TẠI ĐÂY</a></h5>
+              <p>- Cộng đồng -</p>
+            </div>
+            
+          </div>
+          <div class="goal-item">
+            <div class="circle-number">2</div>
+            <div>
+              <h5>Cảm thấy an toàn nhờ có sự hỗ trợ chuyên gia</h5>
+              <p>- Kết nối chuyên gia -</p>
+            </div>
+          </div>
+          <div class="goal-item">
+            <div class="circle-number">3</div>
+            <div>
+              <h5>Hiểu rõ hơn về sức khỏe tâm lí</h5>
+              <p>- Tìm hiểu bản thân -</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Đội ngũ -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Đội ngũ</h2>
+      <div class="card-grid">
+        <div class="step-card">
+          <img src="https://scontent.fsgn5-3.fna.fbcdn.net/v/t39.30808-6/481462442_2595610650829712_7418735797820839955_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=kx7tZAA7xCEQ7kNvwEtJmZH&_nc_oc=AdlPwjLbuyyplacmvLG9gesvm8mmouumYZNmdmXvUIXePzc2QOqqCQ_mjhlGXuofQ_A&_nc_zt=23&_nc_ht=scontent.fsgn5-3.fna&_nc_gid=ZZ0fmQehpvNLUMRXspLr0w&oh=00_AfJoW3BwcmP_q3vNgnwXNpZFFf2IXrAcN8KwBahOBk0m2g&oe=683E0294" alt="Tôn Duy Trường" />
+          <div class="step-title">Tôn Duy Trường</div>
+          <div class="step-description">
+            - Xây dựng và phát triển hệ thông<br />
+            - Phát triển cơ sở dữ liệu<br />
+            - Tích hợp các dịch vụ và công nghệ mới <br />
+          </div>
+        </div>
+        <div class="step-card">
+          <img src="https://scontent.fsgn5-14.fna.fbcdn.net/v/t39.30808-6/500647195_699067882733571_4349082515116646934_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=0z_lXTXN48YQ7kNvwF05aHD&_nc_oc=Adn5PL5hYSgrwoF4AgVrv7QfLraYDxCsxsV7vuZIrcjLRIB-RDGsiJJCz_q-Zeosnx8&_nc_zt=23&_nc_ht=scontent.fsgn5-14.fna&_nc_gid=m3VV55cjhvRcsWv6n1db6w&oh=00_AfLenkz_b6cMX_XzqfT0qmQcnJOp7f2anV6wOsmiQRHvSw&oe=683DDB59" alt="Trần Xuân Hiệp" />
+          <div class="step-title">Trần Xuân Hiệp</div>
+          <div class="step-description">
+            - Xây dựng giao diện người dùng<br />
+            - Thiết kế trải nghiệm người dùng<br />
+          </div>
+        </div>
+        <div class="step-card">
+          <img src="https://scontent.fsgn5-14.fna.fbcdn.net/v/t39.30808-1/484938747_1175156950825497_460139160033187701_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e99d92&_nc_ohc=QwE1WUwRGngQ7kNvwFQ46FZ&_nc_oc=AdkfSzXKi3XXiP_CRGwvy5dFZpXUgpaI83iXxEdI-4IsESRuS6vEcR1AVxG2xmRANSg&_nc_zt=24&_nc_ht=scontent.fsgn5-14.fna&_nc_gid=Srdx7xwgTlCWgfeu8_272g&oh=00_AfKYukW906mv-drdsWH9CmqSUQD7TRf2b3tKXTnBNkgcrA&oe=683DEC79" alt="Thiền Bảo Trâm" />
+          <div class="step-title">Dương Bảo Trâm</div>
+          <div class="step-description">
+            - Tạo nội dung và hình ảnh cho ứng dụng<br />
+            - Quản lý truyền thông xã hội<br />
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Đối tác -->
+  <section class="section partners">
+    <div class="container text-center">
+      <h2 class="section-title text-primary">Đối tác</h2>
+      <div class="partner-grid">
+        <img src="https://upload.wikimedia.org/wikipedia/vi/4/4b/Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_VinUni_logo.png" alt="Vinuni" />
+        <img src="https://dsa.ueh.edu.vn/wp-content/uploads/2023/08/UII.jpg" alt="UII" />
+        <img src="https://media.istockphoto.com/id/1032803298/vector/concept-of-sharing-ideas-between-a-social-network.jpg?s=612x612&w=0&k=20&c=oBL1v-YS_gEtDGC2PPB1bd9ppJRtSlS88JRUBOIY9aE=" alt="Fellowship" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQluS_3NXtgL96uUhvq2wb2mXrAPneAv5uAeg&s" alt="Visi" />
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-about">
+          <h4>Về chúng tôi</h4>
+          <p>
+            IBODY là dự án kết nối học sinh với chuyên gia tâm lý, giúp các em
+            hiểu và phát triển bản thân một cách lành mạnh.
+          </p>
+        </div>
+        <div class="footer-contact">
+          <h4>Liên hệ</h4>
+          <p>Email: duytruongk22@gmail.com</p>
+          <p>Email: xuanhiep.ht4f@gmail.com</p>
+          <p>Email: baotram.hutech@gmail.com</p>
+          <p>Hotline: 0889 225 315</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 ibody. All rights reserved.</p>
+    </div>
+  </footer>
+      
+
+      
+<!-- Auth Modal -->
+<div id="authModal" class="modal-overlay">
+    <div class="auth-modal">
+      <button class="close-btn" onclick="closeAuthModal()">×</button>
+  
+      <div class="form-toggle">
+        <button id="loginToggle" class="active">Đăng nhập</button>
+        <button id="registerToggle">Đăng ký</button>
+        <button onclick="window.location.href='http://localhost:5221/api/auth/google-login'" class="google-login-btn">
+        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" class="google-icon" />
+        <!-- <span>Đăng nhập bằng Google</span> -->
+      </button>
+      </div>
+  
+      <form id="loginForm" class="form active">
+        <h2>Đăng nhập</h2>
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Mật khẩu" required />
+        <a href="./reset-password.html" class="forgot-password">Quên mật khẩu?</a>
+        <button type="submit">Đăng nhập</button>
+      </form>
+
+      <form id="registerForm" class="form">
+        <h2>Đăng ký</h2>
+        <input type="text" name="fullName" placeholder="Họ tên" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Mật khẩu" required />
+        <input type="password" name="confirmPassword" placeholder="Xác nhận mật khẩu" required />
+        <button type="submit">Tạo tài khoản</button>
+      </form>
+    </div>
+  </div>
+
+      <script src="../JS/index.js"></script>
+</body>
+
+</html>
+
