@@ -3,6 +3,12 @@ uni project
 
 # Setup project
 
+### 0. Install prerequirements
+
+```bash
+bash script/init.sh
+```
+
 ### 1. Install Nodejs:
 [Download Node.js](https://nodejs.org/en/download)
 
