@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ sơ chuyên gia</title>
+  <link rel="stylesheet" href="../../CSS/NguoiDung/profile-expert.css">
+  <link rel="stylesheet" href="../../CSS/index.css">
+</head>
+<body>
+<!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="symbol">♂♀</span>
+      <span class="brand">ibody</span>
+    </div>
+
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+
+    <nav class="nav">
+      <a href="../Index.html">Trang chủ</a>
+      <a href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937">Cộng Đồng</a>
+      <a href="search-expert.html">Tư vấn</a>
+      <a href="tin-nhan-user.html">Nhắn tin</a>
+      <a href="lich-hen-user.html">Lịch hẹn</a>
+      <a href="lichSuGoi.html">Lịch sử giao dịch</a>
+      <a href="dang-ky-goi.html">Gói tư vấn</a>
+      <a href="#" id="loginLink" onclick="openAuthModal()">Đăng nhập/Đăng ký</a>
+      <div class="user-menu" id="userMenu" style="display: none;">
+        <div class="user-button" onclick="toggleUserDropdown()">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar" />
+          <span id="usernameDisplay"></span>
+        </div>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="../profile.html">Trang cá nhân</a>
+          <a href="settings-upgrade.html">Nâng cấp thành chuyên gia</a>
+          <a href="../../HTML/tracnghiem.html">Trắc nghiệm trầm cảm</a>
+          <a href="ho-tro-user.html">Hỗ trợ</a>
+          <a href="#" onclick="logout()">Đăng xuất</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="profile-expert-container">
+  <section class="expert-banner">
+    <div class="expert-info">
+      <img class="expert-avatar" alt="Chuyên gia">
+      <div class="expert-details">
+        <h1 id="expertName"></h1>
+        <p id="expertEmail"></p>
+        <p class="expert-rating">⭐ </p>
+      </div>
+    </div>
+    <div class="expert-actions">
+      <button class="btn btn-primary" onclick="datLich()">Đặt lịch hẹn</button>
+      <button id="openReportModalBtn" class="btn btn-outline-danger"> Tố cáo</button>
+    </div>
+  </section>
+
+  <div class="tab-buttons">
+    <button class="tab-button active" onclick="switchTab(0)">Giới thiệu</button>
+    <button class="tab-button" onclick="switchTab(1)">Thời gian rảnh</button>
+    <button class="tab-button" onclick="switchTab(2)">Đánh giá</button>
+  </div>
+
+  <div class="tab-content" style="display: block;">
+    <h3> Giới thiệu</h3>
+    <p id="expertGioiThieu"></p>
+
+    <h4>Chuyên môn</h4>
+    <p><span id="expertChuyenMon">T</span></p>
+
+    <h4> Kinh nghiệm</h4>
+    <p><span id="expertKinhNghiem"></span> năm</p>
+
+    <h4> Chứng chỉ</h4>
+    <p><span id="expertChungChi"></span></p>
+  </div>
+
+  <div class="tab-content" style="display: none;">
+    <h3>Thời gian rảnh</h3>
+    <ul id="expertThoiGianRanh"></ul>
+  </div>
+
+  <div class="tab-content" style="display: none;">
+    <h3> Đánh giá từ người dùng</h3>
+    <ul id="expertDanhGiaList"></ul>
+    <div class="review-form">
+  <div class="star-rating" id="starRating">
+    <span class="star" data-value="1">&#9733;</span>
+    <span class="star" data-value="2">&#9733;</span>
+    <span class="star" data-value="3">&#9733;</span>
+    <span class="star" data-value="4">&#9733;</span>
+    <span class="star" data-value="5">&#9733;</span>
+  </div>
+  <textarea id="danhGiaNhanXet" placeholder="Nhận xét..." rows="3"></textarea>
+  <button class="btn btn-success" onclick="guiDanhGia()">Gửi đánh giá</button>
+</div>
+
+  </div>
+
+  <!-- Modal Tố cáo -->
+  <div id="reportModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Tố cáo chuyên gia</h2>
+      <textarea id="reportReason" placeholder="Nhập lý do tố cáo..." required></textarea>
+      <button id="submitReportBtn" class="btn btn-danger">Gửi báo cáo</button>
+    </div>
+  </div>
+</div>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-about">
+          <h4>Về chúng tôi</h4>
+          <p>
+            IBODY là dự án kết nối học sinh với chuyên gia tâm lý, giúp các em
+            hiểu và phát triển bản thân một cách lành mạnh.
+          </p>
+        </div>
+        <div class="footer-contact">
+          <h4>Liên hệ</h4>
+          <p>Email: duytruongk22@gmail.com</p>
+          <p>Email: xuanhiep.ht4f@gmail.com</p>
+          <p>Email: baotram.hutech@gmail.com</p>
+          <p>Hotline: 0363824905</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 ibody. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script src="../../JS/NguoiDung/profile-expert.js"></script>
+
+</body>
+</html>
