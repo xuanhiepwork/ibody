@@ -1,10 +1,10 @@
 const user = JSON.parse(localStorage.getItem("user"));
 
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
-    alert("Bạn không có quyền truy cập trang này.");
-    return (window.location.href = "/");
-  }
+  // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
+  //   alert("Bạn không có quyền truy cập trang này.");
+  //   return (window.location.href = "/");
+  // }
 
   const summaryBox = document.getElementById("summaryBox");
   const tableBody = document.getElementById("lichSuTable");

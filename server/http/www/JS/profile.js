@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user) {
     alert("Bạn cần đăng nhập.");
-    window.location.href = "index.html";
+    window.location.href = "/";
     return;
   }
 
@@ -179,7 +179,7 @@ async function loadLichSuTuVan() {
   window.logout = function () {
     localStorage.removeItem("user");
     alert("Đăng xuất thành công!");
-    window.location.href = "index.html";
+    window.location.href = "/";
   };
 
   window.toggleUserDropdown = function () {

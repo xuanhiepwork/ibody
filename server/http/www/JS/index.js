@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
       } else if (mappedUser.roles.includes("quan_tri")) {
         window.location.href = "/Admin/admin-dashboard.html";
       } else {
-        window.location.href = "index.html";
+        window.location.href = "/";
       }
     } catch (err) {
       console.error("Lỗi giải mã user từ Google:", err);
@@ -137,7 +137,7 @@ registerForm.addEventListener("submit", async (event) => {
         localStorage.setItem("user", JSON.stringify(loginResult.user));
         alert("Đăng ký & đăng nhập thành công!");
         closeAuthModal();
-        window.location.href = "index.html";
+        window.location.href = "/";
       } else {
         alert("Đăng ký thành công, nhưng tự động đăng nhập thất bại.");
       }
@@ -190,7 +190,7 @@ loginForm.addEventListener("submit", async (event) => {
           }, 100);
         } else {
           console.log("👤 Quyền người dùng thông thường → về trang chủ");
-          window.location.replace("index.html");
+          window.location.replace("/");
         }
       }
     }

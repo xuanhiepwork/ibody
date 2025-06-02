@@ -8,10 +8,10 @@ updateEmailForm.addEventListener("submit", async function (e) {
   e.preventDefault();
   const newEmail = document.getElementById("newEmail").value.trim();
 
-  if (!newEmail) {
-    alert("Vui lòng nhập email mới.");
-    return;
-  }
+  // if (!newEmail) {
+  //   alert("Vui lòng nhập email mới.");
+  //   return;
+  // }
 
   try {
     const response = await fetch(`${API_BASE_URL}/user/profile/${user.id}`, {

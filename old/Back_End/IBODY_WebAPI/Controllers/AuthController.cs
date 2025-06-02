@@ -327,13 +327,9 @@ public async Task<IActionResult> GoogleCallback()
 
     // ✅ Redirect về frontend + đính kèm thông tin
     // CHỈ sửa dòng này trong callback:
-var redirectUrl = $"http://127.0.0.1:5500/Front_End/HTML/Index.html?googleUser={Uri.EscapeDataString(googleUserJson)}";
-
+var redirectUrl = $"http://127.0.0.1:5500/?googleUser={Uri.EscapeDataString(googleUserJson)}";
     return Redirect(redirectUrl);
 }
-
-
-
 
     }
     public class ForgotPasswordRequest

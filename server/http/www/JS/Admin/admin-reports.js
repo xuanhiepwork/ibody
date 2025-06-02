@@ -2,7 +2,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
   alert("Bạn không có quyền truy cập trang quản trị.");
-  window.location.href = "index.html";
+  window.location.href = "/";
 }
 
 async function loadReports() {

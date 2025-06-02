@@ -148,12 +148,12 @@
 // });
 // dang-ky-goi.js
 document.addEventListener("DOMContentLoaded", async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
 
-  if (!user) {
-    alert("Vui lòng đăng nhập để tiếp tục.");
-    return window.location.href = "/";
-  }
+  // if (!user) {
+  //   alert("Vui lòng đăng nhập để tiếp tục.");
+  //   return window.location.href = "/";
+  // }
 
   // ✅ Hiển thị avatar và tên người dùng
   const loginLink = document.getElementById("loginLink");

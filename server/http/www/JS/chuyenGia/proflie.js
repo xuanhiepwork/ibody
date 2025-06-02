@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let scheduleData = [];
 
   const user = JSON.parse(localStorage.getItem("user"));
-  if (!user) {
-    alert("Bạn chưa đăng nhập.");
-    window.location.href = "/";
-    return;
-  }
+  // if (!user) {
+  //   alert("Bạn chưa đăng nhập.");
+  //   window.location.href = "/";
+  //   return;
+  // }
 
     document.getElementById('editProfileBtn').addEventListener('click', () => {
     document.getElementById('edit-profile-modal').style.display = 'block';

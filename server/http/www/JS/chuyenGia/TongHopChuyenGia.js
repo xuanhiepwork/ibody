@@ -15,10 +15,10 @@ function thuToText(thu) {
 const BASE_API = "http://localhost:5221";
 document.addEventListener("DOMContentLoaded", async () => {
    const user = JSON.parse(localStorage.getItem('user'));
-  if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
-    alert("Bạn cần đăng nhập với tài khoản chuyên gia.");
-    return (window.location.href = "/");
-  }
+  // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
+  //   alert("Bạn cần đăng nhập với tài khoản chuyên gia.");
+  //   return (window.location.href = "/");
+  // }
 
   const taiKhoanId = user.taiKhoanId;
   let chuyenGiaId = null;

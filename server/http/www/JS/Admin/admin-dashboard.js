@@ -1,7 +1,7 @@
 const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
-  window.location.href = "index.html";
+  window.location.href = "/";
 }
 document.addEventListener("DOMContentLoaded", () => {
   fetch("http://localhost:5221/api/admin/dashboard/thong-ke-tong-quan")
