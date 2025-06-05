@@ -1,5 +1,5 @@
-const express = require('express');
-const { http } = require("../server")
+import express from 'express'
+import { http } from "../server.js"
+import { join } from 'path'
 
-const path = require('path')
-http .use(express.static(path.join(__dirname, "www")))
+http.use(express.static(join(import.meta.dirname, "www")))

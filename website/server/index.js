@@ -1,5 +1,7 @@
-require("./http")
-require("./io")
-const { server } = require("./server")
+import "./http/index.js"
+import "./io/index.js"
+import { server } from "./server.js"
 
-module.exports = server
+export {
+    server
+}
