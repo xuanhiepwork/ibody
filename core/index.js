@@ -1,1 +1,3 @@
-import musql2 from 'mysql2'
+import app from "./app.js"
+
+export default app
