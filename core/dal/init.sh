@@ -10,3 +10,4 @@ mkdir -p ./dev
 
 # Install mysql
 sudo apt -y install mysql-server mysql-client
+w
