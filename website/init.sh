@@ -10,11 +10,3 @@ sudo apt-get update
 sudo apt-get install -y redis
 sudo systemctl enable redis-server
 sudo systemctl start redis-server
-
-# Install nodejs
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-\. "$HOME/.nvm/nvm.sh"
-nvm install 22
-
-# Install Node.js packages and dependencies
-npm i

@@ -1,28 +1,12 @@
-switch (process.env.ENV) {
-    case "dev":
-
-        break;
-
-    case "stage":
-
-        break;
-
-    case "prod":
-
-        break;
-}
-
-
-
+const { env } = process
 export default {
     dal: {
         databse: {
-            host: 'localhost',
-            user: 'ibodydbuser',
-            password: '@bc!@#123',
-            database: 'ibody',
+            host: env['DB_HOST'],
+            user: env['DB_USER'],
+            password: env['DB_PASSWORD'],
+            database: env['DB_DATABASE'],
         },
-        workdir: './dal/runtime',
+        workdir: env['WORKDIR_PATH'],
     }
-
 }
