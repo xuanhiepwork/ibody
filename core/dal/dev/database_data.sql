@@ -11,8 +11,59 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-REPLACE INTO `account` VALUES (1,NULL,'dasdasdasadsd','asasd','asdasd');
+REPLACE INTO `account` VALUES (1,NULL,'dasdasdasadsd','asasd','asdasd','','');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `availablites` DISABLE KEYS */;
+/*!40000 ALTER TABLE `availablites` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `call` DISABLE KEYS */;
+/*!40000 ALTER TABLE `call` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `chatbox` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chatbox` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `expert_available_slots` DISABLE KEYS */;
+/*!40000 ALTER TABLE `expert_available_slots` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `expert_payout_methods` DISABLE KEYS */;
+/*!40000 ALTER TABLE `expert_payout_methods` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `expert_profile` DISABLE KEYS */;
+/*!40000 ALTER TABLE `expert_profile` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `invoice_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoice_item` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `message` DISABLE KEYS */;
+/*!40000 ALTER TABLE `message` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `payout_requests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payout_requests` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `report` DISABLE KEYS */;
+/*!40000 ALTER TABLE `report` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `reviews` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reviews` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `status` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
