@@ -10,18 +10,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-/*!40000 ALTER TABLE `account` DISABLE KEYS */;
-REPLACE INTO `account` VALUES (1,NULL,'dasdasdasadsd','asasd','asdasd','','');
-/*!40000 ALTER TABLE `account` ENABLE KEYS */;
-
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
-
-/*!40000 ALTER TABLE `availablites` DISABLE KEYS */;
-/*!40000 ALTER TABLE `availablites` ENABLE KEYS */;
-
-/*!40000 ALTER TABLE `call` DISABLE KEYS */;
-/*!40000 ALTER TABLE `call` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `chatbox` DISABLE KEYS */;
 /*!40000 ALTER TABLE `chatbox` ENABLE KEYS */;
@@ -35,17 +25,14 @@ REPLACE INTO `account` VALUES (1,NULL,'dasdasdasadsd','asasd','asdasd','','');
 /*!40000 ALTER TABLE `expert_profile` DISABLE KEYS */;
 /*!40000 ALTER TABLE `expert_profile` ENABLE KEYS */;
 
+/*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
+
 /*!40000 ALTER TABLE `invoice_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `invoice_item` ENABLE KEYS */;
 
-/*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
-
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
-
-/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
-/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `payout_requests` DISABLE KEYS */;
 /*!40000 ALTER TABLE `payout_requests` ENABLE KEYS */;
@@ -56,17 +43,26 @@ REPLACE INTO `account` VALUES (1,NULL,'dasdasdasadsd','asasd','asdasd','','');
 /*!40000 ALTER TABLE `reviews` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reviews` ENABLE KEYS */;
 
-/*!40000 ALTER TABLE `role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
-
-/*!40000 ALTER TABLE `status` DISABLE KEYS */;
-/*!40000 ALTER TABLE `status` ENABLE KEYS */;
-
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `userAuthPassword` DISABLE KEYS */;
+/*!40000 ALTER TABLE `userAuthPassword` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `userGroup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `userGroup` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `userGroup_permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `userGroup_permission` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `userPermission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `userPermission` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `user_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_group` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

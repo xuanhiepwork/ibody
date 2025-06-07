@@ -16,28 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `account`
---
-
-DROP TABLE IF EXISTS `account`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `account` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `salt` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `hash` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `account` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `pass` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `appointment`
 --
 
@@ -52,8 +30,8 @@ CREATE TABLE `appointment` (
   `start_time` timestamp NOT NULL,
   `end_time` timestamp NOT NULL,
   `duration_minutes` int NOT NULL,
-  `service_description` text COLLATE utf8mb4_unicode_ci,
-  `cancellation_reason` text COLLATE utf8mb4_unicode_ci,
+  `service_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `cancellation_reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `related_call_id` int DEFAULT NULL,
   `invoice_item_id` int DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -63,46 +41,7 @@ CREATE TABLE `appointment` (
   KEY `expert_id` (`expert_id`),
   KEY `expert_avaible_slot_id` (`expert_avaible_slot_id`),
   KEY `related_call_id` (`related_call_id`),
-  KEY `invoice_item_id` (`invoice_item_id`),
-  CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `availablites`
---
-
-DROP TABLE IF EXISTS `availablites`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `availablites` (
-  `availability_id` int NOT NULL AUTO_INCREMENT,
-  `expert_id` int NOT NULL,
-  `availability` json DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY `availability_id` (`availability_id`),
-  KEY `expert_id` (`expert_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `call`
---
-
-DROP TABLE IF EXISTS `call`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `call` (
-  `call_id` int NOT NULL AUTO_INCREMENT,
-  `caller_id` int NOT NULL,
-  `recevier_id` int NOT NULL,
-  `duration_minutes` float NOT NULL,
-  `start_time` timestamp NOT NULL,
-  `end_time` timestamp NOT NULL,
-  `cost` float NOT NULL,
-  KEY `call_id` (`call_id`),
-  KEY `caller_id` (`caller_id`),
-  KEY `recevier_id` (`recevier_id`)
+  KEY `invoice_item_id` (`invoice_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -114,11 +53,11 @@ DROP TABLE IF EXISTS `chatbox`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `chatbox` (
-  `chatbox_id` int NOT NULL AUTO_INCREMENT,
-  `date` datetime NOT NULL,
-  `last_message_at` datetime NOT NULL,
-  KEY `chatbox_id` (`chatbox_id`),
-  CONSTRAINT `chatbox_ibfk_1` FOREIGN KEY (`chatbox_id`) REFERENCES `message` (`message_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int NOT NULL AUTO_INCREMENT,
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `lastMessageAt` datetime NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -138,7 +77,7 @@ CREATE TABLE `expert_available_slots` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `slot_id` (`slot_id`),
   KEY `expert_id` (`expert_id`),
-  CONSTRAINT `expert_available_slots_ibfk_1` FOREIGN KEY (`slot_id`) REFERENCES `expert_profile` (`expert_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `expert_available_slots_ibfk_1` FOREIGN KEY (`slot_id`) REFERENCES `expert_profile` (`expertId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -152,7 +91,7 @@ DROP TABLE IF EXISTS `expert_payout_methods`;
 CREATE TABLE `expert_payout_methods` (
   `payout_method_id` int NOT NULL AUTO_INCREMENT,
   `expert_id` int NOT NULL,
-  `account_details` text COLLATE utf8mb4_unicode_ci,
+  `account_details` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `payout_method_id` (`payout_method_id`),
@@ -169,18 +108,40 @@ DROP TABLE IF EXISTS `expert_profile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `expert_profile` (
-  `expert_id` int NOT NULL,
-  `specialization` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `expertId` int NOT NULL,
+  `specialization` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `total_rating` float NOT NULL DEFAULT '0',
   `year_of_experience` int NOT NULL DEFAULT '0',
   `is_verìied` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `expert_profile_id` int NOT NULL AUTO_INCREMENT,
-  KEY `expert_id` (`expert_id`),
+  KEY `expert_id` (`expertId`),
   KEY `expert_profile_id` (`expert_profile_id`),
-  CONSTRAINT `expert_profile_ibfk_1` FOREIGN KEY (`expert_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `expert_profile_ibfk_1` FOREIGN KEY (`expertId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `invoice`
+--
+
+DROP TABLE IF EXISTS `invoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `invoice` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `number` varchar(101) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `issueDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dueDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `totalAmount` float NOT NULL,
+  `paidAmount` float NOT NULL,
+  `notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `invoice_id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -192,37 +153,14 @@ DROP TABLE IF EXISTS `invoice_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `invoice_item` (
-  `invoice_item_id` int NOT NULL AUTO_INCREMENT,
-  `invoice_id` int NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `invoiceId` int NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `quantity` int NOT NULL,
-  `item_total_amount` float NOT NULL,
-  KEY `invoice_item_id` (`invoice_item_id`),
-  KEY `invoice_id` (`invoice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `invoices`
---
-
-DROP TABLE IF EXISTS `invoices`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `invoices` (
-  `invoice_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `invoice_number` varchar(101) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `issue_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `due_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `total_amount` float NOT NULL,
-  `paid_amount` float NOT NULL,
-  `notes` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY `invoice_id` (`invoice_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `invoices_ibfk_1` FOREIGN KEY (`invoice_id`) REFERENCES `invoice_item` (`invoice_item_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `itemTotalAmount` float NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `invoice_id` (`invoiceId`),
+  CONSTRAINT `invoice_item_ibfk_1` FOREIGN KEY (`invoiceId`) REFERENCES `invoice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -234,35 +172,16 @@ DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `message` (
-  `message_id` int NOT NULL AUTO_INCREMENT,
-  `sender_id` int NOT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `chatbox_id` int NOT NULL,
-  KEY `message_id` (`message_id`),
-  KEY `sender_id` (`sender_id`),
-  KEY `chatbox_id` (`chatbox_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `notifications`
---
-
-DROP TABLE IF EXISTS `notifications`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `notifications` (
-  `notification_id` int NOT NULL AUTO_INCREMENT,
-  `recipient_user_id` int NOT NULL,
-  `notification_type` enum('log in','sign up') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_read` tinyint(1) NOT NULL,
-  `read_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY `notification_id` (`notification_id`),
-  KEY `recipient_user_id` (`recipient_user_id`),
-  CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`notification_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int NOT NULL AUTO_INCREMENT,
+  `senderId` int NOT NULL,
+  `chatboxId` int NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `message_id` (`id`),
+  KEY `senderId` (`senderId`) USING BTREE,
+  KEY `chatboxId` (`chatboxId`) USING BTREE,
+  CONSTRAINT `message_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `message_ibfk_2` FOREIGN KEY (`senderId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -279,12 +198,12 @@ CREATE TABLE `payout_requests` (
   `requested_amount` float NOT NULL,
   `requested_at` timestamp NOT NULL,
   `processed_at` timestamp NOT NULL,
-  `admin_notes` text COLLATE utf8mb4_unicode_ci,
+  `admin_notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `payout_request_id` (`payout_request_id`),
   KEY `expert_id` (`expert_id`),
-  CONSTRAINT `payout_requests_ibfk_1` FOREIGN KEY (`payout_request_id`) REFERENCES `expert_profile` (`expert_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `payout_requests_ibfk_1` FOREIGN KEY (`payout_request_id`) REFERENCES `expert_profile` (`expertId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -296,16 +215,20 @@ DROP TABLE IF EXISTS `report`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `report` (
-  `report_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `expert_id` int NOT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `reporterId` int DEFAULT NULL,
+  `reporterFullname` varchar(511) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reportedId` int DEFAULT NULL,
+  `reportedFullname` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  KEY `user_id` (`user_id`),
-  KEY `expert_id` (`expert_id`),
-  KEY `report_id` (`report_id`),
-  CONSTRAINT `report_ibfk_1` FOREIGN KEY (`report_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`reporterId`),
+  KEY `expert_id` (`reportedId`),
+  KEY `report_id` (`id`),
+  CONSTRAINT `report_ibfk_1` FOREIGN KEY (`reporterId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `report_ibfk_2` FOREIGN KEY (`reportedId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -317,54 +240,20 @@ DROP TABLE IF EXISTS `reviews`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reviews` (
-  `review_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `expert_id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `reviewerId` int DEFAULT NULL,
+  `receiverFullname` varchar(511) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expertId` int NOT NULL,
+  `expertFullname` varchar(511) COLLATE utf8mb4_unicode_ci NOT NULL,
   `rating` float DEFAULT NULL,
-  `comment` text COLLATE utf8mb4_unicode_ci,
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY `review_id` (`review_id`),
-  KEY `user_id` (`user_id`),
-  KEY `expert_id` (`expert_id`),
-  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`review_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `role`
---
-
-DROP TABLE IF EXISTS `role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `role` (
-  `role_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `role` varchar(55) COLLATE utf8mb4_unicode_ci NOT NULL,
-  KEY `user_id` (`user_id`),
-  KEY `role_id` (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `status`
---
-
-DROP TABLE IF EXISTS `status`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `status` (
-  `statuss_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `message_id` int DEFAULT NULL,
-  `call_id` int DEFAULT NULL,
-  `status` varchar(55) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY `call_id` (`call_id`),
-  KEY `message_id` (`message_id`),
-  KEY `user_id` (`user_id`),
-  KEY `statuss_id` (`statuss_id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`reviewerId`),
+  KEY `expert_id` (`expertId`),
+  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`reviewerId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`expertId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -376,18 +265,24 @@ DROP TABLE IF EXISTS `transaction`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `transaction` (
-  `transaction_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `invoice_id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `senderId` int DEFAULT NULL,
+  `senderFullName` varchar(511) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiverId` int DEFAULT NULL,
+  `receiverFullName` varchar(511) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `invoiceId` int NOT NULL,
   `amount` int NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY `transaction_id` (`transaction_id`),
-  KEY `user_id` (`user_id`),
-  KEY `invoice_id` (`invoice_id`),
-  CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`transaction_id`) REFERENCES `invoices` (`invoice_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`),
+  KEY `transaction_id` (`id`),
+  KEY `invoice_id` (`invoiceId`),
+  KEY `senderId` (`senderId`),
+  KEY `receiverId` (`receiverId`),
+  CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`invoiceId`) REFERENCES `invoice` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`senderId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `transaction_ibfk_4` FOREIGN KEY (`receiverId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -400,15 +295,102 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `roleId` int DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `profile_picture_url` text COLLATE utf8mb4_general_ci,
-  `bio` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone_number` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `profile_picture_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phoneNumber` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(320) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `fullname` varchar(511) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id`) REFERENCES `message` (`message_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `email` (`email`),
+  KEY `roleId` (`roleId`),
+  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `userGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `userAuthPassword`
+--
+
+DROP TABLE IF EXISTS `userAuthPassword`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `userAuthPassword` (
+  `userId` int NOT NULL,
+  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`userId`),
+  CONSTRAINT `userAuthPassword_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `userGroup`
+--
+
+DROP TABLE IF EXISTS `userGroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `userGroup` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `parentId` int DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parentId` (`parentId`),
+  CONSTRAINT `userGroup_ibfk_1` FOREIGN KEY (`parentId`) REFERENCES `userGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `userGroup_permission`
+--
+
+DROP TABLE IF EXISTS `userGroup_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `userGroup_permission` (
+  `permId` int NOT NULL,
+  `groupId` int NOT NULL,
+  PRIMARY KEY (`groupId`,`permId`),
+  UNIQUE KEY `groupId` (`groupId`),
+  KEY `permId` (`permId`),
+  CONSTRAINT `userGroup_permission_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `userGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `userGroup_permission_ibfk_2` FOREIGN KEY (`permId`) REFERENCES `userPermission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `userPermission`
+--
+
+DROP TABLE IF EXISTS `userPermission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `userPermission` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_group`
+--
+
+DROP TABLE IF EXISTS `user_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_group` (
+  `groupId` int NOT NULL,
+  `userId` int NOT NULL,
+  PRIMARY KEY (`groupId`,`userId`),
+  UNIQUE KEY `groupId` (`groupId`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `user_group_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `userGroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_group_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
