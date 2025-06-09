@@ -1,10 +1,10 @@
 {
   "name": "core",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "core/index.js",
   "type": "module",
   "scripts": {
-    "start": "source .env; node .",
+    "start": "source .env; node cli.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-env": "source .env; node core/test/view-env.js",
     "test-link-db": "source .env; node core/test/link-db.js",

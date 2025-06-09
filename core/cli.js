@@ -1,4 +1,4 @@
-import ctx from "./core/index.js"
+import ctx from "core"
 
 if (process.argv.length > 2) {
     var args = process.argv.slice(2)
@@ -11,7 +11,7 @@ if (process.argv.length > 2) {
 
     const modelId = args.shift()
     const actionName = args.shift()
-    console.log(await _ctx.rpc(modelId, actionName, ...args))
+    console.log(await _ctx.call(modelId, actionName, ...args))
 }
 
 export default ctx

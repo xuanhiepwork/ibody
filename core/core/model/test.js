@@ -16,13 +16,13 @@ export async function initUser(ctx) {
         email: "admin@ibody.com",
         fullname: "Administrator",
     }
-    await ctx.rpc("user", "insertOrUpdate", adminObj)
+    await ctx.call("user", "insertOrUpdate", adminObj)
 
-    const admin = await ctx.rpc("user", "userGetById", adminObj.name)
+    const admin = await ctx.call("user", "userGetById", adminObj.name)
 
     return admin
 }
 
 export async function userGetById(ctx, id) {
-    return await ctx.rpc("user", "getById", id)
+    return await ctx.call("user", "getById", id)
 }

@@ -14,7 +14,7 @@ const ctx = {
     hasPerm: function (perm) {
         return userHasPerm(this, perm)
     },
-    rpc: async function (modelId, actionName, ...args) {
+    call: async function (modelId, actionName, ...args) {
         let model
         try {
             model = models[modelId] || (models[modelId] = await import("./model/" + modelId + ".js"))
