@@ -1,13 +1,13 @@
-import query from 'app/connections/mysql.js'
 import { randomBytes, scryptSync } from 'node:crypto'
 import env from 'core/env.js'
+import query from "core/connector/mysql.js"
 
 
 // The length of hex form is twice times the buffer form of corresponding value.
 // Mysql stores the hex value.
 // `>> 1` mean round-down(len/2)
-const saltLen = (await query(`SELECT CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='${env.dal.db.database}' AND TABLE_NAME='user_login_password' AND COLUMN_NAME='salt';`))[0].CHARACTER_MAXIMUM_LENGTH >> 1
-const hashLen = (await query(`SELECT CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='${env.dal.db.database}' AND TABLE_NAME='user_login_password' AND COLUMN_NAME='hash';`))[0].CHARACTER_MAXIMUM_LENGTH >> 1
+const saltLen = (await query(`SELECT CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='${env.dal.db.database}' AND TABLE_NAME='UserAuthPassword' AND COLUMN_NAME='salt';`))[0].CHARACTER_MAXIMUM_LENGTH >> 1
+const hashLen = (await query(`SELECT CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='${env.dal.db.database}' AND TABLE_NAME='UserAuthPassword' AND COLUMN_NAME='hash';`))[0].CHARACTER_MAXIMUM_LENGTH >> 1
 const sqlEncode = 'hex'
 const genHash = (password, salt) => scryptSync(password, salt, hashLen)
 
@@ -23,14 +23,24 @@ export const randomText = length => {
 }
 
 
-export const setPassword = async (cur, userId, password) => {
-    await cur.assertPermisions("pem-testa")
-    const salt = randomBytes(saltLen)
+import instantSqlTable from './sqlBaseTable.js'
+export default instantSqlTable({
+    tableName: "UserAuthPassword",
 
-    return await query(`REPLACE INTO user_login_password (userId, salt, hash) VALUES ('${userId}', '${salt.toString(sqlEncode)}', '${genHash(password, salt).toString(sqlEncode)}');`)
-}
+    async setPassword(ctx, userId, password) {
+        await ctx.hasPerm("pem-testa")
+        const salt = randomBytes(saltLen)
 
-export const validatePassword = async (cur, userId, password) => {
-    const { salt, hash } = (await query(`SELECT salt, hash FROM user_login_password WHERE userId='${userId}' LIMIT 1;`))[0]
-    return Buffer.compare(genHash(password, Buffer.from(salt, sqlEncode)), Buffer.from(hash, sqlEncode)) === 0
-}
+        return this.replaceInto(ctx, {
+            userId,
+            salt: salt.toString(sqlEncode),
+            hash: genHash(password, salt).toString(sqlEncode)
+        })
+    },
+
+    async validatePassword(ctx, userId, password) {
+        const { salt, hash } = await this.getOne(ctx, { userId })
+        return Buffer.compare(genHash(password, Buffer.from(salt, sqlEncode)), Buffer.from(hash, sqlEncode)) === 0
+    }
+
+})

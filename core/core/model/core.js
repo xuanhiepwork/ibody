@@ -4,6 +4,7 @@ import * as sqlBuilder from 'core/helper/sqlBuilder.js'
 import UserPermission from './UserPermission.js'
 import UserGroup from './UserGroup.js'
 import User from './User.js'
+import UserAuthPassword from './UserAuthPassword.js'
 
 
 export default {
@@ -27,17 +28,16 @@ export default {
         })
 
 
-        User.setRole(ctx, "testuser", "baseUser")
-        UserGroup.addUser(ctx, "base1", "testuser")
+        await User.setRole(ctx, "testuser", "baseUser")
+        await UserGroup.addUser(ctx, "baseUser", "testuser")
 
-        //     name: "admin",
-        //     email: "admin@ibody.com",
-        //     fullname: "Administrator",
-        // }
-        // await ctx.call("User", "insertOrUpdate", adminObj)
+        const user = await User.getOne(ctx, {
+            name: "testuser",
+        })
 
-        // const admin = await ctx.call("User", "userGetById", adminObj.name)
+        await UserAuthPassword.setPassword(ctx, user.id, "abc")
 
-        // return admin
+        const valiPass = await UserAuthPassword.validatePassword(ctx, user.id, "abc")
+        console.log("valiPass", valiPass);
     }
 }

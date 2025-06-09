@@ -42,3 +42,10 @@ export const getOne = (tableName, where) => [
     where ? [" WHERE ", processWhere(where)] : [],
     "LIMIT 1 ;"
 ].flat(Infinity).join(" ")
+
+export const replaceInto = (tableName, data) => {
+    const payload = Object.entries(data)
+        .filter(([field, value]) => value !== null && value !== undefined)
+        .map(([field, value]) => [field, value === "" ? '""' : isNaN(value) ? `"${value}"` : String(value)])
+    return `REPLACE INTO ${tableName} (${payload.map(([key]) => key).join(", ")}) VALUES(${payload.map(([key, value]) => value).join(", ")});`
+}

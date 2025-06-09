@@ -16,6 +16,115 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `User`
+--
+
+DROP TABLE IF EXISTS `User`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `User` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `roleId` int DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `avata_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phoneNumber` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(320) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fullname` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `email` (`email`),
+  KEY `roleId` (`roleId`),
+  CONSTRAINT `User_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `UserGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `UserAuthPassword`
+--
+
+DROP TABLE IF EXISTS `UserAuthPassword`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `UserAuthPassword` (
+  `userId` int NOT NULL,
+  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`userId`),
+  CONSTRAINT `UserAuthPassword_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `UserGroup`
+--
+
+DROP TABLE IF EXISTS `UserGroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `UserGroup` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `parentId` int DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `parentId` (`parentId`),
+  CONSTRAINT `UserGroup_ibfk_1` FOREIGN KEY (`parentId`) REFERENCES `UserGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `UserGroup_permission`
+--
+
+DROP TABLE IF EXISTS `UserGroup_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `UserGroup_permission` (
+  `permId` int NOT NULL,
+  `groupId` int NOT NULL,
+  PRIMARY KEY (`groupId`,`permId`),
+  UNIQUE KEY `groupId` (`groupId`),
+  KEY `permId` (`permId`),
+  CONSTRAINT `UserGroup_permission_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `UserGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `UserGroup_permission_ibfk_2` FOREIGN KEY (`permId`) REFERENCES `UserPermission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `UserPermission`
+--
+
+DROP TABLE IF EXISTS `UserPermission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `UserPermission` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `User_group`
+--
+
+DROP TABLE IF EXISTS `User_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `User_group` (
+  `groupId` int NOT NULL,
+  `userId` int NOT NULL,
+  PRIMARY KEY (`groupId`,`userId`),
+  UNIQUE KEY `groupId` (`groupId`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `User_group_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `UserGroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `User_group_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `appointment`
 --
 
@@ -70,7 +179,7 @@ DROP TABLE IF EXISTS `chatboxRole`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `chatboxRole` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -92,7 +201,7 @@ CREATE TABLE `chatboxUser` (
   UNIQUE KEY `userId` (`userId`),
   KEY `roleId` (`roleId`) USING BTREE,
   CONSTRAINT `chatboxUser_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `chatboxUser_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `chatboxUser_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `chatboxUser_ibfk_3` FOREIGN KEY (`roleId`) REFERENCES `chatboxRole` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -155,7 +264,7 @@ CREATE TABLE `expert_profile` (
   `expert_profile_id` int NOT NULL AUTO_INCREMENT,
   KEY `expert_id` (`expertId`),
   KEY `expert_profile_id` (`expert_profile_id`),
-  CONSTRAINT `expert_profile_ibfk_1` FOREIGN KEY (`expertId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `expert_profile_ibfk_1` FOREIGN KEY (`expertId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -217,7 +326,7 @@ CREATE TABLE `message` (
   KEY `senderId` (`senderId`) USING BTREE,
   KEY `chatboxId` (`chatboxId`) USING BTREE,
   CONSTRAINT `message_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `message_ibfk_2` FOREIGN KEY (`senderId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `message_ibfk_2` FOREIGN KEY (`senderId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -253,7 +362,7 @@ DROP TABLE IF EXISTS `report`;
 CREATE TABLE `report` (
   `id` int NOT NULL AUTO_INCREMENT,
   `reporterId` int DEFAULT NULL,
-  `reporterFullname` varchar(511) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reporterFullname` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `reportedId` int DEFAULT NULL,
   `reportedFullname` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `title` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -263,8 +372,8 @@ CREATE TABLE `report` (
   KEY `user_id` (`reporterId`),
   KEY `expert_id` (`reportedId`),
   KEY `report_id` (`id`),
-  CONSTRAINT `report_ibfk_1` FOREIGN KEY (`reporterId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `report_ibfk_2` FOREIGN KEY (`reportedId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `report_ibfk_1` FOREIGN KEY (`reporterId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `report_ibfk_2` FOREIGN KEY (`reportedId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -278,9 +387,9 @@ DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE `reviews` (
   `id` int NOT NULL AUTO_INCREMENT,
   `reviewerId` int DEFAULT NULL,
-  `receiverFullname` varchar(511) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiverFullname` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expertId` int NOT NULL,
-  `expertFullname` varchar(511) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expertFullname` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `rating` float DEFAULT NULL,
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -288,8 +397,8 @@ CREATE TABLE `reviews` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`reviewerId`),
   KEY `expert_id` (`expertId`),
-  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`reviewerId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`expertId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`reviewerId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`expertId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -305,9 +414,9 @@ CREATE TABLE `transaction` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `senderId` int DEFAULT NULL,
-  `senderFullName` varchar(511) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `senderFullName` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `receiverId` int DEFAULT NULL,
-  `receiverFullName` varchar(511) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiverFullName` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `invoiceId` int NOT NULL,
   `amount` int NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
@@ -317,116 +426,8 @@ CREATE TABLE `transaction` (
   KEY `senderId` (`senderId`),
   KEY `receiverId` (`receiverId`),
   CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`invoiceId`) REFERENCES `invoice` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`senderId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `transaction_ibfk_4` FOREIGN KEY (`receiverId`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `roleId` int DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `profile_picture_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phoneNumber` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(320) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `fullname` varchar(511) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `roleId` (`roleId`),
-  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `userGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `userAuthPassword`
---
-
-DROP TABLE IF EXISTS `userAuthPassword`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `userAuthPassword` (
-  `userId` int NOT NULL,
-  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`userId`),
-  CONSTRAINT `userAuthPassword_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `userGroup`
---
-
-DROP TABLE IF EXISTS `userGroup`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `userGroup` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `parentId` int DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `parentId` (`parentId`),
-  CONSTRAINT `userGroup_ibfk_1` FOREIGN KEY (`parentId`) REFERENCES `userGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `userGroup_permission`
---
-
-DROP TABLE IF EXISTS `userGroup_permission`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `userGroup_permission` (
-  `permId` int NOT NULL,
-  `groupId` int NOT NULL,
-  PRIMARY KEY (`groupId`,`permId`),
-  UNIQUE KEY `groupId` (`groupId`),
-  KEY `permId` (`permId`),
-  CONSTRAINT `userGroup_permission_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `userGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `userGroup_permission_ibfk_2` FOREIGN KEY (`permId`) REFERENCES `userPermission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `userPermission`
---
-
-DROP TABLE IF EXISTS `userPermission`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `userPermission` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `user_group`
---
-
-DROP TABLE IF EXISTS `user_group`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_group` (
-  `groupId` int NOT NULL,
-  `userId` int NOT NULL,
-  PRIMARY KEY (`groupId`,`userId`),
-  UNIQUE KEY `groupId` (`groupId`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `user_group_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `userGroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_group_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`senderId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `transaction_ibfk_4` FOREIGN KEY (`receiverId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
