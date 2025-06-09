@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phòng chờ Cuộc gọi - IBODY</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #0b57d0; /* Màu xanh của Google */
+      --text-primary: #1f1f1f;
+      --text-secondary: #5f6368;
+      --bg-light: #f8f9fa;
+      --card-bg: #ffffff;
+      --border-color: #dadce0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Inter', 'Google Sans', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    .meet-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 60px;
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+    }
+
+    /* --- Video Preview (Left) --- */
+    .video-preview-wrapper {
+        flex: 1.5;
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+    }
+    .video-container {
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        position: relative;
+        background-color: #000;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .video-container video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .video-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+    }
+    .control-btn {
+        width: 50px; height: 50px;
+        border-radius: 50%;
+        border: none;
+        background-color: rgba(0, 0, 0, 0.4);
+        color: white;
+        font-size: 1.1rem;
+        cursor: pointer;
+    }
+    .control-btn.off {
+        background-color: #ea4335;
+    }
+    
+    .device-selection {
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 0;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    /* --- Action Panel (Right) --- */
+    .action-panel {
+        flex: 1;
+        text-align: center;
+        max-width: 320px;
+    }
+    .action-panel .icon {
+        font-size: 1.5rem;
+        width: 48px;
+        height: 48px;
+        background-color: #e8f0fe;
+        color: var(--primary-color);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    .action-panel h2 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+    .action-panel p {
+        color: var(--text-secondary);
+        margin-bottom: 25px;
+    }
+    .join-btn {
+        width: 100%;
+        padding: 12px 25px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+        .meet-container {
+            flex-direction: column;
+            gap: 30px;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="meet-container">
+    <div class="video-preview-wrapper">
+        <div class="video-container">
+            <video id="localVideo" autoplay muted playsinline></video>
+            <div class="video-controls">
+                <button class="control-btn" id="micBtn" title="Mic"><i class="fas fa-microphone"></i></button>
+                <button class="control-btn" id="camBtn" title="Camera"><i class="fas fa-video"></i></button>
+            </div>
+        </div>
+        <div class="device-selection">
+            <span><i class="fas fa-microphone"></i> Microphone</span>
+            <span><i class="fas fa-volume-up"></i> Speakers</span>
+            <span><i class="fas fa-video"></i> Camera</span>
+        </div>
+    </div>
+    
+    <div class="action-panel">
+        <div class="icon"><i class="fas fa-users"></i></div>
+        <h2>Sẵn sàng tham gia?</h2>
+        <p>Không có người nào khác ở đây.</p>
+        <button class="join-btn">Tham gia ngay</button>
+    </div>
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const localVideo = document.getElementById('localVideo');
+    const micBtn = document.getElementById('micBtn');
+    const camBtn = document.getElementById('camBtn');
+    let localStream;
+    let micOn = true;
+    let camOn = true;
+
+    // --- Khởi tạo Camera và Mic ---
+    async function startCamera() {
+        try {
+            localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            localVideo.srcObject = localStream;
+        } catch (err) {
+            console.error("Lỗi truy cập camera:", err);
+            alert("Không thể truy cập camera của bạn. Vui lòng cấp quyền truy cập trong cài đặt của trình duyệt.");
+        }
+    }
+    
+    // --- Xử lý các nút điều khiển ---
+    micBtn.addEventListener('click', () => {
+        if (!localStream) return;
+        micOn = !micOn;
+        localStream.getAudioTracks().forEach(track => track.enabled = micOn);
+        micBtn.classList.toggle('off', !micOn);
+        micBtn.innerHTML = micOn ? '<i class="fas fa-microphone"></i>' : '<i class="fas fa-microphone-slash"></i>';
+    });
+
+    camBtn.addEventListener('click', () => {
+        if (!localStream) return;
+        camOn = !camOn;
+        localStream.getVideoTracks().forEach(track => track.enabled = camOn);
+        camBtn.classList.toggle('off', !camOn);
+        camBtn.innerHTML = camOn ? '<i class="fas fa-video"></i>' : '<i class="fas fa-video-slash"></i>';
+    });
+
+    // --- Khởi tạo ---
+    startCamera();
+});
+</script>
+</body>
+</html>

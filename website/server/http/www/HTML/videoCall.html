@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Call - IBODY</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --danger-color: #dc3545;
+      --dark-bg: #202124;
+      --controls-bg: rgba(60, 64, 67, 0.8);
+      --text-light: #ffffff;
+      --card-bg-light: #f8f7fc;
+      --border-color-light: #e2e8f0;
+      --text-primary-light: #1a202c;
+      --text-secondary-light: #718096;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--dark-bg); overflow: hidden; }
+
+    /* --- Main Layout --- */
+    .video-call-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; }
+    #remoteVideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+    
+    /* --- Header --- */
+    .call-header { position: absolute; top: 0; left: 0; right: 0; padding: 20px; z-index: 3; color: var(--text-light); display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent); }
+    #callTimer { font-weight: 600; background-color: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 5px; }
+    #expertNameInCall { font-weight: 600; }
+    
+    /* --- Self View (Picture-in-Picture) --- */
+    .self-view-window { position: absolute; top: 100px; right: 20px; width: 180px; height: 240px; border-radius: 12px; overflow: hidden; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: move; z-index: 3; resize: both; }
+    #localVideo { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+    
+    /* --- Controls --- */
+    .call-controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 15px; background-color: var(--controls-bg); padding: 12px 25px; border-radius: 50px; transition: opacity 0.3s, transform 0.3s; }
+    .call-controls.hidden { opacity: 0; transform: translate(-50%, 120%); }
+    .control-btn { width: 56px; height: 56px; border-radius: 50%; border: none; background-color: rgba(255,255,255,0.15); color: var(--text-light); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+    .control-btn:hover { background-color: rgba(255,255,255,0.25); }
+    .control-btn.off { background-color: var(--danger-color); }
+    .control-btn.hangup { background-color: var(--danger-color); font-size: 1.5rem; }
+
+    /* --- Side Panel (Chat, Profile, Notes) --- */
+    .side-panel { position: fixed; top: 0; right: 0; width: 350px; height: 100%; background-color: var(--card-bg-light); z-index: 4; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
+    .side-panel.open { transform: translateX(0); }
+    .side-panel-nav { display: flex; border-bottom: 1px solid var(--border-color-light); flex-shrink: 0; }
+    .side-panel-nav .tab-btn { flex: 1; background: none; border: none; padding: 15px; font-weight: 600; color: var(--text-secondary-light); cursor: pointer; border-bottom: 3px solid transparent; font-size: 1rem; }
+    .side-panel-nav .tab-btn.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+    .side-panel-content { flex-grow: 1; padding: 20px; overflow-y: auto; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .info-section h4 { font-size: 1rem; color: var(--primary-color); margin: 15px 0 8px; }
+    .info-section p { font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary-light); margin: 0; }
+    #sessionNotes { width: 100%; height: 200px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color-light); font-size: 1rem; }
+
+    /* --- Hangup Confirmation Modal --- */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 5; }
+    .modal-overlay.show { display: flex; }
+    .modal-content { background-color: #fff; padding: 30px; border-radius: 12px; text-align: center; max-width: 400px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+    .modal-content h3 { margin-top: 0; }
+    .modal-actions { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+    .modal-btn { padding: 10px 25px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+    .btn-confirm { background-color: var(--danger-color); color: white; }
+    .btn-cancel { background-color: var(--border-color-light); color: var(--text-primary-light); }
+  </style>
+</head>
+<body>
+
+  <div class="video-call-wrapper" id="videoCallWrapper">
+    <video id="remoteVideo" autoplay loop playsinline>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-in-a-busy-office-3349-large.mp4" type="video/mp4">
+    </video>
+    
+    <div class="call-header">
+        <span id="expertNameInCall"></span>
+        <span id="callTimer">00:00</span>
+    </div>
+
+    <div class="self-view-window" id="selfView">
+      <video id="localVideo" autoplay muted playsinline></video>
+    </div>
+
+    <div class="call-controls" id="callControls">
+      <button id="micBtn" class="control-btn" title="Mic"><i class="fas fa-microphone"></i></button>
+      <button id="camBtn" class="control-btn" title="Camera"><i class="fas fa-video"></i></button>
+      <button id="profileBtn" class="control-btn" title="Thông tin Khách hàng"><i class="fas fa-user-circle"></i></button>
+      <button id="chatBtn" class="control-btn" title="Tin nhắn"><i class="fas fa-comment-dots"></i></button>
+      <button class="control-btn hangup" title="Kết thúc"><i class="fas fa-phone"></i></button>
+    </div>
+  </div>
+
+  <div class="side-panel" id="sidePanel">
+    <div class="side-panel-nav">
+        <button class="tab-btn active" data-tab="profile">Hồ sơ</button>
+        <button class="tab-btn" data-tab="chat">Tin nhắn</button>
+        <button class="tab-btn" data-tab="notes">Ghi chú</button>
+    </div>
+    <div class="side-panel-content">
+        <div id="profile-tab-content" class="tab-content active"></div>
+        <div id="chat-tab-content" class="tab-content"><p>Giao diện nhắn tin sẽ được tích hợp ở đây.</p></div>
+        <div id="notes-tab-content" class="tab-content">
+            <h4>Ghi chú cá nhân (chỉ mình bạn thấy)</h4>
+            <textarea id="sessionNotes" placeholder="Ghi lại các điểm quan trọng của buổi tư vấn..."></textarea>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="hangupConfirmModal">
+      <div class="modal-content">
+          <h3>Kết thúc Buổi tư vấn</h3>
+          <p>Bạn có chắc chắn muốn kết thúc cuộc gọi này không?</p>
+          <div class="modal-actions">
+              <button class="modal-btn btn-cancel" id="cancelHangupBtn">Hủy</button>
+              <button class="modal-btn btn-confirm" id="confirmHangupBtn">Kết thúc</button>
+          </div>
+      </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const mockClientProfile = {
+            name: 'Nguyễn Thu An',
+            age: 22,
+            bio: 'Sinh viên năm cuối, đang gặp áp lực với việc làm và định hướng tương lai.',
+            problem: 'Stress, lo âu về sự nghiệp.',
+            goal: 'Tìm ra hướng đi rõ ràng, học cách quản lý stress hiệu quả.'
+        };
+        const mockExpertName = 'Hồ Hoàng Yến';
+
+        let localStream = null;
+        const videoEl = document.getElementById('localVideo');
+        const hangupBtn = document.querySelector('.hangup');
+        const sidePanel = document.getElementById('sidePanel');
+        const chatBtn = document.getElementById('chatBtn');
+        const profileBtn = document.getElementById('profileBtn');
+        const hangupModal = document.getElementById('hangupConfirmModal');
+        const callControls = document.getElementById('callControls');
+        const videoCallWrapper = document.getElementById('videoCallWrapper');
+
+        // --- Render Side Panel Info ---
+        function renderSidePanel() {
+            const profileTab = document.getElementById('profile-tab-content');
+            profileTab.innerHTML = `
+                <div class="info-section">
+                    <h4>Khách hàng</h4>
+                    <p><strong>Tên:</strong> ${mockClientProfile.name}, ${mockClientProfile.age} tuổi</p>
+                </div>
+                <div class="info-section">
+                    <h4>Vấn đề gặp phải</h4>
+                    <p>${mockClientProfile.problem}</p>
+                </div>
+                <div class="info-section">
+                    <h4>Mong muốn</h4>
+                    <p>${mockClientProfile.goal}</p>
+                </div>
+                 <div class="info-section">
+                    <h4>Ghi chú trước đó</h4>
+                    <p>Không có ghi chú nào.</p>
+                </div>
+            `;
+        }
+
+        // --- Side Panel Toggling ---
+        function toggleSidePanel(activeTab = 'profile') {
+            const isOpen = sidePanel.classList.contains('open');
+            const sideNav = document.querySelector('.side-panel-nav');
+            const targetTabBtn = sideNav.querySelector(`.tab-btn[data-tab="${activeTab}"]`);
+            
+            if (isOpen && targetTabBtn.classList.contains('active')) {
+                sidePanel.classList.remove('open'); // Đóng panel nếu click lại tab đang mở
+            } else {
+                sidePanel.classList.add('open');
+                sideNav.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.side-panel-content .tab-content').forEach(content => content.classList.remove('active'));
+                targetTabBtn.classList.add('active');
+                document.getElementById(`${activeTab}-tab-content`).classList.add('active');
+            }
+        }
+
+        chatBtn.addEventListener('click', () => toggleSidePanel('chat'));
+        profileBtn.addEventListener('click', () => toggleSidePanel('profile'));
+        
+        document.querySelectorAll('.side-panel-nav .tab-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const tabId = e.currentTarget.dataset.tab;
+                toggleSidePanel(tabId);
+            });
+        });
+
+        // --- Hangup Modal Logic ---
+        hangupBtn.addEventListener('click', () => hangupModal.classList.add('show'));
+        document.getElementById('cancelHangupBtn').addEventListener('click', () => hangupModal.classList.remove('show'));
+        document.getElementById('confirmHangupBtn').addEventListener('click', () => {
+            if (localStream) localStream.getTracks().forEach(track => track.stop());
+            hangupModal.classList.remove('show');
+            alert('Cuộc gọi đã kết thúc. Chuyển đến trang đánh giá...');
+            // window.location.href = "trang-danh-gia.html";
+        });
+        
+        // --- Other logic (mic, cam, timer, etc.) ---
+        async function initMedia() { /* ... */ }
+        let seconds = 0;
+        setInterval(() => { /* ... */}, 1000);
+        // ... (phần còn lại của logic giữ nguyên)
+        
+        // --- Initial Render ---
+        initMedia();
+        renderSidePanel();
+        document.getElementById('expertNameInCall').textContent = `Đang gọi với ${mockClientProfile.name}`;
+    });
+  </script>
+
+</body>
+</html>

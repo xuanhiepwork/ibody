@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý Phương thức Thanh toán</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --primary-color-light: rgba(169, 147, 236, 0.1);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --sidebar-bg: #1a202c;
+      --sidebar-text: #a0aec0;
+      --sidebar-text-hover: #ffffff;
+      --sidebar-active-bg: var(--primary-color);
+      --main-bg: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+      --table-hover-bg: #f3effc;
+      --text-primary: #2d3748;
+      --text-secondary: #718096;
+    }
+    body.dark-mode {
+      --primary-color-light: rgba(169, 147, 236, 0.15);
+      --main-bg: #1a202c;
+      --card-bg: #2d3748;
+      --border-color: #4a5568;
+      --table-hover-bg: #4a5568;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a0aec0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--main-bg); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
+    .admin-wrapper { display: flex; }
+
+    /* --- Layout & Sidebar --- */
+    .sidebar { width: 260px; background-color: var(--sidebar-bg); height: 100vh; position: fixed; left: 0; top: 0; display: flex; flex-direction: column; padding: 20px 0; border-right: 1px solid var(--border-color); }
+    .sidebar h2 { color: var(--primary-color); text-align: center; margin-bottom: 30px; padding: 0 20px; font-size: 1.5rem; font-weight: 700; }
+    .sidebar nav { flex-grow: 1; }
+    .sidebar a { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: var(--sidebar-text); text-decoration: none; font-size: 1rem; font-weight: 500; transition: all 0.2s ease-in-out; }
+    .sidebar a .fa-solid { width: 20px; }
+    .sidebar a:hover { background-color: #4a5568; color: var(--sidebar-text-hover); }
+    .sidebar a.active { background-color: var(--sidebar-active-bg); color: var(--sidebar-text-hover); font-weight: 600; }
+    #logoutLink { margin-top: auto; color: #e53e3e !important; }
+    #logoutLink:hover { background-color: rgba(229, 62, 62, 0.1); font-weight: 600; }
+    .main-content { margin-left: 260px; width: calc(100% - 260px); padding: 25px; }
+    
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .top-bar h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+    .theme-toggle { background: var(--main-bg); border: 1px solid var(--border-color); color: var(--text-secondary); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+    .theme-toggle:hover { color: var(--primary-color); border-color: var(--primary-color); }
+
+    /* --- Stat Cards --- */
+    .dashboard-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 30px; }
+    .stat-card { background-color: var(--card-bg); border-radius: 12px; padding: 25px; display: flex; align-items: center; gap: 20px; border: 1px solid var(--border-color); }
+    .stat-card .icon { color: var(--primary-color); background-color: var(--primary-color-light); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+    .stat-card h3 { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+    .stat-card p { font-size: 0.9rem; color: var(--text-secondary); margin: 0; }
+
+    .section { background-color: var(--card-bg); border-radius: 12px; padding: 25px; border: 1px solid var(--border-color); }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+    .toolbar-group { display: flex; align-items: center; gap: 15px; }
+    .filter-tabs { display: flex; gap: 5px; background-color: var(--main-bg); padding: 5px; border-radius: 8px; border: 1px solid var(--border-color); }
+    .filter-tabs .tab-btn { background: none; border: none; padding: 8px 16px; font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; border-radius: 6px; transition: all 0.2s ease; }
+    .filter-tabs .tab-btn.active { background-color: var(--primary-color); color: white; }
+    .search-wrapper { position: relative; }
+    .search-wrapper .fa-search { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--text-secondary); }
+    #searchInput { padding: 10px 15px 10px 40px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; width: 300px; background-color: var(--card-bg); color: var(--text-primary); }
+    .add-btn { background-color: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background-color 0.2s ease; }
+    .add-btn:hover { background-color: #937dce; }
+
+    /* --- Table & Components --- */
+    .table-wrapper { overflow-x: auto; }
+    .admin-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .admin-table th, .admin-table td { padding: 15px; vertical-align: middle; white-space: nowrap; }
+    .admin-table thead th { background-color: var(--primary-color); color: white; font-size: 0.9rem; font-weight: 600; border: none; }
+    .admin-table tbody tr { border-bottom: 1px solid var(--border-color); transition: background-color 0.15s ease-in-out; }
+    .admin-table tbody tr:last-child { border-bottom: none; }
+    .admin-table tbody tr:hover { background-color: var(--table-hover-bg); }
+    .admin-table td { font-size: 0.95rem; }
+    .user-info { display: flex; align-items: center; gap: 10px; }
+    .user-info .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+    .user-info .name, .account-info .name { font-weight: 600; }
+    .user-info .email, .account-info .number { font-size: 0.85rem; color: var(--text-secondary); }
+    .bank-info { display: flex; align-items: center; gap: 10px; }
+    .bank-logo { width: 28px; height: 28px; object-fit: contain; background-color: white; border-radius: 50%; padding: 2px;}
+    .bank-info span { font-weight: 600; }
+    .status-badge { font-weight: 600; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+    .status-verified { background-color: rgba(40, 167, 69, 0.15); color: #28a745; }
+    .status-pending { background-color: rgba(255, 193, 7, 0.15); color: #ffc107; }
+    .action-buttons { display: flex; gap: 8px; }
+    .icon-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; transition: all 0.2s ease; font-size: 1rem; }
+    .icon-btn:hover { color: var(--text-primary); background-color: var(--border-color); }
+    .icon-btn:disabled { color: var(--text-secondary) !important; background: none !important; opacity: 0.5; cursor: not-allowed; }
+    .icon-btn.verify-btn:hover { color: var(--success-color); background-color: rgba(40, 167, 69, 0.1); }
+    .icon-btn.delete-btn:hover { color: var(--danger-color); background-color: rgba(220, 53, 69, 0.1); }
+
+    /* --- Pagination --- */
+    .pagination-wrapper { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; }
+    .pagination-info { font-size: 0.9rem; color: var(--text-secondary); }
+    .pagination-controls button { background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 8px 12px; margin: 0 2px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+    .pagination-controls button:hover { background-color: var(--table-hover-bg); color: var(--text-primary); }
+    .pagination-controls button.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+    .pagination-controls button:disabled { background-color: var(--main-bg); cursor: not-allowed; opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <nav>
+          <a href="#"><i class="fa-solid fa-chart-pie"></i>Tổng quan</a>
+          <a href="#"><i class="fa-solid fa-users"></i>Tài khoản</a>
+          <a href="#"><i class="fa-solid fa-user-check"></i>Duyệt chuyên gia</a>
+          <a href="#"><i class="fa-solid fa-flag"></i>Tố cáo</a>
+          <a href="#"><i class="fa-solid fa-calendar-days"></i>Lịch hẹn</a>
+          <a href="#"><i class="fa-solid fa-comments"></i>Đánh giá</a>
+          <a href="#" class="active"><i class="fa-solid fa-credit-card"></i>Phương thức</a>
+          <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i>Thanh toán lương</a>
+          <a href="#"><i class="fa-solid fa-money-bill-transfer"></i>Yêu cầu chuyển khoản</a>
+        </nav>
+        <a href="#" id="logoutLink"><i class="fa-solid fa-arrow-right-from-bracket"></i>Đăng xuất</a>
+    </div>
+
+    <div class="main-content">
+      <div class="top-bar">
+        <h1>Quản lý Phương thức Thanh toán</h1>
+        <button class="theme-toggle" id="theme-toggle" title="Chuyển đổi giao diện"> <i class="fas fa-moon"></i> </button>
+      </div>
+      
+      <div class="dashboard-container">
+        <div class="stat-card"> <i class="fas fa-university icon"></i> <div> <h3 id="totalMethods">...</h3> <p>Tổng số phương thức</p> </div> </div>
+        <div class="stat-card"> <i class="fas fa-hourglass-half icon"></i> <div> <h3 id="pendingMethods">...</h3> <p>Chờ xác minh</p> </div> </div>
+        <div class="stat-card"> <i class="fas fa-check-circle icon"></i> <div> <h3 id="verifiedMethods">...</h3> <p>Đã xác minh</p> </div> </div>
+      </div>
+
+      <div class="section">
+        <div class="toolbar">
+            <div class="filter-tabs">
+                <button class="tab-btn active" data-filter="pending">Chờ xác minh</button>
+                <button class="tab-btn" data-filter="verified">Đã xác minh</button>
+            </div>
+            <div class="toolbar-group">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm theo chuyên gia, ngân hàng...">
+                </div>
+                <button class="add-btn"><i class="fas fa-plus"></i> Thêm mới</button>
+            </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Chuyên gia</th>
+                <th>Ngân hàng</th>
+                <th>Thông tin tài khoản</th>
+                <th>Ngày thêm</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="methodsTableBody"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="pagination-wrapper" id="paginationWrapper"></div>
+                    </td>
+                </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const mockMethods = [
+            { id: 1, expertName: 'Hồ Hoàng Yến', expertAvatar: 'https://i.pravatar.cc/150?u=expert2', expertEmail: 'yen.ho@email.com', bankName: 'Techcombank', bankLogoUrl: 'https://inkythuatso.com/uploads/images/2021/09/logo-techcombank-inkythuatso-13-10-33-02.jpg', accountHolder: 'HO HOANG YEN', accountNumber: '1903xxxxxxxxxx', dateAdded: new Date('2025-06-05'), status: 'pending' },
+            { id: 2, expertName: 'Vũ Phương Thảo', expertAvatar: 'https://i.pravatar.cc/150?u=expert3', expertEmail: 'thao.vu@email.com', bankName: 'Vietcombank', bankLogoUrl: 'https://cdn.vietnambiz.vn/171464876016439296/2020/6/18/logo-vietcombank-159245269784210922%20Vietcombank.jpg', accountHolder: 'VU PHUONG THAO', accountNumber: '0123xxxxxx', dateAdded: new Date('2025-06-02'), status: 'pending' },
+            { id: 3, expertName: 'Phạm Minh Cường', expertAvatar: 'https://i.pravatar.cc/150?u=expert1', expertEmail: 'cuong.pham@email.com', bankName: 'ACB', bankLogoUrl: 'https://static.wixstatic.com/media/9d7249_7a421835774747758d6074e5033c511b~mv2.png/v1/fill/w_1182,h_1182,al_c,q_90/file.jpg', accountHolder: 'PHAM MINH CUONG', accountNumber: '9876xxxxxx', dateAdded: new Date('2025-05-28'), status: 'verified' },
+            { id: 4, expertName: 'Trần Thị Bích', expertAvatar: 'https://i.pravatar.cc/150?u=expert4', expertEmail: 'bich.tran@email.com', bankName: 'MB Bank', bankLogoUrl: 'https://ecm.mbbank.com.vn/p/logo-mbbank.png', accountHolder: 'TRAN THI BICH', accountNumber: '1122xxxxxx', dateAdded: new Date('2025-05-20'), status: 'verified' },
+            { id: 5, expertName: 'Trần Minh Anh', expertAvatar: 'https://i.pravatar.cc/150?u=psych1', expertEmail: 'minhanh.tran@email.com', bankName: 'Vietinbank', bankLogoUrl: 'https://www.inlogo.vn/vnt_upload/File/Image/logo_vietinbank_1.jpg', accountHolder: 'TRAN MINH ANH', accountNumber: '5566xxxxxx', dateAdded: new Date('2025-06-07'), status: 'pending' },
+            { id: 6, expertName: 'Lê Hoàng Bảo', expertAvatar: 'https://i.pravatar.cc/150?u=psych2', expertEmail: 'bao.le@email.com', bankName: 'Sacombank', bankLogoUrl: 'https://www.sacombank.com.vn/content/dam/sacombank/logo/logo-sacombank.png', accountHolder: 'LE HOANG BAO', accountNumber: '0200xxxxxxxx', dateAdded: new Date('2025-04-15'), status: 'verified' }
+        ];
+
+        const tableBody = document.getElementById('methodsTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const paginationWrapper = document.getElementById('paginationWrapper');
+        
+        let currentStatusFilter = 'pending';
+        let currentPage = 1;
+        const rowsPerPage = 5;
+
+        // --- Theme Toggler Logic ---
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+        function setIconForTheme(theme) { themeToggleButton.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; }
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.classList.add(savedTheme + '-mode');
+        setIconForTheme(savedTheme);
+        themeToggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', currentTheme);
+            setIconForTheme(currentTheme);
+        });
+
+        // --- Render Logic ---
+        function renderStatCards() {
+            document.getElementById('totalMethods').textContent = mockMethods.length;
+            document.getElementById('pendingMethods').textContent = mockMethods.filter(m => m.status === 'pending').length;
+            document.getElementById('verifiedMethods').textContent = mockMethods.filter(m => m.status === 'verified').length;
+        }
+
+        function renderPagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / rowsPerPage);
+            paginationWrapper.innerHTML = '';
+            if (totalPages <= 1) return;
+
+            const info = document.createElement('div');
+            info.className = 'pagination-info';
+            const startItem = (currentPage - 1) * rowsPerPage + 1;
+            const endItem = Math.min(startItem + rowsPerPage - 1, totalItems);
+            info.textContent = `Hiển thị ${startItem}-${endItem} của ${totalItems} mục`;
+
+            const controls = document.createElement('div');
+            controls.className = 'pagination-controls';
+            
+            const prevBtn = document.createElement('button');
+            prevBtn.innerHTML = '&laquo;';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.addEventListener('click', () => { currentPage--; renderTable(); });
+            controls.appendChild(prevBtn);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                if (i === currentPage) pageBtn.classList.add('active');
+                pageBtn.addEventListener('click', () => { currentPage = i; renderTable(); });
+                controls.appendChild(pageBtn);
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.innerHTML = '&raquo;';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.addEventListener('click', () => { currentPage++; renderTable(); });
+            controls.appendChild(nextBtn);
+
+            paginationWrapper.appendChild(info);
+            paginationWrapper.appendChild(controls);
+        }
+
+        function renderTable() {
+            const query = searchInput.value.toLowerCase().trim();
+            const filteredData = mockMethods.filter(m => {
+                const statusMatch = m.status === currentStatusFilter;
+                const searchMatch = m.expertName.toLowerCase().includes(query) || m.bankName.toLowerCase().includes(query);
+                return statusMatch && searchMatch;
+            });
+
+            renderPagination(filteredData.length);
+            
+            const paginatedData = filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+
+            tableBody.innerHTML = '';
+            paginatedData.forEach(m => {
+                const row = document.createElement('tr');
+                const statusClass = m.status === 'verified' ? 'status-verified' : 'status-pending';
+                const statusText = m.status === 'verified' ? 'Đã xác minh' : 'Chờ xác minh';
+                const actionButton = m.status === 'pending'
+                    ? `<button class="icon-btn verify-btn" title="Xác minh"><i class="fas fa-check-circle"></i></button>`
+                    : `<button class="icon-btn" disabled title="Đã xác minh"><i class="fas fa-check-circle"></i></button>`;
+
+                row.innerHTML = `
+                    <td> <div class="user-info"> <img src="${m.expertAvatar}" alt="Avatar" class="avatar"> <div> <div class="name">${m.expertName}</div> <div class="email">${m.expertEmail}</div> </div> </div> </td>
+                    <td> <div class="bank-info"> <img src="${m.bankLogoUrl}" alt="${m.bankName} Logo" class="bank-logo"> <span>${m.bankName}</span> </div> </td>
+                    <td> <div class="account-info"> <div class="name">${m.accountHolder}</div> <div class="number">${m.accountNumber}</div> </div> </td>
+                    <td>${m.dateAdded.toLocaleDateString('vi-VN')}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td> <div class="action-buttons"> ${actionButton} <button class="icon-btn delete-btn" title="Xóa"><i class="fas fa-trash"></i></button> </div> </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // --- Event Listeners ---
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentStatusFilter = button.dataset.filter;
+                currentPage = 1;
+                renderTable();
+            });
+        });
+
+        searchInput.addEventListener('input', () => { currentPage = 1; renderTable(); });
+
+        // --- Initial Render ---
+        renderStatCards();
+        renderTable();
+    });
+  </script>
+
+</body>
+</html>

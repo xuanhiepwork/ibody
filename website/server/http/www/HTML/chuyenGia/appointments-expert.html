@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Lịch hẹn - Chuyên gia</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --primary-color-light: rgba(169, 147, 236, 0.1);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --sidebar-bg: #ffffff;
+      --main-bg: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+      --sidebar-width: 260px;
+      --sidebar-width-collapsed: 80px;
+    }
+
+    body.dark-mode {
+      --primary-color-light: rgba(169, 147, 236, 0.15);
+      --sidebar-bg: #1f2937;
+      --main-bg: #111827;
+      --card-bg: #1f2937;
+      --border-color: #374151;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--main-bg); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
+    
+    /* --- Layout --- */
+    .topbar { position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1001; transition: all 0.3s ease; }
+    .topbar-left { display: flex; align-items: center; gap: 15px; }
+    #toggleSidebarBtn, #toggleThemeBtn { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; transition: color 0.2s; }
+    #toggleSidebarBtn:hover, #toggleThemeBtn:hover { color: var(--primary-color); }
+    .topbar-title { font-weight: 600; color: var(--primary-color); }
+    
+    .sidebar { position: fixed; top: 60px; left: 0; width: var(--sidebar-width); height: calc(100vh - 60px); background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 20px 15px; display: flex; flex-direction: column; transition: width 0.3s ease; overflow: hidden; }
+    .sidebar.collapsed { width: var(--sidebar-width-collapsed); }
+    .sidebar a { display: flex; align-items: center; gap: 15px; padding: 12px; text-decoration: none; color: var(--text-secondary); border-radius: 8px; font-weight: 500; white-space: nowrap; }
+    .sidebar a .fa-solid { font-size: 1.2rem; width: 28px; text-align: center; }
+    .sidebar a:hover { background-color: var(--main-bg); color: var(--text-primary); }
+    .sidebar a.active { background-color: var(--primary-color); color: white; }
+    .sidebar a.logout { margin-top: auto; color: var(--danger-color); }
+    .sidebar.collapsed a .link-text { display: none; }
+    
+    .main-content { margin-top: 60px; margin-left: var(--sidebar-width); padding: 25px; transition: margin-left 0.3s ease; }
+    .main-content.collapsed { margin-left: var(--sidebar-width-collapsed); }
+    
+    .page-header { margin-bottom: 25px; }
+    .page-header h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+    
+    .appointments-layout { display: grid; grid-template-columns: auto 1fr 1fr; gap: 25px; align-items: flex-start; }
+    
+    /* --- Calendar (Flatpickr) --- */
+    .calendar-container { background-color: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); max-width: 420px; width: 100%; }
+    .flatpickr-calendar { width: 100% !important; box-shadow: none !important; background: transparent !important; }
+    .flatpickr-day { height: 40px; line-height: 40px; }
+    .flatpickr-months .flatpickr-month { color: var(--text-primary); fill: var(--text-primary); height: 48px; }
+    .flatpickr-current-month .flatpickr-monthDropdown-months { font-size: 1.2rem; font-weight: 600; }
+    span.flatpickr-weekday { color: var(--text-secondary); font-weight: 600; }
+    .flatpickr-day { color: var(--text-primary); position: relative; }
+    .flatpickr-day:hover, .flatpickr-day:focus { background: var(--primary-color-light); border-color: transparent; }
+    .flatpickr-day.today { border-color: var(--primary-color); }
+    .flatpickr-day.selected, .flatpickr-day.selected:hover { background: var(--primary-color); border-color: var(--primary-color); color: white; }
+    .flatpickr-day.flatpickr-disabled, .flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay { color: rgba(107, 114, 128, 0.5); }
+    .flatpickr-day .appointment-dot { width: 6px; height: 6px; background-color: var(--primary-color); border-radius: 50%; position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); }
+    .flatpickr-day.selected .appointment-dot { background-color: white; }
+    
+    /* --- Appointment List & Cards --- */
+    .appointments-list-container h2 { font-size: 1.2rem; margin-top: 0; margin-bottom: 15px; color: var(--text-primary); display: flex; align-items: center; gap: 8px;}
+    .appointment-card { background-color: var(--card-bg); border-radius: 10px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 12px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .appointment-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+    body.dark-mode .appointment-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+    .card-main-info { display: flex; align-items: center; gap: 15px; }
+    .card-main-info img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+    .info-text .client-name { font-weight: 600; font-size: 1.1rem; }
+    .info-text .appointment-topic { font-size: 0.9rem; color: var(--text-secondary); }
+    .card-details { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: var(--text-secondary); background-color: var(--main-bg); padding: 10px; border-radius: 8px; }
+    .card-details span { font-weight: 500; }
+    .card-actions { display: flex; gap: 10px; }
+    .action-btn { border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; }
+    .action-btn:hover { filter: brightness(1.1); }
+    .btn-accept { background-color: var(--success-color); color: white; }
+    .btn-decline { background-color: var(--danger-color); color: white; }
+    .btn-start { background-color: var(--primary-color); color: white; width: 100%; justify-content: center;}
+    .no-appointments { text-align: center; padding: 20px; color: var(--text-secondary); }
+
+    /* --- Toast Notification Styling --- */
+    #toast-container { position: fixed; top: 80px; right: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast {
+        background-color: var(--card-bg);
+        color: var(--text-primary);
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-left: 5px solid;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        animation: toast-in 0.5s ease;
+    }
+    .toast.fade-out { animation: toast-out 0.5s ease forwards; }
+    .toast.success { border-color: var(--success-color); }
+    .toast.danger { border-color: var(--danger-color); }
+    .toast .toast-icon { font-size: 1.5rem; }
+    .toast.success .toast-icon { color: var(--success-color); }
+    .toast.danger .toast-icon { color: var(--danger-color); }
+    .toast .toast-message { font-weight: 500; }
+    .toast .toast-close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; margin-left: auto; padding: 0 5px; }
+    @keyframes toast-in { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes toast-out { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+
+    /* --- Responsive --- */
+    @media (max-width: 1200px) {
+        .appointments-layout { grid-template-columns: 1fr; }
+        .calendar-container { max-width: none; }
+    }
+    @media (max-width: 768px) {
+        .sidebar { width: var(--sidebar-width-collapsed); }
+        .main-content { margin-left: var(--sidebar-width-collapsed); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <button id="toggleSidebarBtn" title="Ẩn/Hiện menu"><i class="fa-solid fa-bars"></i></button>
+      <span class="topbar-title">IBODY - Chuyên gia</span>
+    </div>
+    <button id="toggleThemeBtn" title="Đổi giao diện"><i class="fas fa-moon"></i></button>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <a href="#"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
+    <a href="#"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
+    <a href="#" class="active"><i class="fa-solid fa-calendar-check"></i><span class="link-text">Lịch hẹn</span></a>
+    <a href="#"><i class="fa-solid fa-users"></i><span class="link-text">Khách hàng</span></a>
+    <a href="#"><i class="fa-solid fa-comments"></i><span class="link-text">Tin nhắn</span></a>
+    <a href="#"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
+    <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
+    <a href="#"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
+    <a href="#" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span class="link-text">Đăng xuất</span></a>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <div class="page-header">
+        <h1>Quản lý Lịch hẹn</h1>
+    </div>
+
+    <div class="appointments-layout">
+        <div class="calendar-container">
+            <div id="appointmentCalendar"></div>
+        </div>
+
+        <div class="appointments-list-container">
+          <h2><i class="fa-solid fa-bolt" style="color: #00bfff;"></i> Lịch hẹn sắp tới</h2>
+          <div id="confirmedAppointmentsList"></div>
+        </div>
+
+        <div class="appointments-list-container">
+          <h2><i class="fa-solid fa-hourglass-half" style="color: var(--warning-color);"></i> Yêu cầu đang chờ duyệt</h2>
+          <div id="pendingAppointmentsList"></div>
+        </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let mockAppointments = [ // Đổi từ const thành let để có thể thay đổi
+        { id: 1, clientName: 'Nguyễn Thu An', clientAvatar: 'https://i.pravatar.cc/150?u=client1', dateTime: new Date('2025-06-08T10:00:00'), duration: 60, type: 'Online', topic: 'Tư vấn giải quyết stress', status: 'confirmed' },
+        { id: 2, clientName: 'Trần Văn Bình', clientAvatar: 'https://i.pravatar.cc/150?u=client2', dateTime: new Date('2025-06-08T14:00:00'), duration: 90, type: 'Online', topic: 'Trị liệu cặp đôi', status: 'pending' },
+        { id: 3, clientName: 'Lê Thị Cẩm', clientAvatar: 'https://i.pravatar.cc/150?u=client3', dateTime: new Date('2025-06-09T09:00:00'), duration: 60, type: 'Trực tiếp', topic: 'Tư vấn hướng nghiệp', status: 'confirmed' },
+        { id: 4, clientName: 'Phạm Minh Dũng', clientAvatar: 'https://i.pravatar.cc/150?u=client4', dateTime: new Date('2025-06-11T11:00:00'), duration: 60, type: 'Online', topic: 'Giải quyết mâu thuẫn gia đình', status: 'confirmed' },
+        { id: 5, clientName: 'Vũ Ngọc Lan', clientAvatar: 'https://i.pravatar.cc/150?u=client5', dateTime: new Date('2025-06-11T15:00:00'), duration: 60, type: 'Online', topic: 'Rối loạn lo âu', status: 'pending' },
+    ];
+
+    const confirmedListEl = document.getElementById('confirmedAppointmentsList');
+    const pendingListEl = document.getElementById('pendingAppointmentsList');
+    let calendarInstance = null; // Biến để lưu trữ đối tượng calendar
+
+    // --- Toast Notification Logic ---
+    function showToast(message, type = 'success') {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const icons = {
+            success: 'fa-check-circle',
+            danger: 'fa-times-circle'
+        };
+        
+        toast.innerHTML = `
+            <i class="fas ${icons[type]} toast-icon"></i>
+            <span class="toast-message">${message}</span>
+            <button class="toast-close-btn">&times;</button>
+        `;
+        
+        toast.querySelector('.toast-close-btn').addEventListener('click', () => {
+            toast.classList.add('fade-out');
+            setTimeout(() => toast.remove(), 500);
+        });
+
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('fade-out');
+            setTimeout(() => toast.remove(), 500);
+        }, 4000);
+    }
+
+    // --- Main Render Logic ---
+    function renderAppointments(selectedDate) {
+        // ... (phần render không thay đổi nhiều)
+        confirmedListEl.innerHTML = '';
+        pendingListEl.innerHTML = '';
+
+        const appointmentsForDay = mockAppointments.filter(app => {
+            const appDate = new Date(app.dateTime);
+            return appDate.getFullYear() === selectedDate.getFullYear() &&
+                   appDate.getMonth() === selectedDate.getMonth() &&
+                   appDate.getDate() === selectedDate.getDate();
+        }).sort((a,b) => a.dateTime - b.dateTime);
+
+        const confirmed = appointmentsForDay.filter(app => app.status === 'confirmed');
+        const pending = appointmentsForDay.filter(app => app.status === 'pending');
+
+        if (confirmed.length === 0) {
+            confirmedListEl.innerHTML = '<p class="no-appointments">Không có lịch hẹn nào.</p>';
+        } else {
+            confirmed.forEach(app => confirmedListEl.appendChild(createAppointmentCard(app)));
+        }
+
+        if (pending.length === 0) {
+            pendingListEl.innerHTML = '<p class="no-appointments">Không có yêu cầu nào.</p>';
+        } else {
+            pending.forEach(app => pendingListEl.appendChild(createAppointmentCard(app)));
+        }
+        
+        // Cập nhật lại các chấm trên lịch
+        if (calendarInstance) calendarInstance.redraw();
+    }
+
+    function createAppointmentCard(app) {
+        const card = document.createElement('div');
+        card.className = 'appointment-card';
+        card.dataset.id = app.id; // Gắn ID vào card để xử lý sự kiện
+
+        const time = app.dateTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        
+        let actionsHtml = '';
+        if (app.status === 'pending') {
+            actionsHtml = `<div class="card-actions">
+                <button class="action-btn btn-accept" data-id="${app.id}"><i class="fas fa-check"></i> Chấp nhận</button>
+                <button class="action-btn btn-decline" data-id="${app.id}"><i class="fas fa-times"></i> Từ chối</button>
+            </div>`;
+        } else if (app.status === 'confirmed') {
+            actionsHtml = `<div class="card-actions"><button class="action-btn btn-start"><i class="fas fa-video"></i> Bắt đầu buổi tư vấn</button></div>`;
+        }
+        
+        card.innerHTML = `
+            <div class="card-main-info"> <img src="${app.clientAvatar}" alt="Client Avatar"> <div class="info-text"> <div class="client-name">${app.clientName}</div> <div class="appointment-topic">${app.topic}</div> </div> </div>
+            <div class="card-details"> <span>${time}</span> <span>${app.duration} phút</span> <span>${app.type}</span> </div>
+            ${actionsHtml}
+        `;
+        return card;
+    }
+
+    // --- Action Handlers ---
+    function handleAppointmentAction(event) {
+        if (!event.target.closest('.action-btn')) return;
+
+        const button = event.target.closest('.action-btn');
+        const appId = parseInt(button.dataset.id);
+        const appIndex = mockAppointments.findIndex(a => a.id === appId);
+
+        if (appIndex === -1) return;
+
+        if (button.classList.contains('btn-accept')) {
+            mockAppointments[appIndex].status = 'confirmed';
+            showToast('Đã chấp nhận lịch hẹn!', 'success');
+        } else if (button.classList.contains('btn-decline')) {
+            mockAppointments.splice(appIndex, 1); // Xóa khỏi mảng
+            showToast('Đã từ chối lịch hẹn.', 'danger');
+        }
+        
+        // Render lại giao diện với ngày đang được chọn trên lịch
+        renderAppointments(calendarInstance.selectedDates[0] || new Date());
+    }
+    
+    // Gắn sự kiện vào khu vực cha
+    pendingListEl.addEventListener('click', handleAppointmentAction);
+
+
+    // --- Calendar Initialization ---
+    calendarInstance = flatpickr("#appointmentCalendar", {
+        inline: true,
+        locale: vn,
+        defaultDate: new Date("2025-06-08"),
+        onChange: (selectedDates) => {
+            renderAppointments(selectedDates[0]);
+        },
+        onDayCreate: (dObj, dStr, fp, dayElem) => {
+            const hasAppointment = mockAppointments.some(app => {
+                const appDate = new Date(app.dateTime);
+                return appDate.getFullYear() === dayElem.dateObj.getFullYear() &&
+                       appDate.getMonth() === dayElem.dateObj.getMonth() &&
+                       appDate.getDate() === dayElem.dateObj.getDate();
+            });
+            if (hasAppointment) {
+                dayElem.innerHTML += '<span class="appointment-dot"></span>';
+            }
+        }
+    });
+    
+    // --- Sidebar & Theme Toggle Logic ---
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+    const toggleThemeBtn = document.getElementById('toggleThemeBtn');
+    const body = document.body;
+
+    toggleSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('collapsed');
+    });
+
+    function setIconForTheme(theme) {
+        toggleThemeBtn.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    }
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.classList.add(savedTheme + '-mode');
+    setIconForTheme(savedTheme);
+
+    toggleThemeBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', currentTheme);
+        setIconForTheme(currentTheme);
+    });
+
+    // --- Initial Render ---
+    renderAppointments(new Date("2025-06-08"));
+});
+</script>
+</body>
+</html>

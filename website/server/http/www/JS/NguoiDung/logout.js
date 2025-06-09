@@ -1,7 +1,7 @@
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }
 function toggleUserDropdown() {
   const dropdown = document.getElementById("userDropdown");

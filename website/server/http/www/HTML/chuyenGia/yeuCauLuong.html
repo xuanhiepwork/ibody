@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yêu cầu nhận lương - Chuyên gia</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --primary-color-light: rgba(169, 147, 236, 0.1);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --sidebar-bg: #ffffff;
+      --main-bg: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+      --sidebar-width: 260px;
+      --sidebar-width-collapsed: 80px;
+    }
+
+    body.dark-mode {
+      --primary-color-light: rgba(169, 147, 236, 0.15);
+      --sidebar-bg: #1f2937;
+      --main-bg: #111827;
+      --card-bg: #1f2937;
+      --border-color: #374151;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--main-bg); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
+    
+    /* --- Layout chung --- */
+    .topbar { position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1001; }
+    .topbar-left { display: flex; align-items: center; gap: 15px; }
+    #toggleSidebarBtn, #toggleThemeBtn { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; transition: color 0.2s; }
+    #toggleSidebarBtn:hover, #toggleThemeBtn:hover { color: var(--primary-color); }
+    .topbar-title { font-weight: 600; color: var(--primary-color); }
+    
+    .sidebar { position: fixed; top: 60px; left: 0; width: var(--sidebar-width); height: calc(100vh - 60px); background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 20px 15px; display: flex; flex-direction: column; transition: width 0.3s ease; z-index: 1000; }
+    .sidebar.collapsed { width: var(--sidebar-width-collapsed); }
+    .sidebar a { display: flex; align-items: center; gap: 15px; padding: 12px; text-decoration: none; color: var(--text-secondary); border-radius: 8px; font-weight: 500; white-space: nowrap; }
+    .sidebar a .fa-solid { font-size: 1.2rem; width: 28px; text-align: center; }
+    .sidebar a:hover { background-color: var(--main-bg); color: var(--text-primary); }
+    .sidebar a.active { background-color: var(--primary-color); color: white; }
+    .sidebar a.logout { margin-top: auto; color: var(--danger-color); }
+    .sidebar.collapsed a .link-text { display: none; }
+    
+    .main-content { margin-top: 60px; margin-left: var(--sidebar-width); padding: 25px; transition: margin-left 0.3s ease; }
+    .main-content.collapsed { margin-left: var(--sidebar-width-collapsed); }
+    
+    .page-header { margin-bottom: 25px; }
+    .page-header h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+    
+    .section { background-color: var(--card-bg); border-radius: 12px; padding: 25px; border: 1px solid var(--border-color); }
+    .section h3 { font-size: 1.25rem; margin-top: 0; margin-bottom: 20px; font-weight: 600; }
+
+    /* --- Request Page Layout --- */
+    .request-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 25px;
+        margin-bottom: 25px;
+    }
+    
+    .balance-card { text-align: center; padding: 25px; background: linear-gradient(45deg, var(--primary-color), #c4a7f5); color: white; border-radius: 12px; }
+    .balance-card p { margin: 0 0 10px; opacity: 0.9; }
+    .balance-card h2 { margin: 0; font-size: 2.8rem; font-weight: 700; }
+    .balance-card .request-btn { width: 100%; padding: 15px; margin-top: 20px; font-size: 1.1rem; font-weight: 600; border-radius: 8px; border: none; background-color: white; color: var(--primary-color); cursor: pointer; transition: all 0.2s; }
+    .balance-card .request-btn:hover { background-color: #f0f0f0; transform: translateY(-2px); }
+    
+    .payment-info-card .info-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+    .payment-info-card .info-row:last-child { border-bottom: none; }
+    .payment-info-card .info-row strong { color: var(--text-secondary); }
+    .payment-info-card .info-row .value { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .payment-info-card .bank-logo { width: 24px; height: 24px; object-fit: contain; }
+
+    /* --- Details Table --- */
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .search-wrapper { position: relative; }
+    .search-wrapper .fa-search { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--text-secondary); }
+    #searchInput { padding: 10px 15px 10px 40px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; width: 300px; background-color: var(--card-bg); color: var(--text-primary); }
+    .details-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .details-table th, .details-table td { padding: 12px 15px; white-space: nowrap; }
+    .details-table thead th { background-color: var(--primary-color); color: white; font-size: 0.9rem; font-weight: 600; }
+    .details-table tbody tr { border-bottom: 1px solid var(--border-color); }
+    .details-table tbody tr:hover { background-color: var(--main-bg); }
+    
+    /* --- Toast Notification Styling --- */
+    #toast-container { position: fixed; top: 80px; right: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background-color: var(--card-bg); color: var(--text-primary); padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 5px solid; display: flex; align-items: center; gap: 15px; animation: toast-in 0.5s ease; }
+    .toast.fade-out { animation: toast-out 0.5s ease forwards; }
+    .toast.success { border-color: var(--success-color); }
+    .toast.success .toast-icon { color: var(--success-color); }
+    .toast .toast-icon { font-size: 1.5rem; }
+    .toast .toast-message { font-weight: 500; }
+    .toast .toast-close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; margin-left: auto; padding: 0 5px; }
+    @keyframes toast-in { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes toast-out { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+
+    @media(max-width: 992px) { .request-layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <button id="toggleSidebarBtn" title="Ẩn/Hiện menu"><i class="fa-solid fa-bars"></i></button>
+      <span class="topbar-title">IBODY - Chuyên gia</span>
+    </div>
+    <button id="toggleThemeBtn" title="Đổi giao diện"><i class="fas fa-moon"></i></button>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <a href="#"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
+    <a href="#"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
+    <a href="#"><i class="fa-solid fa-calendar-check"></i><span class="link-text">Lịch hẹn</span></a>
+    <a href="#"><i class="fa-solid fa-users"></i><span class="link-text">Khách hàng</span></a>
+    <a href="#"><i class="fa-solid fa-comments"></i><span class="link-text">Tin nhắn</span></a>
+    <a href="#"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
+    <a href="#" class="active"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
+    <a href="#"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
+    <a href="#" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span class="link-text">Đăng xuất</span></a>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <div class="page-header">
+        <h1>Yêu cầu Nhận lương</h1>
+    </div>
+
+    <div class="request-layout">
+        <div class="balance-card">
+            <p>Số dư khả dụng</p>
+            <h2 id="availableBalance">...</h2>
+            <button class="request-btn" id="requestPayoutBtn"><i class="fa-solid fa-paper-plane"></i> Gửi Yêu cầu Rút tiền</button>
+        </div>
+        <div class="payment-info-card section">
+            <h3>Thông tin thanh toán</h3>
+            <div class="info-row"><strong>Chủ tài khoản:</strong><span class="value" id="accountHolder"></span></div>
+            <div class="info-row"><strong>Ngân hàng:</strong><div class="value"><img id="bankLogo" class="bank-logo" src="" alt=""><span id="bankName"></span></div></div>
+            <div class="info-row"><strong>Số tài khoản:</strong><span class="value" id="accountNumber"></span></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="toolbar">
+            <h3>Chi tiết các buổi tư vấn chưa thanh toán (<span id="unpaidSessionsCount"></span>)</h3>
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Tìm theo Mã khách hàng...">
+            </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="details-table">
+            <thead>
+              <tr>
+                <th>Mã Khách hàng</th>
+                <th>Ngày tư vấn</th>
+                <th>Thời lượng</th>
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody id="unpaidSessionsBody"></tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+  
+  <div id="toast-container"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const mockData = {
+        expertInfo: { accountHolder: 'HỒ HOÀNG YẾN', bankName: 'ACB', accountNumber: '9876543210', bankLogoUrl: 'https://upload.wikimedia.org/wikipedia/vi/thumb/a/a8/Asia_Commercial_Bank_logo.svg/2560px-Asia_Commercial_Bank_logo.svg.png' },
+        unpaidSessions: [
+            { clientId: 'KH-83721', sessionDate: new Date('2025-06-01'), duration: 60, amount: 500000 },
+            { clientId: 'KH-55209', sessionDate: new Date('2025-06-05'), duration: 90, amount: 750000 },
+            { clientId: 'KH-44028', sessionDate: new Date('2025-06-06'), duration: 60, amount: 500000 },
+            { clientId: 'KH-92651', sessionDate: new Date('2025-06-07'), duration: 60, amount: 500000 },
+        ],
+        ratePerSession: 500000
+    };
+
+    // --- References ---
+    const unpaidSessionsBody = document.getElementById('unpaidSessionsBody');
+    const searchInput = document.getElementById('searchInput');
+
+    // --- Toast Notification Logic ---
+    function showToast(message, type = 'success') {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        const icons = { success: 'fa-check-circle', danger: 'fa-times-circle' };
+        toast.innerHTML = `<i class="fas ${icons[type]} toast-icon"></i><span class="toast-message">${message}</span><button class="toast-close-btn">&times;</button>`;
+        toast.querySelector('.toast-close-btn').addEventListener('click', () => toast.remove());
+        toastContainer.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
+    }
+    
+    // --- Render Functions ---
+    function formatCurrency(num) { return num.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }); }
+
+    function renderSummary() {
+        const totalAmount = mockData.unpaidSessions.reduce((sum, s) => sum + s.amount, 0);
+        document.getElementById('availableBalance').textContent = formatCurrency(totalAmount);
+        document.getElementById('accountHolder').textContent = mockData.expertInfo.accountHolder;
+        document.getElementById('bankName').textContent = mockData.expertInfo.bankName;
+        document.getElementById('bankLogo').src = mockData.expertInfo.bankLogoUrl;
+        document.getElementById('accountNumber').textContent = mockData.expertInfo.accountNumber;
+        document.getElementById('unpaidSessionsCount').textContent = mockData.unpaidSessions.length;
+    }
+
+    function renderDetailsTable() {
+        const query = searchInput.value.toLowerCase().trim();
+        const filteredData = mockData.unpaidSessions.filter(s => s.clientId.toLowerCase().includes(query));
+
+        unpaidSessionsBody.innerHTML = '';
+        if(filteredData.length === 0){
+            unpaidSessionsBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Không tìm thấy kết quả.</td></tr>';
+            return;
+        }
+        filteredData.forEach(session => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${session.clientId}</td>
+                <td>${session.sessionDate.toLocaleDateString('vi-VN')}</td>
+                <td>${session.duration} phút</td>
+                <td>${formatCurrency(session.amount)}</td>
+            `;
+            unpaidSessionsBody.appendChild(row);
+        });
+    }
+
+    // --- Event Listeners ---
+    searchInput.addEventListener('input', renderDetailsTable);
+    document.getElementById('requestPayoutBtn').addEventListener('click', () => {
+        showToast('Yêu cầu của bạn đã được gửi thành công!', 'success');
+    });
+
+    // --- Sidebar & Theme Toggle Logic ---
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+    const toggleThemeBtn = document.getElementById('toggleThemeBtn');
+    const body = document.body;
+    toggleSidebarBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); mainContent.classList.toggle('collapsed'); });
+    function setIconForTheme(theme) { toggleThemeBtn.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; }
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.classList.add(savedTheme + '-mode');
+    setIconForTheme(savedTheme);
+    toggleThemeBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', currentTheme);
+        setIconForTheme(currentTheme);
+    });
+
+    // --- Initial Render ---
+    renderSummary();
+    renderDetailsTable();
+});
+</script>
+</body>
+</html>

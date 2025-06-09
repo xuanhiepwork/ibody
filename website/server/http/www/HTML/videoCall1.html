@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Call UI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/videoCall.css">
+
+
+  <link rel="stylesheet" href="../HTML/NguoiDung/tin-nhan-user.html">
+  <style>
+    /* Thêm vào nếu chưa có */
+    #localVideo {
+      display: block;
+      width: 120px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="video-call-container">
+    <div class="call-controls">
+      <button id="micBtn" title="Mic"><i id="micIcon" class="fas fa-microphone"></i></button>
+      <button class="hangup" title="End Call"><i class="fas fa-phone"></i></button>
+      <button id="camBtn" title="Camera"><i id="camIcon" class="fas fa-video"></i></button>
+    </div>
+
+    <div class="small-video">
+      <video id="localVideo" autoplay muted playsinline></video>
+    </div>
+  </div>
+
+  <script>
+    let localStream = null;
+    let micOn = true;
+    let camOn = true;
+
+    const micBtn = document.getElementById('micBtn');
+    const camBtn = document.getElementById('camBtn');
+    const micIcon = document.getElementById('micIcon');
+    const camIcon = document.getElementById('camIcon');
+    const videoEl = document.getElementById('localVideo');
+
+    async function initMedia() {
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        videoEl.srcObject = localStream;
+      } catch (err) {
+        alert('Không thể truy cập mic/camera: ' + err.message);
+      }
+    }
+
+    micBtn.addEventListener('click', () => {
+      if (localStream) {
+        micOn = !micOn;
+        localStream.getAudioTracks().forEach(track => track.enabled = micOn);
+        micIcon.className = micOn ? 'fas fa-microphone' : 'fas fa-microphone-slash';
+        micBtn.title = micOn ? 'Tắt mic' : 'Bật mic';
+      }
+    });
+
+    camBtn.addEventListener('click', () => {
+      if (localStream) {
+        camOn = !camOn;
+        localStream.getVideoTracks().forEach(track => track.enabled = camOn);
+        camIcon.className = camOn ? 'fas fa-video' : 'fas fa-video-slash';
+        camBtn.title = camOn ? 'Tắt camera' : 'Bật camera';
+      }
+    });
+
+    initMedia(); // Gọi khi trang load
+
+    // Nút kết thúc gọi
+  document.querySelector('.hangup').addEventListener('click', () => {
+    // Ngắt stream trước
+    if (localStream) {
+      localStream.getTracks().forEach(track => track.stop());
+    }
+
+    // Chuyển trang
+    window.location.href = "../HTML/NguoiDung/tin-nhan-user.html";
+    });
+  </script>
+
+</body>
+</html>

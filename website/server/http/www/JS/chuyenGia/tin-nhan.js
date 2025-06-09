@@ -157,7 +157,7 @@ function formatDate(raw) {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }
 
 

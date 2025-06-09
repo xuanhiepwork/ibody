@@ -2,7 +2,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
   alert("Bạn không có quyền truy cập trang quản trị.");
-  window.location.href = "/";
+  window.location.href = "index.html";
 }
 
 async function loadDanhGia() {
@@ -46,5 +46,5 @@ document.addEventListener("DOMContentLoaded", loadDanhGia);
 
 document.getElementById("logoutLink")?.addEventListener("click", () => {
   localStorage.removeItem("user");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 });

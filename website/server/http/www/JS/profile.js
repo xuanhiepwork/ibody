@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user) {
-    alert("Bạn cần đăng nhập.");
-    window.location.href = "/";
-    return;
-  }
+  // const user = JSON.parse(localStorage.getItem("user"));
+  // if (!user) {
+  //   alert("Bạn cần đăng nhập.");
+  //   window.location.href = "index.html";
+  //   return;
+  // }
 
   // ====== 1. Hiển thị tên người dùng ======
   const loginLink = document.getElementById("loginLink");
@@ -179,7 +179,7 @@ async function loadLichSuTuVan() {
   window.logout = function () {
     localStorage.removeItem("user");
     alert("Đăng xuất thành công!");
-    window.location.href = "/";
+    window.location.href = "index.html";
   };
 
   window.toggleUserDropdown = function () {

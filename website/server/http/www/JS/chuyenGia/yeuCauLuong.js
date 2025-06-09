@@ -2,7 +2,7 @@ const BASE_API = "http://localhost:5221";
 const user = JSON.parse(localStorage.getItem("user"));
 
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!user?.taiKhoanId) return alert("Chưa đăng nhập.");
+  // if (!user?.taiKhoanId) return alert("Chưa đăng nhập.");
 
   const res = await fetch(`${BASE_API}/api/chuyen-gia/nhan-luong/${user.taiKhoanId}`);
   const data = await res.json();
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }
 
 document.getElementById("toggleSidebarBtn").onclick = () => {

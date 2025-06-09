@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết hóa đơn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --primary-color-light: rgba(169, 147, 236, 0.1);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --light-bg: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--light-bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      max-width: 550px;
+      width: 100%;
+      box-sizing: border-box;
+      border-top: 5px solid var(--primary-color);
+    }
+
+    .invoice-header { text-align: center; margin-bottom: 2rem; }
+    .invoice-header h2 { color: var(--text-primary); margin: 0 0 0.5rem 0; font-size: 2rem; font-weight: 700; }
+    .invoice-header p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; }
+    .invoice-header .invoice-id { background-color: var(--primary-color-light); color: var(--primary-color); padding: 5px 15px; border-radius: 20px; font-weight: 600; display: inline-block; margin-top: 1rem; }
+
+    #invoiceDetail { border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .info-item { background-color: var(--light-bg); padding: 1rem; border-radius: 12px; }
+    .info-item .label { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+    .info-item .value { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
+    .info-item .status-badge { font-weight: 600; padding: 5px 12px; border-radius: 20px; font-size: 1rem; background-color: rgba(40, 167, 69, 0.15); color: var(--success-color); display: inline-block; }
+    .info-item .expiration-date { color: var(--danger-color); font-weight: 700; }
+    .info-item.full-width { grid-column: 1 / -1; }
+
+    .footer-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 2.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border-color);
+    }
+    .action-btn {
+      display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+      padding: 12px 25px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;
+      cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.95rem;
+    }
+    .btn-primary { background-color: var(--primary-color); color: white; border: none; }
+    .btn-primary:hover { background-color: #937dce; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(169, 147, 236, 0.5); }
+    .btn-secondary { background-color: var(--primary-color-light); color: var(--primary-color); border: 1px solid var(--primary-color-light); }
+    .btn-secondary:hover { background-color: var(--primary-color); color: white; }
+    
+  </style>
+</head>
+<body>
+  <div class="container" id="invoice-container">
+    <div class="invoice-header">
+      <h2>Chi tiết Hóa đơn</h2>
+      <p>Gói đăng ký tư vấn IBODY</p>
+      <div class="invoice-id" id="invoiceId"></div>
+    </div>
+    
+    <div id="invoiceDetail">
+      <div class="info-grid">
+        <div class="info-item">
+            <div class="label"><i class="fas fa-box-open"></i> Tên gói</div>
+            <div class="value" id="goiTen"></div>
+        </div>
+        <div class="info-item">
+            <div class="label"><i class="fas fa-tag"></i> Giá</div>
+            <div class="value" id="gia"></div>
+        </div>
+        <div class="info-item">
+            <div class="label"><i class="fas fa-layer-group"></i> Số lượt đã mua</div>
+            <div class="value" id="soLuot"></div>
+        </div>
+        <div class="info-item">
+            <div class="label"><i class="fas fa-tasks"></i> Lượt còn lại</div>
+            <div class="value" id="conLai"></div>
+        </div>
+        <div class="info-item full-width">
+            <div class="label"><i class="fas fa-calendar-alt"></i> Ngày mua</div>
+            <div class="value" id="ngayMua"></div>
+        </div>
+        <div class="info-item full-width">
+            <div class="label"><i class="fas fa-calendar-times"></i> Ngày hết hạn</div>
+            <div class="value expiration-date" id="ngayHetHan"></div>
+        </div>
+         <div class="info-item full-width">
+            <div class="label"><i class="fas fa-check-circle"></i> Trạng thái</div>
+            <div class="value"><span id="trangThai" class="status-badge"></span></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-actions">
+        <a class="action-btn btn-primary" href="#"><i class="fas fa-arrow-left"></i> Quay lại lịch sử</a>
+        <button class="action-btn btn-secondary" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Tải về PDF</button>
+    </div>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const mockInvoiceData = {
+        invoiceId: 'IB-2025-0608A',
+        packageName: 'Gói Premium+',
+        price: 299000,
+        purchaseDate: new Date('2025-06-08'),
+        expirationDate: new Date('2026-06-08'),
+        totalSessions: 50,
+        remainingSessions: 35,
+        status: 'Đang hoạt động'
+    };
+
+    function formatCurrency(num) {
+        return num.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+
+    function formatDate(date) {
+        return date.toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+    
+    function renderInvoice() {
+        document.getElementById('invoiceId').textContent = `Mã HĐ: ${mockInvoiceData.invoiceId}`;
+        document.getElementById('goiTen').textContent = mockInvoiceData.packageName;
+        document.getElementById('gia').textContent = formatCurrency(mockInvoiceData.price);
+        document.getElementById('ngayMua').textContent = formatDate(mockInvoiceData.purchaseDate);
+        document.getElementById('ngayHetHan').textContent = formatDate(mockInvoiceData.expirationDate);
+        document.getElementById('soLuot').textContent = mockInvoiceData.totalSessions;
+        document.getElementById('conLai').textContent = mockInvoiceData.remainingSessions;
+        document.getElementById('trangThai').textContent = mockInvoiceData.status;
+    }
+    
+    document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const invoiceElement = document.getElementById('invoice-container');
+        
+        // Tạm thời bỏ border-top để ảnh chụp đẹp hơn
+        const originalBorderStyle = invoiceElement.style.borderTop;
+        invoiceElement.style.borderTop = 'none';
+        
+        html2canvas(invoiceElement, { 
+            scale: 2, // Tăng chất lượng ảnh chụp
+            useCORS: true 
+        }).then(canvas => {
+            // Khôi phục lại border-top sau khi chụp
+            invoiceElement.style.borderTop = originalBorderStyle;
+
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`hoa-don-${mockInvoiceData.invoiceId}.pdf`);
+        });
+    });
+
+    renderInvoice();
+});
+</script>
+</body>
+</html>

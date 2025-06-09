@@ -71,5 +71,5 @@ document.addEventListener("DOMContentLoaded", loadPhuongThuc);
 
 document.getElementById("logoutLink")?.addEventListener("click", () => {
   localStorage.removeItem("user");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 });

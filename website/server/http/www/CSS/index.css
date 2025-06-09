@@ -26,6 +26,25 @@ Reset
     top: 0;
     z-index: 1000;
   }
+
+  .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #A993EC;
+}
+
   
   .logo {
     font-size: 1.5rem;
@@ -797,9 +816,28 @@ img {
   color: var(--text-darker);
 }
 
+.title-role {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5a4d84;
+  background-color: #f3efff;
+  padding: 4px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  margin: 6px 0 12px; /* top - between title and description */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+.title-role:hover {
+  background-color: #e0d6f5;
+  transform: translateY(-2px);
+}
+
+
 .step-description {
-  color: var(--text-medium);
-  font-size: 15px;
+  /* color: var(--text-medium); */
+  color: #2B2060;
+  font-size: 10px;
 }
 
 /* Giới thiệu */

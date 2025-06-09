@@ -14,10 +14,10 @@ const config = {
 };
 
 const receiverId = new URLSearchParams(window.location.search).get("to");
-if (!receiverId) {
-  alert("Không có ID người nhận trong URL");
-  throw new Error("Missing receiverId");
-}
+// if (!receiverId) {
+//   alert("Không có ID người nhận trong URL");
+//   throw new Error("Missing receiverId");
+// }
 
 
 // Kết nối SignalR

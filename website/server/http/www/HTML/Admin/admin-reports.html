@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Báo cáo</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #fd7e14;
+      --info-color: #007bff;
+      --sidebar-bg: #1a202c;
+      --sidebar-text: #a0aec0;
+      --sidebar-text-hover: #ffffff;
+      --sidebar-active-bg: var(--primary-color);
+      --main-bg: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+      --table-hover-bg: #f3effc;
+      --text-primary: #2d3748;
+      --text-secondary: #718096;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--main-bg); color: var(--text-primary); }
+    .admin-wrapper { display: flex; }
+
+    /* --- Sidebar & Main Content (giữ nguyên) --- */
+    .sidebar { width: 260px; background-color: var(--sidebar-bg); height: 100vh; position: fixed; left: 0; top: 0; display: flex; flex-direction: column; padding: 20px 0; }
+    .sidebar h2 { color: var(--primary-color); text-align: center; margin-bottom: 30px; padding: 0 20px; font-size: 1.5rem; font-weight: 700; }
+    .sidebar nav { flex-grow: 1; }
+    .sidebar a { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: var(--sidebar-text); text-decoration: none; font-size: 1rem; font-weight: 500; transition: all 0.2s ease-in-out; }
+    .sidebar a .fa-solid { width: 20px; }
+    .sidebar a:hover { background-color: #2d3748; color: var(--sidebar-text-hover); }
+    .sidebar a.active { background-color: var(--sidebar-active-bg); color: var(--sidebar-text-hover); font-weight: 600; }
+    #logoutLink { margin-top: auto; color: #e53e3e !important; }
+    #logoutLink:hover { background-color: rgba(229, 62, 62, 0.1); font-weight: 600; }
+    .main-content { margin-left: 260px; width: calc(100% - 260px); padding: 25px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .top-bar h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+    
+    .section { background-color: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+    /* --- Toolbar: Filters & Search --- */
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .filter-tabs { display: flex; gap: 10px; background-color: var(--main-bg); padding: 5px; border-radius: 8px; }
+    .filter-tabs .tab-btn { background: none; border: none; padding: 8px 16px; font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; border-radius: 6px; transition: all 0.2s ease; }
+    .filter-tabs .tab-btn.active { background-color: var(--primary-color); color: white; box-shadow: 0 2px 5px rgba(169, 147, 236, 0.4); }
+
+    .search-wrapper { position: relative; }
+    .search-wrapper .fa-search { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--text-secondary); }
+    #searchInput { padding: 10px 15px 10px 40px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; width: 300px; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+    #searchInput:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--primary-color-light); }
+    
+    /* --- Report Cards Layout --- */
+    .report-cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 20px;
+    }
+    
+    .report-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        transition: box-shadow 0.2s ease;
+    }
+    .report-card:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+    
+    .card-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+    .card-parties { display: flex; align-items: center; gap: 10px; }
+    .user-chip { display: flex; align-items: center; gap: 8px; }
+    .user-chip img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+    .user-chip span { font-weight: 600; }
+    .card-parties .fa-arrow-right-long { color: var(--text-secondary); }
+
+    .report-status { font-size: 0.8rem; font-weight: 600; padding: 4px 10px; border-radius: 20px; color: white; }
+    .status-new { background-color: var(--info-color); }
+    .status-in-progress { background-color: var(--warning-color); }
+    .status-resolved { background-color: var(--success-color); }
+
+    .card-body { padding: 20px; flex-grow: 1; }
+    .card-body h4 { margin-top: 0; margin-bottom: 8px; font-size: 1.1rem; }
+    .card-body p { margin: 0; color: var(--text-secondary); line-height: 1.6; }
+    
+    .card-footer { padding: 15px 20px; background-color: var(--main-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+    .card-footer .timestamp { font-size: 0.85rem; color: var(--text-secondary); }
+    .card-actions { display: flex; gap: 10px; }
+    .action-btn { background: none; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 6px 12px; font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+    .action-btn:hover { background-color: var(--border-color); color: var(--text-primary); }
+    .action-btn.primary { border-color: var(--danger-color); background-color: var(--danger-color); color: white; }
+    .action-btn.primary:hover { background-color: #c82333; border-color: #bd2130; }
+    
+    .no-reports-msg { display: none; text-align: center; padding: 50px; color: var(--text-secondary); font-size: 1.1rem; }
+
+  </style>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <nav>
+          <a href="#"><i class="fa-solid fa-chart-pie"></i>Tổng quan</a>
+          <a href="#"><i class="fa-solid fa-users"></i>Tài khoản</a>
+          <a href="#"><i class="fa-solid fa-user-check"></i>Duyệt chuyên gia</a>
+          <a href="#" class="active"><i class="fa-solid fa-flag"></i>Tố cáo</a>
+          <a href="#"><i class="fa-solid fa-calendar-days"></i>Lịch hẹn</a>
+          <a href="#"><i class="fa-solid fa-comments"></i>Đánh giá</a>
+          <a href="#"><i class="fa-solid fa-credit-card"></i>Phương thức</a>
+          <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i>Thanh toán lương</a>
+          <a href="#"><i class="fa-solid fa-money-bill-transfer"></i>Yêu cầu chuyển khoản</a>
+        </nav>
+        <a href="#" id="logoutLink"><i class="fa-solid fa-arrow-right-from-bracket"></i>Đăng xuất</a>
+    </div>
+
+    <div class="main-content">
+      <div class="top-bar">
+        <h1>Quản lý Báo cáo</h1>
+      </div>
+
+      <div class="section">
+        <div class="toolbar">
+            <div class="filter-tabs">
+                <button class="tab-btn active" data-filter="new">Mới</button>
+                <button class="tab-btn" data-filter="in_progress">Đang xử lý</button>
+                <button class="tab-btn" data-filter="resolved">Đã giải quyết</button>
+            </div>
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Tìm theo người báo cáo/bị báo cáo...">
+            </div>
+        </div>
+        <div class="report-cards-container" id="reportCardsContainer">
+            </div>
+        <p class="no-reports-msg" id="noReportsMsg">Không có báo cáo nào phù hợp.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const mockReports = [
+            { id: 1, reporterName: 'Mai Anh', reporterAvatar: 'https://i.pravatar.cc/150?u=reporter1', reportedName: 'Văn Toàn', reportedAvatar: 'https://i.pravatar.cc/150?u=reported1', reason: 'Ngôn ngữ không phù hợp', details: 'Người dùng này đã sử dụng những từ ngữ xúc phạm trong buổi tư vấn ngày 05/06.', timestamp: new Date('2025-06-06T10:30:00'), status: 'new' },
+            { id: 2, reporterName: 'Đức Huy', reporterAvatar: 'https://i.pravatar.cc/150?u=reporter2', reportedName: 'Chuyên gia Thu Trang', reportedAvatar: 'https://i.pravatar.cc/150?u=expert_thutrang', reason: 'Thông tin sai lệch', details: 'Chuyên gia cung cấp thông tin không chính xác và thiếu cơ sở khoa học, gây hoang mang.', timestamp: new Date('2025-06-05T14:00:00'), status: 'new' },
+            { id: 3, reporterName: 'Thanh Huyền', reporterAvatar: 'https://i.pravatar.cc/150?u=reporter3', reportedName: 'Hoàng Nam', reportedAvatar: 'https://i.pravatar.cc/150?u=reported2', reason: 'Spam / Quảng cáo', details: 'Tài khoản này liên tục gửi các link quảng cáo dịch vụ không liên quan trong phần bình luận.', timestamp: new Date('2025-06-04T09:00:00'), status: 'in_progress' },
+            { id: 4, reporterName: 'Bảo Ngọc', reporterAvatar: 'https://i.pravatar.cc/150?u=reporter4', reportedName: 'Minh Tuấn', reportedAvatar: 'https://i.pravatar.cc/150?u=reported3', reason: 'Hành vi quấy rối', details: 'Liên tục nhắn tin làm phiền sau khi buổi tư vấn kết thúc.', timestamp: new Date('2025-06-02T11:20:00'), status: 'resolved' },
+            { id: 5, reporterName: 'Gia Hân', reporterAvatar: 'https://i.pravatar.cc/150?u=reporter5', reportedName: 'Chuyên gia Minh Đức', reportedAvatar: 'https://i.pravatar.cc/150?u=expert_minhduc', reason: 'Vắng mặt không lý do', details: 'Chuyên gia đã không tham gia buổi hẹn đã đặt trước vào ngày 01/06 mà không có thông báo.', timestamp: new Date('2025-06-01T16:00:00'), status: 'resolved' },
+        ];
+
+        const reportContainer = document.getElementById('reportCardsContainer');
+        const searchInput = document.getElementById('searchInput');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const noReportsMsg = document.getElementById('noReportsMsg');
+        let currentFilter = 'new';
+
+        function renderReports() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            const filteredByStatus = mockReports.filter(report => report.status === currentFilter);
+
+            const finalData = filteredByStatus.filter(report => 
+                report.reporterName.toLowerCase().includes(query) ||
+                report.reportedName.toLowerCase().includes(query)
+            );
+            
+            reportContainer.innerHTML = '';
+
+            if (finalData.length === 0) {
+                noReportsMsg.style.display = 'block';
+            } else {
+                noReportsMsg.style.display = 'none';
+                finalData.forEach(report => {
+                    const card = document.createElement('div');
+                    card.className = 'report-card';
+                    
+                    const statusClasses = {
+                        'new': 'status-new',
+                        'in_progress': 'status-in-progress',
+                        'resolved': 'status-resolved'
+                    };
+                    const statusTexts = {
+                        'new': 'Mới',
+                        'in_progress': 'Đang xử lý',
+                        'resolved': 'Đã giải quyết'
+                    };
+                    
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div class="card-parties">
+                                <div class="user-chip">
+                                    <img src="${report.reporterAvatar}" alt="Reporter">
+                                    <span>${report.reporterName}</span>
+                                </div>
+                                <i class="fa-solid fa-arrow-right-long"></i>
+                                <div class="user-chip">
+                                    <img src="${report.reportedAvatar}" alt="Reported">
+                                    <span>${report.reportedName}</span>
+                                </div>
+                            </div>
+                            <span class="report-status ${statusClasses[report.status]}">${statusTexts[report.status]}</span>
+                        </div>
+                        <div class="card-body">
+                            <h4>${report.reason}</h4>
+                            <p>${report.details}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="timestamp"><i class="fa-regular fa-clock"></i> ${report.timestamp.toLocaleDateString('vi-VN')}</span>
+                            <div class="card-actions">
+                                <button class="action-btn">Xem chi tiết</button>
+                                <button class="action-btn primary"><i class="fa-solid fa-ban"></i> Khóa TK</button>
+                            </div>
+                        </div>
+                    `;
+                    reportContainer.appendChild(card);
+                });
+            }
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentFilter = button.dataset.filter;
+                renderReports();
+            });
+        });
+        
+        searchInput.addEventListener('input', renderReports);
+
+        // Initial render
+        renderReports();
+    });
+  </script>
+
+</body>
+</html>

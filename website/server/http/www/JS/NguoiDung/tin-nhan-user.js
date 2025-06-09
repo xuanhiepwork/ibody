@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     userMenu.style.display = "none";
     alert("Bạn cần đăng nhập.");
-    window.location.href = "/";
+    window.location.href = "../index.html";
     return;
   }
 // if (user) {
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }
 
 // =================== CHỨC NĂNG CHAT ===================

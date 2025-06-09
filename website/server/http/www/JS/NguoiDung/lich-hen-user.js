@@ -1,10 +1,10 @@
 const API_BASE = "http://localhost:5221/api";
 const user = JSON.parse(localStorage.getItem("user"));
 
-if (!user) {
-  alert("Vui lòng đăng nhập để tiếp tục.");
-  window.location.href = "/";
-}
+// if (!user) {
+//   alert("Vui lòng đăng nhập để tiếp tục.");
+//   window.location.href = "../index.html";
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
   const loginLink = document.getElementById("loginLink");
@@ -155,5 +155,5 @@ document.addEventListener("click", function (e) {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }

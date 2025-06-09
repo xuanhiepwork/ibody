@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý Phương thức</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --primary-color-light: rgba(169, 147, 236, 0.1);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --sidebar-bg: #1a202c;
+      --sidebar-text: #a0aec0;
+      --sidebar-text-hover: #ffffff;
+      --sidebar-active-bg: var(--primary-color);
+      --main-bg: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+      --table-hover-bg: #f3effc;
+      --text-primary: #2d3748;
+      --text-secondary: #718096;
+    }
+    body.dark-mode {
+      --primary-color-light: rgba(169, 147, 236, 0.15);
+      --main-bg: #1a202c;
+      --card-bg: #2d3748;
+      --border-color: #4a5568;
+      --table-hover-bg: #4a5568;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a0aec0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--main-bg); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
+    .admin-wrapper { display: flex; }
+
+    /* --- General Layout --- */
+    .sidebar { width: 260px; background-color: var(--sidebar-bg); height: 100vh; position: fixed; left: 0; top: 0; display: flex; flex-direction: column; padding: 20px 0; border-right: 1px solid var(--border-color); }
+    .sidebar h2 { color: var(--primary-color); text-align: center; margin-bottom: 30px; padding: 0 20px; font-size: 1.5rem; font-weight: 700; }
+    .sidebar nav { flex-grow: 1; }
+    .sidebar a { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: var(--sidebar-text); text-decoration: none; font-size: 1rem; font-weight: 500; transition: all 0.2s ease-in-out; }
+    .sidebar a .fa-solid { width: 20px; }
+    .sidebar a:hover { background-color: #4a5568; color: var(--sidebar-text-hover); }
+    .sidebar a.active { background-color: var(--sidebar-active-bg); color: var(--sidebar-text-hover); font-weight: 600; }
+    #logoutLink { margin-top: auto; color: #e53e3e !important; }
+    #logoutLink:hover { background-color: rgba(229, 62, 62, 0.1); font-weight: 600; }
+    .main-content { margin-left: 260px; width: calc(100% - 260px); padding: 25px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .top-bar h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+    .theme-toggle { background: var(--main-bg); border: 1px solid var(--border-color); color: var(--text-secondary); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+    .theme-toggle:hover { color: var(--primary-color); border-color: var(--primary-color); }
+    .section { background-color: var(--card-bg); border-radius: 12px; padding: 25px; border: 1px solid var(--border-color); }
+    .section h3 { font-size: 1.25rem; margin-top: 0; margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+    .section h3 .fas { color: var(--primary-color); }
+
+    /* --- Page Layout --- */
+    .page-layout { display: grid; grid-template-columns: 350px 1fr; gap: 25px; align-items: flex-start; }
+
+    /* --- Form Styling --- */
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+    .form-group input[type="text"], .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--main-bg);
+        color: var(--text-primary);
+        font-size: 0.95rem;
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--primary-color-light); }
+    .form-group.status-group { display: flex; justify-content: space-between; align-items: center; }
+    .submit-btn { width: 100%; padding: 12px; border-radius: 8px; border: none; background-color: var(--primary-color); color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; }
+    .submit-btn:hover { background-color: #937dce; }
+
+    /* --- Toggle Switch --- */
+    .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+    .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--success-color); }
+    input:checked + .slider:before { transform: translateX(22px); }
+
+    /* --- Table Styling --- */
+    .toolbar { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; }
+    .search-wrapper { position: relative; }
+    .search-wrapper .fa-search { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--text-secondary); }
+    #searchInput { padding: 10px 15px 10px 40px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; width: 250px; background-color: var(--card-bg); color: var(--text-primary); }
+    .table-wrapper { overflow-x: auto; }
+    .admin-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .admin-table th, .admin-table td { padding: 15px; vertical-align: middle; }
+    .admin-table thead th { background-color: var(--primary-color); color: white; font-size: 0.9rem; font-weight: 600; border: none; white-space: nowrap;}
+    .admin-table tbody tr { border-bottom: 1px solid var(--border-color); transition: background-color 0.15s ease-in-out; }
+    .admin-table tbody tr:last-child { border-bottom: none; }
+    .admin-table tbody tr:hover { background-color: var(--table-hover-bg); }
+    .admin-table td { font-size: 0.95rem; }
+    .method-info { display: flex; align-items: center; gap: 15px; }
+    .method-info img { width: 40px; height: 40px; object-fit: contain; border-radius: 8px; background-color: #fff; padding: 4px; }
+    .method-info .name { font-weight: 600; }
+    .method-info .description { font-size: 0.85rem; color: var(--text-secondary); white-space: normal; }
+    .status-badge { font-weight: 600; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+    .status-active { background-color: rgba(40, 167, 69, 0.15); color: #28a745; }
+    .status-hidden { background-color: rgba(108, 117, 125, 0.15); color: #6c757d; }
+    .action-buttons { display: flex; gap: 8px; }
+    .icon-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; transition: all 0.2s ease; font-size: 1rem; }
+    .icon-btn:hover { color: var(--text-primary); background-color: var(--border-color); }
+    .icon-btn.delete-btn:hover { color: var(--danger-color); background-color: rgba(220, 53, 69, 0.1); }
+
+  </style>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <nav>
+          <a href="#"><i class="fa-solid fa-chart-pie"></i>Tổng quan</a>
+          <a href="#"><i class="fa-solid fa-users"></i>Tài khoản</a>
+          <a href="#"><i class="fa-solid fa-user-check"></i>Duyệt chuyên gia</a>
+          <a href="#"><i class="fa-solid fa-flag"></i>Tố cáo</a>
+          <a href="#"><i class="fa-solid fa-calendar-days"></i>Lịch hẹn</a>
+          <a href="#"><i class="fa-solid fa-comments"></i>Đánh giá</a>
+          <a href="#" class="active"><i class="fa-solid fa-credit-card"></i>Phương thức</a>
+          <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i>Thanh toán lương</a>
+          <a href="#"><i class="fa-solid fa-money-bill-transfer"></i>Yêu cầu chuyển khoản</a>
+        </nav>
+        <a href="#" id="logoutLink"><i class="fa-solid fa-arrow-right-from-bracket"></i>Đăng xuất</a>
+    </div>
+
+    <div class="main-content">
+      <div class="top-bar">
+        <h1>Quản lý Phương thức Thanh toán</h1>
+        <button class="theme-toggle" id="theme-toggle" title="Chuyển đổi giao diện"> <i class="fas fa-moon"></i> </button>
+      </div>
+      
+      <div class="page-layout">
+        <div class="form-container section">
+            <h3><i class="fas fa-plus-circle"></i> Thêm phương thức mới</h3>
+            <form id="addMethodForm">
+                <div class="form-group">
+                    <label for="methodName">Tên phương thức</label>
+                    <input type="text" id="methodName" placeholder="Ví dụ: Ví Momo" required>
+                </div>
+                <div class="form-group">
+                    <label for="methodLogoUrl">URL Logo</label>
+                    <input type="text" id="methodLogoUrl" placeholder="https://example.com/logo.png">
+                </div>
+                <div class="form-group">
+                    <label for="methodDescription">Mô tả</label>
+                    <textarea id="methodDescription" placeholder="Mô tả ngắn gọn..."></textarea>
+                </div>
+                <div class="form-group status-group">
+                    <label for="methodStatus">Trạng thái</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="methodStatus" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn"><i class="fas fa-plus"></i> Thêm mới</button>
+            </form>
+        </div>
+
+        <div class="table-container section">
+            <div class="toolbar">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm theo tên phương thức...">
+                </div>
+            </div>
+            <div class="table-wrapper">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Phương thức</th>
+                    <th>Ngày tạo</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody id="methodsTableBody"></tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const mockMethods = [
+            { id: 1, name: 'Chuyển khoản Ngân hàng', description: 'Nhận tiền trực tiếp qua tài khoản ngân hàng nội địa.', 
+              logoUrl: 'https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-Agribank-V.png', status: 'active', dateAdded: new Date('2025-01-10') },
+            { id: 2, name: 'Ví Momo', description: 'Thanh toán nhanh chóng và tiện lợi qua ví điện tử Momo.', 
+              logoUrl: 'https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png', status: 'active', dateAdded: new Date('2025-02-20') },
+            { id: 3, name: 'Ví ZaloPay', description: 'Tích hợp trong Zalo, thanh toán chỉ với vài cú chạm.', 
+              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/ZaloPay_Logo.png/600px-ZaloPay_Logo.png', status: 'active', dateAdded: new Date('2025-03-05') },
+            { id: 4, name: 'PayPal', description: 'Cổng thanh toán quốc tế phổ biến và an toàn.', 
+              logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Paypal_2014_logo.png', status: 'hidden', dateAdded: new Date('2025-04-15') }
+        ];
+
+        const tableBody = document.getElementById('methodsTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const addForm = document.getElementById('addMethodForm');
+        
+        // --- Theme Toggler Logic ---
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+        function setIconForTheme(theme) { themeToggleButton.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; }
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.classList.add(savedTheme + '-mode');
+        setIconForTheme(savedTheme);
+        themeToggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', currentTheme);
+            setIconForTheme(currentTheme);
+        });
+
+        // --- Render Logic ---
+        function renderTable() {
+            const query = searchInput.value.toLowerCase().trim();
+            const filteredData = mockMethods.filter(m => m.name.toLowerCase().includes(query)).sort((a, b) => b.dateAdded - a.dateAdded);
+
+            tableBody.innerHTML = '';
+            filteredData.forEach(m => {
+                const row = document.createElement('tr');
+                const statusClass = m.status === 'active' ? 'status-active' : 'status-hidden';
+                const statusText = m.status === 'active' ? 'Hoạt động' : 'Đã ẩn';
+
+                row.innerHTML = `
+                    <td>
+                        <div class="method-info">
+                            <img src="${m.logoUrl}" alt="${m.name} Logo" onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/1019/1019607.png';">
+                            <div>
+                                <div class="name">${m.name}</div>
+                                <div class="description">${m.description}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${m.dateAdded.toLocaleDateString('vi-VN')}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="icon-btn" title="Chỉnh sửa"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="icon-btn delete-btn" title="Xóa"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // --- Event Listeners ---
+        searchInput.addEventListener('input', renderTable);
+        
+        addForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newMethod = {
+                id: mockMethods.length + 1,
+                name: document.getElementById('methodName').value,
+                description: document.getElementById('methodDescription').value,
+                logoUrl: document.getElementById('methodLogoUrl').value || 'https://cdn-icons-png.flaticon.com/512/1019/1019607.png', // Default icon
+                status: document.getElementById('methodStatus').checked ? 'active' : 'hidden',
+                dateAdded: new Date()
+            };
+            mockMethods.unshift(newMethod);
+            renderTable();
+            addForm.reset();
+        });
+
+        // --- Initial Render ---
+        renderTable();
+    });
+  </script>
+
+</body>
+</html>

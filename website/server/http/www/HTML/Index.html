@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBODY - Kết nối để thấu hiểu</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        :root {
+            --primary-color: #A993EC;
+            --secondary-color: #7A63D8;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --bg-light: #f8f7fc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 50px auto;
+            line-height: 1.6;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+        .header .nav { display: flex; gap: 30px; }
+        .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; transition: color 0.2s; }
+        .header .nav a:hover { color: var(--primary-color); }
+        .header .nav a.active { color: var(--primary-color); }
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(180deg, var(--bg-light) 0%, #ffffff 100%);
+        }
+        .hero-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .hero-text { flex: 1; }
+        .hero-text h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+        .hero-text .highlight { color: var(--primary-color); }
+        .hero-text p { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 30px; }
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white; text-decoration: none; padding: 15px 30px;
+            border-radius: 50px; font-weight: 600;
+            box-shadow: 0 4px 15px rgba(169, 147, 236, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(169, 147, 236, 0.5); }
+        .hero-image { flex: 1; }
+        .hero-image img { width: 100%; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+        /* --- Features/Values Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .feature-card .icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px; }
+        .feature-card h4 { font-size: 1.25rem; margin-bottom: 10px; }
+        .feature-card p { color: var(--text-secondary); line-height: 1.6; }
+
+        /* --- About Section --- */
+        .about-section { background-color: white; }
+        .about-container { display: flex; align-items: center; gap: 50px; }
+        .about-text { flex: 1; }
+        .about-image { flex: 1; }
+        .about-image img { width: 100%; border-radius: 16px; }
+
+        /* --- Team Section --- */
+        .team-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .team-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.07); }
+        .team-card img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid var(--primary-color-light); }
+        .team-card .name { font-weight: 700; font-size: 1.1rem; }
+        .team-card .role { color: var(--primary-color); font-weight: 600; margin-bottom: 10px; }
+
+        /* --- Partners Section --- */
+        .partners { background-color: var(--bg-light); }
+        .partner-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .partner-grid img { height: 60px; max-width: 150px; object-fit: contain; filter: grayscale(100%); opacity: 0.6; transition: all 0.3s; }
+        .partner-grid img:hover { filter: grayscale(0%); opacity: 1; }
+        
+        @media(max-width: 900px) {
+            .hero-container, .about-container { flex-direction: column; }
+            .hero-text { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+  <header class="header">...</header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-container">
+        <div class="hero-text">
+          <h1>
+            Thấu hiểu đứa trẻ bên trong bạn,<br />
+            Kết nối để <span class="highlight">chữa lành</span>
+          </h1>
+          <p>
+            Hành trình chữa lành và phát triển bản thân bắt đầu từ đây. IBODY sẽ luôn đồng hành cùng bạn trong việc kết nối và thấu hiểu chính mình.
+          </p>
+          <a href="#" class="btn-primary">Kết nối Chuyên gia Ngay</a>
+        </div>
+        <div class="hero-image">
+          <img src="https://tapchitamlyhoc.com/wp-content/uploads/2021/09/dia-chi-kham-tam-ly-cho-tre-o-tphcm-10-1.jpg" alt="Tư vấn tâm lý" />
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Chúng tôi hoạt động như thế nào</h2>
+        <p class="section-subtitle">Ba bước đơn giản để bạn bắt đầu hành trình chăm sóc sức khỏe tinh thần của mình.</p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="icon"><i class="fas fa-robot"></i></div>
+            <h4>Trợ lí AI</h4>
+            <p>Trợ lí AI hoạt động 24/7. Luôn sẵn sàng hỗ trợ, lắng nghe và đưa ra những gợi ý ban đầu bất cứ khi nào bạn cần.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon"><i class="fas fa-users"></i></div>
+            <h4>Kết nối chuyên gia</h4>
+            <p>Trao đổi trực tiếp với các chuyên gia tâm lý hàng đầu đã được xác thực thông tin và kinh nghiệm chuyên môn.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon"><i class="fas fa-file-medical-alt"></i></div>
+            <h4>Kiểm tra sức khỏe</h4>
+            <p>Thực hiện các bài test tâm lý theo tiêu chuẩn quốc tế để hiểu rõ hơn về tình trạng sức khỏe tinh thần của bản thân.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about-section">
+      <div class="container about-container">
+        <div class="about-image">
+            <img src="https://kenh14cdn.com/203336854389633024/2024/8/6/untitled-1-4-1722838919735848206376-1722935053262-17229350535061849047327.jpg" alt="Giới thiệu IBODY" />
+        </div>
+        <div class="about-text">
+            <h2 class="section-title" style="text-align: left;">Về IBODY</h2>
+            <p>
+              IBODY là một dự án nhằm kết nối học sinh với các chuyên gia tâm lý đáng tin cậy, hỗ trợ tư vấn những vấn đề tâm lý, sinh lý và tình dục mà các em còn ngần ngại chia sẻ.
+              Chúng tôi mang đến không gian an toàn, thông tin chính xác và sự đồng hành chuyên nghiệp để giúp các em thấu hiểu bản thân, vượt qua lo lắng và phát triển một cách lành mạnh.
+            </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Đội ngũ Phát triển</h2>
+        <p class="section-subtitle">Những con người tâm huyết đứng sau dự án IBODY, luôn nỗ lực vì sức khỏe tinh thần của thế hệ trẻ.</p>
+        <div class="features-grid">
+          <div class="team-card">
+            <img src="https://scontent.fsgn5-14.fna.fbcdn.net/v/t39.30808-6/500647195_699067882733571_4349082515116646934_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=0z_lXTXN48YQ7kNvwF05aHD&_nc_oc=Adn5PL5hYSgrwoF4AgVrv7QfLraYDxCsxsV7vuZIrcjLRIB-RDGsiJJCz_q-Zeosnx8&_nc_zt=23&_nc_ht=scontent.fsgn5-14.fna&_nc_gid=m3VV55cjhvRcsWv6n1db6w&oh=00_AfLenkz_b6cMX_XzqfT0qmQcnJOp7f2anV6wOsmiQRHvSw&oe=683DDB59" alt="Trần Xuân Hiệp"/>
+            <h4 class="name">Trần Xuân Hiệp</h4>
+            <p class="role">Founder & CEO</p>
+          </div>
+          <div class="team-card">
+            <img src="https://scontent.fsgn6-1.fna.fbcdn.net/v/t39.30808-6/480831952_1374401037260525_598519853763637501_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeECGeQ1OofV39BWPyni1xQMcyhLsunng9VzKEuy6eeD1RMdhlWIUL_jTitCkPR3Ggxb0DABfiKzAN2BxnxISsJa&_nc_ohc=UaShXPOcjHcQ7kNvwF-sKKz&_nc_oc=Adk1apqa3eFn6_eqAa0bQ4x1Xzj5OoIoYW5rKQp3uzXif7wGrcW3D-MWkIvNm9_rTX4&_nc_zt=23&_nc_ht=scontent.fsgn6-1.fna&_nc_gid=9UOmX32z7LN1Gq4dWxHFCA&oh=00_AfO4e7745YhQ3cS3gxrnvABBZu3I1lgyr6SADKOijNA-5g&oe=68497FED" alt="Trần Thị Phương Anh"/>
+            <h4 class="name">Trần Thị Phương Anh</h4>
+            <p class="role">CMO</p>
+          </div>
+          <div class="team-card">
+            <img src="https://i.pravatar.cc/150?u=team3" alt="Hoàng Như Quỳnh"/>
+            <h4 class="name">Hoàng Như Quỳnh</h4>
+            <p class="role">CFO</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section partners">
+        <div class="container text-center">
+          <h2 class="section-title">Đối tác Đồng hành</h2>
+          <div class="partner-grid">
+            <img src="https://upload.wikimedia.org/wikipedia/vi/4/4b/Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_VinUni_logo.png" alt="Vinuni" />
+            <img src="https://dsa.ueh.edu.vn/wp-content/uploads/2023/08/UII.jpg" alt="UII" />
+          </div>
+        </div>
+    </section>
+  </main>
+  
+  <footer class="footer"> ... </footer>
+</body>
+</html>

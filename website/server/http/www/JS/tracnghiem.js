@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     html += `
       <div class="cta">
-        <p>💡 Bạn có thể <a href="/NguoiDung/search-expert.html" class="link">kết nối chuyên gia tư vấn</a> để được hỗ trợ sớm.</p>
+        <p>💡 Bạn có thể <a href="../HTML/NguoiDung/search-expert.html" class="link">kết nối chuyên gia tư vấn</a> để được hỗ trợ sớm.</p>
       </div>
     `;
 
@@ -190,5 +190,5 @@ document.addEventListener("click", function (e) {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "./index.html";
 }

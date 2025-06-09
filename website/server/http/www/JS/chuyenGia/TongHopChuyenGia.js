@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
    const user = JSON.parse(localStorage.getItem('user'));
   // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
   //   alert("Bạn cần đăng nhập với tài khoản chuyên gia.");
-  //   return (window.location.href = "/");
+  //   return (window.location.href = "../index.html");
   // }
 
   const taiKhoanId = user.taiKhoanId;
@@ -212,5 +212,5 @@ themeBtn.addEventListener("click", () => {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }

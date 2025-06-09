@@ -63,6 +63,6 @@ resetForm.addEventListener("submit", async (e) => {
   alert(text);
 
   if (res.ok) {
-    window.location.href = "/";
+    window.location.href = "./index.html";
   }
 });

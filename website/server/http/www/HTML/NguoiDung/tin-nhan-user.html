@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tin nhắn - IBODY</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --secondary-color: #7A63D8;
+      --success-color: #28a745;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+      --bg-light: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --chat-bubble-sent-bg: var(--primary-color);
+      --chat-bubble-received-bg: #f1f5f9;
+    }
+
+    /* Thêm các biến màu cho Dark Mode nếu cần */
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+        overflow: hidden;
+    }
+
+    /* --- Header --- */
+    .header {
+        background-color: var(--card-bg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+    }
+    .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+    .header .nav { display: flex; gap: 25px; }
+    .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; }
+    .header .nav a.active { color: var(--primary-color); }
+    
+    /* --- Chat Layout --- */
+    .chat-container {
+        display: flex;
+        height: calc(100vh - 70px);
+        margin-top: 70px;
+    }
+    
+    .chat-sidebar {
+        width: 320px;
+        min-width: 320px;
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        background-color: var(--card-bg);
+        transition: transform 0.3s ease, min-width 0.3s ease, width 0.3s ease;
+    }
+    .chat-sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-color); }
+    .chat-sidebar-header h2 { font-size: 1.5rem; margin: 0; }
+    .search-wrapper { padding: 10px 20px; }
+    #chatSearchInput { width: 100%; padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 20px; background-color: var(--bg-light); color: var(--text-primary); }
+    
+    .chat-list { flex-grow: 1; overflow-y: auto; }
+    .chat-list-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; cursor: pointer; border-bottom: 1px solid var(--border-color); }
+    .chat-list-item:hover { background-color: var(--bg-light); }
+    .chat-list-item.active { background-color: var(--primary-color-light); }
+    .chat-list-item img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+    .chat-info { flex-grow: 1; overflow: hidden; }
+    .chat-info-header { display: flex; justify-content: space-between; align-items: center; }
+    .chat-info .name { font-weight: 600; }
+    .chat-info .timestamp { font-size: 0.8rem; color: var(--text-secondary); }
+    .last-message { font-size: 0.9rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .chat-area { flex-grow: 1; display: flex; flex-direction: column; background-color: var(--bg-light); }
+    .chat-header { display: flex; align-items: center; gap: 15px; padding: 10px 20px; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); }
+    .chat-header img { width: 40px; height: 40px; border-radius: 50%; }
+    .chat-header .name { font-weight: 600; font-size: 1.1rem; }
+    .chat-header .status { font-size: 0.8rem; color: var(--success-color); }
+    .chat-header .actions { margin-left: auto; display: flex; gap: 15px; font-size: 1.2rem; }
+    .chat-header .back-btn { display: none; }
+    
+    .messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+    .message-bubble { max-width: 70%; padding: 10px 15px; border-radius: 18px; line-height: 1.5; margin-top: 10px;}
+    .message-bubble.sent { background-color: var(--chat-bubble-sent-bg); color: white; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .message-bubble.received { background-color: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); border-bottom-left-radius: 4px; align-self: flex-start; }
+    
+    .date-separator { align-self: center; color: var(--text-secondary); background-color: var(--border-color); font-size: 0.8rem; font-weight: 600; padding: 2px 10px; border-radius: 20px; margin: 15px 0; }
+    .seen-indicator { display: flex; justify-content: flex-end; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--text-secondary); padding-right: 5px; height: 20px; }
+    .seen-indicator img { width: 16px; height: 16px; border-radius: 50%; }
+    @keyframes bubble-in { from { transform: scale(0.8) translateY(10px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+    .message-bubble.newly-sent { animation: bubble-in 0.3s ease; }
+
+    .chat-footer { display: flex; align-items: center; gap: 10px; padding: 10px 20px; background-color: var(--card-bg); border-top: 1px solid var(--border-color); }
+    .chat-footer .icon-btn { font-size: 1.2rem; color: var(--text-secondary); cursor: pointer; background: none; border: none; padding: 8px; }
+    #message-input { flex-grow: 1; border: none; background: transparent; padding: 12px; font-size: 1rem; color: var(--text-primary); }
+    #message-input:focus { outline: none; }
+    
+    .welcome-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-secondary); text-align: center; }
+    .welcome-screen i { font-size: 4rem; margin-bottom: 20px; color: var(--primary-color); }
+
+    @media (max-width: 900px) {
+        .chat-container.chat-area-visible .chat-sidebar { transform: translateX(-100%); min-width: 0; width: 0; padding: 0; border: none;}
+        .chat-header .back-btn { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">...</header>
+
+  <div class="chat-container" id="chatContainer">
+      <div class="chat-sidebar" id="chatSidebar">
+        <div class="chat-sidebar-header">
+            <h2>Tin nhắn</h2>
+        </div>
+        <div class="search-wrapper">
+            <input type="text" id="chatSearchInput" placeholder="Tìm kiếm chuyên gia...">
+        </div>
+        <div class="chat-list" id="expertList"></div>
+      </div>
+      <div class="chat-area" id="chatArea"></div>
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Giả lập ngày hôm nay để dữ liệu luôn hợp lý
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(today.getDate() - 2);
+
+    const mockExperts = [
+        { id: 1, name: 'Hồ Hoàng Yến', avatar: 'https://i.pravatar.cc/150?u=expert2', lastMessage: 'Bạn: Cảm ơn chuyên gia ạ!', timestamp: '10:30', unreadCount: 0, lastMessageSeenByExpert: true },
+        { id: 2, name: 'Vũ Phương Thảo', avatar: 'https://i.pravatar.cc/150?u=expert3', lastMessage: 'Vâng, tôi sẽ xem xét lại lịch ạ.', timestamp: 'Hôm qua', unreadCount: 0, lastMessageSeenByExpert: false },
+        { id: 3, name: 'Phạm Minh Cường', avatar: 'https://i.pravatar.cc/150?u=expert1', lastMessage: 'Đã gửi một tệp đính kèm', timestamp: 'Thứ 4', unreadCount: 1 },
+    ];
+
+    const mockMessages = {
+        1: [
+            { sender: 'expert', text: 'Chào bạn, tôi đã nhận được yêu cầu tư vấn của bạn.', timestamp: twoDaysAgo },
+            { sender: 'user', text: 'Dạ vâng, tôi muốn hỏi về vấn đề...', timestamp: yesterday },
+            { sender: 'expert', text: 'Tôi hiểu rồi, bạn có thể nói rõ hơn được không?', timestamp: yesterday },
+            { sender: 'user', text: 'Cảm ơn chuyên gia ạ!', timestamp: today },
+        ],
+        2: [
+            { sender: 'expert', text: 'Tôi đã xem lịch của bạn. Khung giờ đó tôi không còn trống.' },
+            { sender: 'user', text: 'Vâng, tôi sẽ xem xét lại lịch ạ.', timestamp: yesterday },
+        ],
+    };
+
+    const expertList = document.getElementById('expertList');
+    const chatArea = document.getElementById('chatArea');
+    const chatContainer = document.getElementById('chatContainer');
+    let messageListEl = null;
+
+    // --- Helper Functions ---
+    function scrollToBottom() {
+        if(messageListEl) {
+            messageListEl.scrollTo({ top: messageListEl.scrollHeight, behavior: 'smooth' });
+        }
+    }
+    
+    function formatDateSeparator(date) {
+        const todaySep = new Date();
+        const yesterdaySep = new Date();
+        yesterdaySep.setDate(todaySep.getDate() - 1);
+
+        if (date.toDateString() === todaySep.toDateString()) return 'Hôm nay';
+        if (date.toDateString() === yesterdaySep.toDateString()) return 'Hôm qua';
+        return date.toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'long' });
+    }
+
+    // --- Render Functions ---
+    function renderExpertList() {
+        expertList.innerHTML = '';
+        mockExperts.forEach(expert => {
+            const item = document.createElement('div');
+            item.className = 'chat-list-item';
+            item.dataset.id = expert.id;
+            item.innerHTML = `
+                <img src="${expert.avatar}" alt="Avatar">
+                <div class="chat-info">
+                    <div class="chat-info-header">
+                        <span class="name">${expert.name}</span>
+                        <span class="timestamp">${expert.timestamp}</span>
+                    </div>
+                    <div class="last-message">${expert.lastMessage}</div>
+                </div>
+            `;
+            expertList.appendChild(item);
+        });
+    }
+    
+    function renderChatWindow(expertId) {
+        const expert = mockExperts.find(e => e.id === expertId);
+        const messages = mockMessages[expertId] || [];
+        
+        chatArea.innerHTML = `
+            <div class="chat-header">
+                <button class="icon-btn back-btn" id="backBtn"><i class="fas fa-arrow-left"></i></button>
+                <img src="${expert.avatar}" alt="Avatar">
+                <div> <div class="name">${expert.name}</div> <div class="status">Đang hoạt động</div> </div>
+                <div class="actions"> <button class="icon-btn"><i class="fas fa-video"></i></button> </div>
+            </div>
+            <ul class="messages" id="messageList"></ul>
+            <form class="chat-footer" id="messageForm">
+                <button type="button" class="icon-btn"><i class="fas fa-paperclip"></i></button>
+                <input type="text" id="message-input" placeholder="Nhập tin nhắn..." autocomplete="off">
+                <button type="submit" class="icon-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+            </form>`;
+        
+        messageListEl = document.getElementById('messageList');
+        
+        let lastDate = null;
+        messages.forEach(msg => {
+            const msgDate = new Date(msg.timestamp);
+            if (!lastDate || msgDate.toDateString() !== lastDate.toDateString()) {
+                const dateSeparator = document.createElement('div');
+                dateSeparator.className = 'date-separator';
+                dateSeparator.textContent = formatDateSeparator(msgDate);
+                messageListEl.appendChild(dateSeparator);
+                lastDate = msgDate;
+            }
+            const bubble = document.createElement('li');
+            bubble.className = `message-bubble ${msg.sender === 'user' ? 'sent' : 'received'}`;
+            bubble.textContent = msg.text;
+            messageListEl.appendChild(bubble);
+        });
+
+        const lastMessage = messages[messages.length - 1];
+        if (expert.lastMessageSeenByExpert && lastMessage && lastMessage.sender === 'user') {
+            const seenIndicator = document.createElement('div');
+            seenIndicator.className = 'seen-indicator';
+            seenIndicator.innerHTML = `<img src="${expert.avatar}" alt="seen"> <span>Đã xem</span>`;
+            messageListEl.appendChild(seenIndicator);
+        }
+
+        scrollToBottom();
+
+        document.getElementById('backBtn').addEventListener('click', () => chatContainer.classList.remove('chat-area-visible'));
+        const messageInput = document.getElementById('message-input');
+        const messageForm = document.getElementById('messageForm');
+
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (text === '') return;
+            const newMessage = { sender: 'user', text, timestamp: new Date() };
+            messages.push(newMessage);
+            
+            const bubble = document.createElement('li');
+            bubble.className = 'message-bubble sent newly-sent';
+            bubble.textContent = newMessage.text;
+            
+            const existingSeenIndicator = messageListEl.querySelector('.seen-indicator');
+            if(existingSeenIndicator) existingSeenIndicator.remove();
+            
+            messageListEl.appendChild(bubble);
+            messageInput.value = '';
+            messageInput.focus();
+            scrollToBottom();
+        }
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            sendMessage();
+        });
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    }
+    
+    function showWelcomeScreen() {
+        chatArea.innerHTML = `
+            <div class="welcome-screen">
+                <i class="fas fa-comments"></i>
+                <h2>Bắt đầu cuộc trò chuyện</h2>
+                <p>Chọn một chuyên gia từ danh sách bên trái để xem tin nhắn.</p>
+            </div>
+        `;
+    }
+
+    expertList.addEventListener('click', function(e) {
+        const targetItem = e.target.closest('.chat-list-item');
+        if (targetItem) {
+            const expertId = parseInt(targetItem.dataset.id);
+            document.querySelectorAll('.chat-list-item').forEach(item => item.classList.remove('active'));
+            targetItem.classList.add('active');
+            renderChatWindow(expertId);
+            chatContainer.classList.add('chat-area-visible');
+        }
+    });
+
+    renderExpertList();
+    showWelcomeScreen();
+});
+</script>
+</body>
+</html>

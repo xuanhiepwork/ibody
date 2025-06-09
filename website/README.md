@@ -13,3 +13,9 @@ bash init.sh
 ```bash
 bash start.sh
 ```
+
+##Socket.io
+
+```socket
+npm install socket.io
+```

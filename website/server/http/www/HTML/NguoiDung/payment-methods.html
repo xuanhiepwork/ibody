@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán - IBODY</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        :root {
+            --primary-color: #A993EC;
+            --secondary-color: #7A63D8;
+            --success-color: #28a745;
+            --text-primary: #1a202c;
+            --text-secondary: #718096;
+            --bg-light: #f8f7fc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+        }
+
+        /* --- Header & Footer --- */
+        .header {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+        .header .nav { display: flex; gap: 25px; }
+        .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; }
+        
+        .footer { background-color: #1f2937; color: #d1d5db; padding: 40px 5%; margin-top: 50px; }
+        .footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer h4 { color: white; margin-bottom: 10px; }
+        .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.9rem; border-top: 1px solid #374151;}
+
+        /* --- Payment Layout --- */
+        .payment-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* Order Summary (Left) */
+        .order-summary h3 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .order-item, .order-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .order-total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .order-total .price {
+            color: var(--primary-color);
+        }
+
+        /* Payment Methods (Right) */
+        .payment-methods h3 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .method-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .method-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .method-option img {
+            height: 30px;
+            max-width: 80px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+        .method-option:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        .method-option.active {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color-light);
+            box-shadow: 0 0 0 3px var(--primary-color-light);
+        }
+        
+        .payment-details .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 1rem;
+        }
+        .card-details-group { display: flex; gap: 15px; }
+        
+        .qr-code-display { text-align: center; }
+        .qr-code-display p { margin: 10px 0; }
+        .qr-code-display img { max-width: 200px; margin: 15px auto; border: 1px solid var(--border-color); padding: 5px; border-radius: 8px; }
+        .qr-code-display code { background-color: var(--bg-light); padding: 5px 10px; border-radius: 5px; font-weight: 600; }
+
+        .pay-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .pay-btn:hover { background-color: #218838; }
+
+        .secure-note {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+        .secure-note i { color: var(--success-color); }
+
+        @media (max-width: 768px) {
+            .payment-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+          <span>IBODY</span>
+        </div>
+        <nav class="nav">
+          <a href="#">Trang chủ</a>
+          <a href="#">Tư vấn</a>
+          <a href="#">Lịch hẹn</a>
+          <a href="#" class="active">Gói tư vấn</a>
+        </nav>
+    </header>
+
+    <div class="payment-container">
+        <div class="order-summary section">
+            <h3>Tóm tắt đơn hàng</h3>
+            <div class="order-item">
+                <span id="packageName">Gói Premium+ (1 năm)</span>
+                <span id="packagePrice">299.000 VNĐ</span>
+            </div>
+            <div class="order-total">
+                <span>TỔNG CỘNG</span>
+                <span class="price" id="orderTotal">299.000 VNĐ</span>
+            </div>
+        </div>
+        
+        <div class="payment-methods section">
+            <h3>Chọn phương thức thanh toán</h3>
+            <div class="method-options">
+                <div class="method-option active" data-method="card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Visa.svg/1200px-Visa.svg.png" alt="Visa Card">
+                    <div>Thẻ Tín dụng</div>
+                </div>
+                <div class="method-option" data-method="momo">
+                    <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="Momo">
+                    <div>Ví Momo</div>
+                </div>
+                 <div class="method-option" data-method="bank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1019/1019607.png" alt="Bank Transfer">
+                    <div>Chuyển khoản</div>
+                </div>
+            </div>
+
+            <div class="payment-details">
+                <div id="card-payment">
+                    <div class="form-group">
+                        <label for="cardNumber">Số thẻ</label>
+                        <input type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx">
+                    </div>
+                    <div class="card-details-group">
+                        <div class="form-group" style="flex: 2;">
+                            <label for="expiryDate">Ngày hết hạn</label>
+                            <input type="text" id="expiryDate" placeholder="MM / YY">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+                <div id="qr-payment" style="display: none;" class="qr-code-display">
+                    <p>Quét mã QR để thanh toán bằng <strong id="qr-method-name"></strong></p>
+                    <img id="qr-code-img" src="" alt="QR Code">
+                    <p>Nội dung: <code id="payment-content">IBODY ND123 GOI1Y</code></p>
+                </div>
+
+                <button class="pay-btn"><i class="fas fa-lock"></i> Thanh toán an toàn</button>
+                <p class="secure-note"><i class="fas fa-shield-alt"></i> Thông tin của bạn được bảo mật tuyệt đối.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-about">
+              <h3>Về chúng tôi</h3>
+              <p>IBODY là dự án kết nối học sinh với các chuyên gia tâm lý đáng tin cậy...</p>
+          </div>
+          <div class="footer-contact">
+              <h4>Liên hệ</h4>
+              <p>Email: support@ibody.com</p>
+              <p>Hotline: 0889 225 315</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 ibody. All rights reserved.</p>
+        </div>
+      </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const methodOptions = document.querySelectorAll('.method-option');
+    const cardPaymentDiv = document.getElementById('card-payment');
+    const qrPaymentDiv = document.getElementById('qr-payment');
+    const qrMethodName = document.getElementById('qr-method-name');
+    const qrCodeImg = document.getElementById('qr-code-img');
+
+    const qrData = {
+        momo: { name: 'Ví Momo', qr: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=MOMOPAYMENT' },
+        bank: { name: 'Chuyển khoản', qr: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BANKTRANSFER' }
+    };
+    
+    methodOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            methodOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+
+            const selectedMethod = option.dataset.method;
+
+            if (selectedMethod === 'card') {
+                cardPaymentDiv.style.display = 'block';
+                qrPaymentDiv.style.display = 'none';
+            } else {
+                cardPaymentDiv.style.display = 'none';
+                qrPaymentDiv.style.display = 'block';
+                qrMethodName.textContent = qrData[selectedMethod].name;
+                qrCodeImg.src = qrData[selectedMethod].qr;
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

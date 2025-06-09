@@ -2,7 +2,7 @@
 // const currentUserId = user?.taiKhoanId;
 // if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
 //   alert("Bạn không có quyền truy cập trang quản trị.");
-//   window.location.href = "/";
+//   window.location.href = "index.html";
 // }
 
 // async function loadAccounts() {
@@ -61,7 +61,7 @@
 
 // document.getElementById("logoutLink")?.addEventListener("click", () => {
 //   localStorage.removeItem("user");
-//   window.location.href = "/";
+//   window.location.href = "../index.html";
 // });
 
 
@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (confirm('Bạn có muốn đăng xuất không?')) {
             // Implement actual logout logic here (e.g., clear session, redirect)
             alert('Đăng xuất thành công!');
-            window.location.href = '/'; // Redirect to home or login page
+            window.location.href = '../Index.html'; // Redirect to home or login page
         }
     });
 });

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // const user = JSON.parse(localStorage.getItem("user"));
   // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
   //   alert("Bạn không có quyền truy cập trang này.");
-  //   return (window.location.href = "/");
+  //   return (window.location.href = "../index.html");
   // }
 
   const listDangDienRaEl = document.getElementById("lichDangDienRa");
@@ -117,7 +117,7 @@ async function huyLich(id) {
 
 function logout() {
   localStorage.removeItem("user");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }
 
 

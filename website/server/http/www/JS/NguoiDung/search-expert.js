@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const user = JSON.parse(localStorage.getItem("user"));
   // if (!user) {
   //   alert("Vui lòng đăng nhập để tiếp tục.");
-  //   return (window.location.href = "/");
+  //   return (window.location.href = "../index.html");
   // }
 
   const loginLink = document.getElementById("loginLink");
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }
 
 function triggerSearch() {

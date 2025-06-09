@@ -21,11 +21,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
       // ✅ Chuyển trang tùy vai trò
       if (mappedUser.roles.includes("chuyen_gia")) {
-        window.location.href = "/chuyenGia/indexChuyenGia.html";
+        window.location.href = "../HTML/chuyenGia/indexChuyenGia.html";
       } else if (mappedUser.roles.includes("quan_tri")) {
-        window.location.href = "/Admin/admin-dashboard.html";
+        window.location.href = "../HTML/Admin/admin-dashboard.html";
       } else {
-        window.location.href = "/";
+        window.location.href = "index.html";
       }
     } catch (err) {
       console.error("Lỗi giải mã user từ Google:", err);
@@ -137,7 +137,7 @@ registerForm.addEventListener("submit", async (event) => {
         localStorage.setItem("user", JSON.stringify(loginResult.user));
         alert("Đăng ký & đăng nhập thành công!");
         closeAuthModal();
-        window.location.href = "/";
+        window.location.href = "index.html";
       } else {
         alert("Đăng ký thành công, nhưng tự động đăng nhập thất bại.");
       }
@@ -181,16 +181,16 @@ loginForm.addEventListener("submit", async (event) => {
         if (user.roles.includes("quan_tri")) {
           console.log("✅ Quyền admin xác thực → chuyển trang admin");
           setTimeout(() => {
-            window.location.replace("/Admin/admin-dashboard.html");
+            window.location.replace("../HTML/Admin/admin-dashboard.html");
           }, 100);
         } else if (user.roles.includes("chuyen_gia")) {
           console.log("✅ Quyền chuyên gia xác thực → chuyển trang chuyên gia");
           setTimeout(() => {
-            window.location.replace("/chuyenGia/IndexChuyenGia.html");
+            window.location.replace("../HTML/chuyenGia/IndexChuyenGia.html");
           }, 100);
         } else {
           console.log("👤 Quyền người dùng thông thường → về trang chủ");
-          window.location.replace("/");
+          window.location.replace("index.html");
         }
       }
     }
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "./index.html";
 }
 
 

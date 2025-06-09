@@ -112,5 +112,5 @@ deleteAccountBtn.addEventListener("click", async function () {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }

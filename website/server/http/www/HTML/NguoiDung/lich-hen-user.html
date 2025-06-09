@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch hẹn của tôi - IBODY</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --secondary-color: #7A63D8;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --info-color: #0d6efd;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+      --bg-light: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+    }
+
+    /* --- Header & Footer --- */
+    .header {
+        background-color: var(--card-bg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+    }
+    .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+    .header .nav { display: flex; gap: 25px; }
+    .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; padding: 5px 0; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .header .nav a:hover { color: var(--primary-color); }
+    .header .nav a.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+    
+    .footer { background-color: #1f2937; color: #d1d5db; padding: 40px 5%; margin-top: 50px; }
+    .footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding-bottom: 20px; border-bottom: 1px solid #374151; }
+    .footer h4 { color: white; margin-bottom: 10px; }
+    .footer p { margin: 5px 0; line-height: 1.6; }
+    .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.9rem; }
+
+    /* --- Main Container --- */
+    .main-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    
+    .page-section { margin-bottom: 50px; }
+    .section-header {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .section-header h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    /* Filter Tabs */
+    .filter-tabs { display: flex; gap: 10px; margin-top: 15px; }
+    .tab-btn { background: var(--bg-light); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 8px 16px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+    
+    /* Appointment Cards */
+    .appointments-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px;
+    }
+    
+    .appointment-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .card-header { padding: 20px; display: flex; gap: 15px; align-items: center; }
+    .card-header img { width: 50px; height: 50px; border-radius: 50%; }
+    .expert-info .name { font-weight: 700; font-size: 1.1rem; }
+    .expert-info .specialty { color: var(--text-secondary); font-size: 0.9rem; }
+    
+    .card-body { padding: 0 20px 20px; flex-grow: 1; }
+    .detail-list { list-style: none; padding: 0; margin: 0; }
+    .detail-list li { display: flex; align-items: center; gap: 10px; color: var(--text-secondary); margin-bottom: 8px; }
+    .detail-list li i { width: 16px; text-align: center; }
+
+    .countdown { background-color: var(--primary-color-light); padding: 10px; border-radius: 8px; text-align: center; margin-top: 15px; }
+    .countdown strong { color: var(--primary-color); font-size: 1.1rem; }
+
+    .card-footer {
+        background-color: var(--bg-light);
+        padding: 15px 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+    .action-btn { border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+    .btn-primary { background-color: var(--primary-color); color: white; }
+    .btn-primary:hover { background-color: var(--secondary-color); }
+    .btn-danger { background-color: var(--danger-color); color: white; }
+    .btn-secondary { background-color: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); }
+    .btn-secondary:hover { background-color: var(--border-color); }
+    
+    .status-badge { font-weight: 600; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+    .status-completed { background-color: rgba(40, 167, 69, 0.15); color: #28a745; }
+    .status-cancelled { background-color: rgba(220, 53, 69, 0.1); color: #dc3545; }
+    .status-pending { background-color: rgba(255, 193, 7, 0.15); color: #ffc107; }
+    
+    .no-appointments { padding: 40px; text-align: center; color: var(--text-secondary); background-color: var(--card-bg); border-radius: 12px; }
+
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span>IBODY</span>
+    </div>
+    <nav class="nav">
+      <a href="#">Trang chủ</a>
+      <a href="#">Tư vấn</a>
+      <a href="#">Tin nhắn</a>
+      <a href="#" class="active">Lịch hẹn</a>
+      <a href="#">Lịch sử</a>
+      <a href="#">Gói tư vấn</a>
+    </nav>
+  </header>
+
+  <div class="main-container">
+    <div class="page-section">
+        <div class="section-header">
+            <h2>Lịch hẹn sắp tới</h2>
+            <div class="filter-tabs" id="upcoming-filters">
+                <button class="tab-btn active" data-status="confirmed">Đã xác nhận</button>
+                <button class="tab-btn" data-status="pending">Chờ duyệt</button>
+            </div>
+        </div>
+        <div class="appointments-grid" id="upcoming-appointments">
+            </div>
+    </div>
+    
+    <div class="page-section">
+        <div class="section-header">
+            <h2>Lịch sử tư vấn</h2>
+            <div class="filter-tabs" id="history-filters">
+                <button class="tab-btn active" data-status="completed">Đã hoàn thành</button>
+                <button class="tab-btn" data-status="cancelled">Đã hủy</button>
+            </div>
+        </div>
+        <div class="appointments-grid" id="history-appointments">
+            </div>
+    </div>
+  </div>
+
+  <footer class="footer"> ... </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const mockAppointments = [
+        // Lịch hẹn sắp tới
+        { id: 1, expertName: 'Hồ Hoàng Yến', specialty: 'Trị liệu cặp đôi', avatar: 'https://i.pravatar.cc/150?u=expert2', dateTime: new Date(new Date().getTime() + 2 * 60 * 60 * 1000), duration: 60, type: 'Online', status: 'confirmed' },
+        { id: 2, expertName: 'Vũ Phương Thảo', specialty: 'Tư vấn hướng nghiệp', avatar: 'https://i.pravatar.cc/150?u=expert3', dateTime: new Date(new Date().getTime() + 26 * 60 * 60 * 1000), duration: 90, type: 'Online', status: 'confirmed' },
+        { id: 3, expertName: 'Phạm Minh Cường', specialty: 'Giải quyết stress', avatar: 'https://i.pravatar.cc/150?u=expert1', dateTime: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000), duration: 60, type: 'Trực tiếp', status: 'pending' },
+        // Lịch sử
+        { id: 4, expertName: 'Trần Thị Bích', specialty: 'Tâm lý học đường', avatar: 'https://i.pravatar.cc/150?u=expert4', dateTime: new Date('2025-05-28T10:00:00'), duration: 60, type: 'Online', status: 'completed', rating: 5 },
+        { id: 5, expertName: 'Hồ Hoàng Yến', specialty: 'Trị liệu cặp đôi', avatar: 'https://i.pravatar.cc/150?u=expert2', dateTime: new Date('2025-05-25T15:00:00'), duration: 90, type: 'Online', status: 'completed', rating: null },
+        { id: 6, expertName: 'Vũ Phương Thảo', specialty: 'Tư vấn hướng nghiệp', avatar: 'https://i.pravatar.cc/150?u=expert3', dateTime: new Date('2025-05-20T11:00:00'), duration: 60, type: 'Online', status: 'cancelled' },
+    ];
+
+    const upcomingContainer = document.getElementById('upcoming-appointments');
+    const historyContainer = document.getElementById('history-appointments');
+    const upcomingFilters = document.getElementById('upcoming-filters');
+    const historyFilters = document.getElementById('history-filters');
+
+    function renderAppointments() {
+        const activeUpcomingFilter = upcomingFilters.querySelector('.active').dataset.status;
+        const activeHistoryFilter = historyFilters.querySelector('.active').dataset.status;
+
+        const upcoming = mockAppointments.filter(app => app.status === activeUpcomingFilter);
+        const history = mockAppointments.filter(app => app.status === activeHistoryFilter);
+
+        renderCardList(upcoming, upcomingContainer);
+        renderCardList(history, historyContainer);
+    }
+
+    function renderCardList(data, container) {
+        container.innerHTML = '';
+        if (data.length === 0) {
+            container.innerHTML = '<p class="no-appointments">Không có lịch hẹn nào phù hợp.</p>';
+            return;
+        }
+        data.forEach(app => {
+            const card = document.createElement('div');
+            card.className = 'appointment-card';
+            
+            const now = new Date();
+            const timeDiff = app.dateTime - now;
+            let countdownHtml = '';
+            if (app.status === 'confirmed' && timeDiff > 0) {
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                countdownHtml = `<div class="countdown">Còn <strong>${days} ngày ${hours} giờ</strong> nữa đến buổi hẹn</div>`;
+            }
+
+            let actionsHtml = '';
+            switch(app.status) {
+                case 'confirmed':
+                    actionsHtml = `<button class="action-btn btn-primary"><i class="fas fa-video"></i> Vào tư vấn</button>
+                                   <button class="action-btn btn-secondary">Hủy lịch</button>`;
+                    break;
+                case 'pending':
+                    actionsHtml = `<span class="status-badge status-pending">Chờ duyệt</span>`;
+                    break;
+                case 'completed':
+                    actionsHtml = app.rating 
+                        ? `<div class="rating">${'★'.repeat(app.rating)}${'☆'.repeat(5-app.rating)}</div>`
+                        : `<button class="action-btn btn-primary">Đánh giá</button>`;
+                    break;
+                case 'cancelled':
+                     actionsHtml = `<span class="status-badge status-cancelled">Đã hủy</span>`;
+                    break;
+            }
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <img src="${app.avatar}" alt="Avatar chuyên gia">
+                    <div class="expert-info">
+                        <div class="name">${app.expertName}</div>
+                        <div class="specialty">${app.specialty}</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="detail-list">
+                        <li><i class="fas fa-calendar-alt"></i> ${app.dateTime.toLocaleDateString('vi-VN', {weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'})}</li>
+                        <li><i class="fas fa-clock"></i> ${app.dateTime.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'})}</li>
+                        <li><i class="fas fa-hourglass-half"></i> ${app.duration} phút</li>
+                        <li><i class="fas fa-map-marker-alt"></i> ${app.type}</li>
+                    </ul>
+                    ${countdownHtml}
+                </div>
+                <div class="card-footer">
+                    ${actionsHtml}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+    
+    // --- Event Listeners ---
+    upcomingFilters.addEventListener('click', e => {
+        if(e.target.classList.contains('tab-btn')) {
+            upcomingFilters.querySelector('.active').classList.remove('active');
+            e.target.classList.add('active');
+            renderAppointments();
+        }
+    });
+    
+    historyFilters.addEventListener('click', e => {
+        if(e.target.classList.contains('tab-btn')) {
+            historyFilters.querySelector('.active').classList.remove('active');
+            e.target.classList.add('active');
+            renderAppointments();
+        }
+    });
+
+    // --- Sidebar & Theme Toggle Logic (giữ nguyên) ---
+    // ...
+
+    // --- Initial Render ---
+    renderAppointments();
+});
+</script>
+</body>
+</html>

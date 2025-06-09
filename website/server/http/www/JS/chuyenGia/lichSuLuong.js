@@ -3,7 +3,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", async () => {
   // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
   //   alert("Bạn không có quyền truy cập trang này.");
-  //   return (window.location.href = "/");
+  //   return (window.location.href = "../index.html");
   // }
 
   const summaryBox = document.getElementById("summaryBox");
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }
 
 document.getElementById("toggleSidebarBtn").onclick = () => {

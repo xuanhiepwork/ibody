@@ -11,12 +11,12 @@ function switchTab(tabIndex) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const currentUser = JSON.parse(localStorage.getItem("user"));
-  if (!currentUser) {
-    alert("Bạn cần đăng nhập để xem hồ sơ chuyên gia.");
-    window.location.href = "/";
-    return;
-  }
+  // const currentUser = JSON.parse(localStorage.getItem("user"));
+  // if (!currentUser) {
+  //   alert("Bạn cần đăng nhập để xem hồ sơ chuyên gia.");
+  //   window.location.href = "../index.html";
+  //   return;
+  // }
   
   const chuyenGiaId = new URLSearchParams(window.location.search).get("id");
   if (!chuyenGiaId) {
@@ -169,7 +169,7 @@ document.getElementById("menu-toggle")?.addEventListener("click", () => {
 function logout() {
   localStorage.removeItem("user");
   alert("Đăng xuất thành công!");
-  window.location.href = "/";
+  window.location.href = "../index.html";
 }
 
 // Đánh giá sao

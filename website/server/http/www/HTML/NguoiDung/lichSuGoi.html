@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết hóa đơn - Nâng cấp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --primary-color-dark: #937dce;
+      --text-dark: #333;
+      --text-light: #666;
+      --background-light: #f8f7fc;
+      --white-color: #ffffff;
+      --border-light: #e9e4f5;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-image: linear-gradient(120deg, var(--background-light) 0%, #e8eaf6 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: var(--white-color);
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 550px;
+      border-top: 5px solid var(--primary-color);
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    #invoiceDetail {
+      margin-bottom: 30px;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 5px;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 16px;
+    }
+    
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-row strong {
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Khoảng cách giữa icon và chữ */
+    }
+
+    .info-row strong .fa-solid {
+        width: 20px;
+        text-align: center;
+        color: var(--primary-color);
+    }
+
+    .info-row span {
+      color: var(--text-dark);
+      font-weight: 600;
+      text-align: right;
+    }
+    
+    #trangThai {
+      color: #34c759 !important; /* Màu xanh lá cây tươi hơn */
+      font-weight: 700;
+      background-color: rgba(52, 199, 89, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    
+    .button-wrapper {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--white-color);
+      background-color: var(--primary-color);
+      font-weight: 600;
+      padding: 12px 30px;
+      border-radius: 50px; /* Bo tròn hoàn toàn */
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(169, 147, 236, 0.4);
+    }
+
+    .back-btn:hover {
+      background-color: var(--primary-color-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(169, 147, 236, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Chi Tiết Hóa Đơn</h2>
+    <div id="invoiceDetail">
+      <p class="info-row"><strong><i class="fa-solid fa-box-archive"></i>Tên gói:</strong> <span id="goiTen"></span></p>
+      <p class="info-row"><strong><i class="fa-solid fa-tag"></i>Giá:</strong> <span id="gia"></span></p>
+      <p class="info-row"><strong><i class="fa-solid fa-calendar-xmark"></i>Ngày mua:</strong> <span id="ngay"></span></p>
+      <p class="info-row"><strong><i class="fa-solid fa-calendar-xmark"></i>Ngày hết hạn:</strong> <span id="ngay"></span></p>
+      <p class="info-row"><strong><i class="fa-solid fa-layer-group"></i>Số lượt đã mua:</strong> <span id="soLuot"></span></p>
+      <p class="info-row"><strong><i class="fa-solid fa-repeat"></i>Số lượt còn lại:</strong> <span id="conLai"></span></p>
+      <p class="info-row"><strong><i class="fa-solid fa-circle-check"></i>Trạng thái:</strong> <span id="trangThai"></span></p>
+      <p class="info-row"><strong><i class="fa-solid fa-envelope"></i>Email người dùng:</strong> <span id="emailNguoiDung"></span></p>
+    </div>
+    <div class="button-wrapper">
+        <a class="back-btn" href="../Index.html">← Quay lại lịch sử</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const invoiceData = {
+        goiTen: "Gói Premium+",
+        gia: "299.000 VNĐ",
+        ngay: "08-06-2026",
+        soLuot: 50,
+        conLai: 35,
+        trangThai: "Đang hoạt động",
+        emailNguoiDung: "nguyenvana@example.com"
+      };
+
+      document.getElementById("goiTen").textContent = invoiceData.goiTen;
+      document.getElementById("gia").textContent = invoiceData.gia;
+      document.getElementById("ngay").textContent = invoiceData.ngay;
+      document.getElementById("soLuot").textContent = invoiceData.soLuot;
+      document.getElementById("conLai").textContent = invoiceData.conLai;
+      document.getElementById("trangThai").textContent = invoiceData.trangThai;
+      document.getElementById("emailNguoiDung").textContent = invoiceData.emailNguoiDung;
+    });
+  </script>
+</body>
+</html>
