@@ -21,9 +21,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
       // ✅ Chuyển trang tùy vai trò
       if (mappedUser.roles.includes("chuyen_gia")) {
-        window.location.href = "../HTML/chuyenGia/indexChuyenGia.html";
+        window.location.href = "/chuyenGia/indexChuyenGia.html";
       } else if (mappedUser.roles.includes("quan_tri")) {
-        window.location.href = "../HTML/Admin/admin-dashboard.html";
+        window.location.href = "/Admin/admin-dashboard.html";
       } else {
         window.location.href = "index.html";
       }
@@ -181,12 +181,12 @@ loginForm.addEventListener("submit", async (event) => {
         if (user.roles.includes("quan_tri")) {
           console.log("✅ Quyền admin xác thực → chuyển trang admin");
           setTimeout(() => {
-            window.location.replace("../HTML/Admin/admin-dashboard.html");
+            window.location.replace("/Admin/admin-dashboard.html");
           }, 100);
         } else if (user.roles.includes("chuyen_gia")) {
           console.log("✅ Quyền chuyên gia xác thực → chuyển trang chuyên gia");
           setTimeout(() => {
-            window.location.replace("../HTML/chuyenGia/IndexChuyenGia.html");
+            window.location.replace("/chuyenGia/IndexChuyenGia.html");
           }, 100);
         } else {
           console.log("👤 Quyền người dùng thông thường → về trang chủ");

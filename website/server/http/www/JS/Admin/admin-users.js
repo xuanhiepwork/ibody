@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (confirm('Bạn có muốn đăng xuất không?')) {
             // Implement actual logout logic here (e.g., clear session, redirect)
             alert('Đăng xuất thành công!');
-            window.location.href = '../Index.html'; // Redirect to home or login page
+            window.location.href = '..//'; // Redirect to home or login page
         }
     });
 });
