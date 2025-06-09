@@ -1,7 +1,7 @@
 const { env } = process
 export default {
     dal: {
-        databse: {
+        db: {
             host: env['DB_HOST'],
             user: env['DB_USER'],
             password: env['DB_PASSWORD'],
@@ -9,4 +9,4 @@ export default {
         },
         workdir: env['WORKDIR_PATH'],
     }
-}
+}   

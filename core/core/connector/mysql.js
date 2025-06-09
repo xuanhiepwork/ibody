@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise'
 import env from '../env.js'
 
 
-const connectInfos = env.dal.databse
+const connectInfos = env.dal.db
 
 export const pool = mysql.createPool({
     host: connectInfos.host,

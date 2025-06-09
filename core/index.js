@@ -1,4 +1,4 @@
-import ctx from "./app/index.js"
+import ctx from "./core/index.js"
 
 if (process.argv.length > 2) {
     var args = process.argv.slice(2)

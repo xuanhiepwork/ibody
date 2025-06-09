@@ -1,5 +1,5 @@
 import env from './env.js'
-import { userHasPerm } from './model/user_perm.js'
+import { userHasPerm } from './model/userPermission.js'
 
 
 const models = {}
