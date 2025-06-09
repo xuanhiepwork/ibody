@@ -62,6 +62,42 @@ CREATE TABLE `chatbox` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `chatboxRole`
+--
+
+DROP TABLE IF EXISTS `chatboxRole`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chatboxRole` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `chatboxUser`
+--
+
+DROP TABLE IF EXISTS `chatboxUser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chatboxUser` (
+  `chatboxId` int NOT NULL,
+  `userId` int NOT NULL,
+  `roleId` int NOT NULL,
+  PRIMARY KEY (`chatboxId`,`userId`),
+  UNIQUE KEY `chatboxId` (`chatboxId`),
+  UNIQUE KEY `userId` (`userId`),
+  KEY `roleId` (`roleId`) USING BTREE,
+  CONSTRAINT `chatboxUser_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `chatboxUser_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `chatboxUser_ibfk_3` FOREIGN KEY (`roleId`) REFERENCES `chatboxRole` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `expert_available_slots`
 --
 
@@ -173,8 +209,8 @@ DROP TABLE IF EXISTS `message`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `message` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `senderId` int NOT NULL,
   `chatboxId` int NOT NULL,
+  `senderId` int NOT NULL,
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `message_id` (`id`),
@@ -337,6 +373,7 @@ CREATE TABLE `userGroup` (
   `parentId` int DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
   KEY `parentId` (`parentId`),
   CONSTRAINT `userGroup_ibfk_1` FOREIGN KEY (`parentId`) REFERENCES `userGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

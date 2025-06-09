@@ -16,6 +16,12 @@
 /*!40000 ALTER TABLE `chatbox` DISABLE KEYS */;
 /*!40000 ALTER TABLE `chatbox` ENABLE KEYS */;
 
+/*!40000 ALTER TABLE `chatboxRole` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chatboxRole` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `chatboxUser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chatboxUser` ENABLE KEYS */;
+
 /*!40000 ALTER TABLE `expert_available_slots` DISABLE KEYS */;
 /*!40000 ALTER TABLE `expert_available_slots` ENABLE KEYS */;
 
@@ -47,12 +53,14 @@
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+REPLACE INTO `user` VALUES (1,NULL,'admin',NULL,NULL,NULL,'admin@ibody.com','Administrator');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `userAuthPassword` DISABLE KEYS */;
 /*!40000 ALTER TABLE `userAuthPassword` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `userGroup` DISABLE KEYS */;
+REPLACE INTO `userGroup` VALUES (1,NULL,'baseuser');
 /*!40000 ALTER TABLE `userGroup` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `userGroup_permission` DISABLE KEYS */;
