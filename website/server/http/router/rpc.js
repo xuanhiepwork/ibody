@@ -11,11 +11,6 @@ router.post(
     "/",
     session,
     bodyParser.json(),
-    async (req, res) => {
-
-        console.log("req.body", req.body)
-
-        res.json(await ctx.asUserId(req.session.userId).call(...req.body))
-    })
+    async (req, res) => res.json(await ctx.asUserId(req.session.userId).call(...req.body)))
 
 export default router
