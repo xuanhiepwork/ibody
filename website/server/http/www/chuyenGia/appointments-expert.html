@@ -147,14 +147,14 @@
   </div>
 
   <div class="sidebar" id="sidebar">
-    <a href="#"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
-    <a href="#"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
+    <a href="./IndexChuyenGia.html"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
+    <a href="./TongHopChuyenGia.html"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
     <a href="#" class="active"><i class="fa-solid fa-calendar-check"></i><span class="link-text">Lịch hẹn</span></a>
-    <a href="#"><i class="fa-solid fa-users"></i><span class="link-text">Khách hàng</span></a>
-    <a href="#"><i class="fa-solid fa-comments"></i><span class="link-text">Tin nhắn</span></a>
-    <a href="#"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
-    <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
-    <a href="#"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
+    <a href="./clients-expert.html"><i class="fa-solid fa-users"></i><span class="link-text">Khách hàng</span></a>
+    <a href="./tin-nhan.html"><i class="fa-solid fa-comments"></i><span class="link-text">Tin nhắn</span></a>
+    <a href="./profile.html"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
+    <a href="./yeuCauLuong.html"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
+    <a href="./lichSuLuong.html"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
     <a href="#" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span class="link-text">Đăng xuất</span></a>
   </div>
 
@@ -169,12 +169,16 @@
         </div>
 
         <div class="appointments-list-container">
-          <h2><i class="fa-solid fa-bolt" style="color: #00bfff;"></i> Lịch hẹn sắp tới</h2>
+          <h2>
+            <!-- <i class="fa-solid fa-bolt" style="color: #00bfff;"> -->
+          </i> Lịch hẹn sắp tới</h2>
           <div id="confirmedAppointmentsList"></div>
         </div>
 
         <div class="appointments-list-container">
-          <h2><i class="fa-solid fa-hourglass-half" style="color: var(--warning-color);"></i> Yêu cầu đang chờ duyệt</h2>
+          <h2>
+            <!-- <i class="fa-solid fa-hourglass-half" style="color: var(--warning-color);"> -->
+          </i> Yêu cầu đang chờ duyệt</h2>
           <div id="pendingAppointmentsList"></div>
         </div>
     </div>
@@ -270,11 +274,16 @@ document.addEventListener("DOMContentLoaded", function() {
         let actionsHtml = '';
         if (app.status === 'pending') {
             actionsHtml = `<div class="card-actions">
-                <button class="action-btn btn-accept" data-id="${app.id}"><i class="fas fa-check"></i> Chấp nhận</button>
-                <button class="action-btn btn-decline" data-id="${app.id}"><i class="fas fa-times"></i> Từ chối</button>
-            </div>`;
+                            <button class="action-btn btn-accept" data-id="${app.id}"><i class="fas fa-check"></i> Chấp nhận</button>
+                            <button class="action-btn btn-decline" data-id="${app.id}"><i class="fas fa-times"></i> Từ chối</button>
+                        </div>`;
         } else if (app.status === 'confirmed') {
-            actionsHtml = `<div class="card-actions"><button class="action-btn btn-start"><i class="fas fa-video"></i> Bắt đầu buổi tư vấn</button></div>`;
+            // SỬA LẠI ĐÚNG Ở ĐÂY
+            actionsHtml = `<a href="../videoCall.html" class="card-actions" style="text-decoration: none;">
+                            <button class="action-btn btn-start" style="width: 100%;">
+                                <i class="fas fa-video"></i> Bắt đầu buổi tư vấn
+                            </button>
+                        </a>`;
         }
         
         card.innerHTML = `
@@ -362,5 +371,6 @@ document.addEventListener("DOMContentLoaded", function() {
     renderAppointments(new Date("2025-06-08"));
 });
 </script>
+
 </body>
 </html>

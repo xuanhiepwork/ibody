@@ -156,14 +156,14 @@
   </div>
 
   <div class="sidebar" id="sidebar">
-    <a href="#"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
-    <a href="#"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
-    <a href="#"><i class="fa-solid fa-calendar-check"></i><span class="link-text">Lịch hẹn</span></a>
+    <a href="./IndexChuyenGia.html"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
+    <a href="./TongHopChuyenGia.html"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
+    <a href="./appointments-expert.html"><i class="fa-solid fa-calendar-check"></i><span class="link-text">Lịch hẹn</span></a>
     <a href="#" class="active"><i class="fa-solid fa-users"></i><span class="link-text">Khách hàng</span></a>
-    <a href="#"><i class="fa-solid fa-comments"></i><span class="link-text">Tin nhắn</span></a>
-    <a href="#"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
-    <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
-    <a href="#"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
+    <a href="./tin-nhan.html"><i class="fa-solid fa-comments"></i><span class="link-text">Tin nhắn</span></a>
+    <a href="./profile.html"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
+    <a href="./yeuCauLuong.html"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
+    <a href="./lichSuLuong.html"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
     <a href="#" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span class="link-text">Đăng xuất</span></a>
   </div>
 
@@ -266,7 +266,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 <td>${client.bookingCount}</td>
                 <td>${client.lastAppointmentDate.toLocaleDateString('vi-VN')}</td>
                 <td><span class="status-badge ${currentStatus.class}">${currentStatus.text}</span></td>
-                <td> <div class="action-buttons"> <button class="icon-btn" title="Xem chi tiết"><i class="fas fa-eye"></i></button> <button class="icon-btn" title="Nhắn tin"><i class="fas fa-comment-dots"></i></button> </div> </td>
+                <td> <div 
+                  class="action-buttons"> 
+                  <button class="icon-btn" title="Xem chi tiết"> <i class="fas fa-eye"></i>
+                  </button>
+                  <a href="./tin-nhan.html" class="icon-btn" title="Nhắn tin"> <i class="fas fa-comment-dots"></i>
+                  </a>
+                  </div> </td>
             `;
             clientsListBody.appendChild(row);
         });
@@ -290,9 +296,9 @@ document.addEventListener("DOMContentLoaded", function() {
         modalContent.innerHTML = `
             <div class="modal-header"> <img src="${client.avatar}" alt="Avatar"> <div class="header-info"> <h2 class="name">${client.name}</h2> <p class="age">${client.age} tuổi</p> </div> </div>
             <div class="modal-body">
-                <div class="info-section"> <h4><i class="fas fa-user-circle"></i> Bio</h4> <p>${client.bio}</p> </div>
-                <div class="info-section"> <h4><i class="fas fa-exclamation-circle"></i> Vấn đề gặp phải</h4> <p>${client.problem}</p> </div>
-                <div class="info-section"> <h4><i class="fas fa-bullseye"></i> Mong muốn của khách hàng</h4> <p>${client.goal}</p> </div>
+                <div class="info-section"> <h4>Bio</h4> <p>${client.bio}</p> </div>
+                <div class="info-section"> <h4>Vấn đề gặp phải</h4> <p>${client.problem}</p> </div>
+                <div class="info-section"> <h4>Mong muốn của khách hàng</h4> <p>${client.goal}</p> </div>
             </div>
         `;
         modal.classList.add('show');

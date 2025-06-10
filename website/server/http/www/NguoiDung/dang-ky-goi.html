@@ -132,11 +132,12 @@
       <span>IBODY</span>
     </div>
     <nav class="nav">
-      <a href="#">Trang chủ</a>
-      <a href="#">Tư vấn</a>
-      <a href="#">Tin nhắn</a>
+      <a href="../index.html">Trang chủ</a>
+      <a href="./search-expert.html">Tư vấn</a>
+      <a href="./tin-nhan-user.html">Tin nhắn</a>
+      <a href="#">Lịch hẹn</a>
+      <a href="./history.html">Lịch sử</a>
       <a href="#" class="active">Gói tư vấn</a>
-      <a href="#">Lịch sử</a>
     </nav>
   </header>
 
@@ -212,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <ul class="plan-features">
                     ${pkg.features.map(feature => `<li><i class="fas fa-check-circle"></i> ${feature}</li>`).join('')}
                 </ul>
-                <a href="#" class="btn-subscribe">Đăng ký ngay</a>
+                <a href="./payment-methods.html" class="btn-subscribe">Đăng ký ngay</a>
             `;
             packageList.appendChild(card);
         });
@@ -222,5 +223,6 @@ document.addEventListener("DOMContentLoaded", function() {
     renderAvailablePackages();
 });
 </script>
+
 </body>
 </html>

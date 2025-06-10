@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hồ sơ Chuyên gia - IBODY</title>
+  <title>Tìm kiếm chuyên gia - IBODY</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <style>
     :root {
       --primary-color: #A993EC;
       --secondary-color: #7A63D8;
+      --success-color: #28a745;
       --warning-color: #ffc107;
       --text-primary: #1a202c;
       --text-secondary: #718096;
@@ -26,282 +26,250 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background-color: var(--bg-light); color: var(--text-primary); }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+    }
 
     /* --- Header & Footer --- */
-    .header { background-color: var(--card-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.05); padding: 0 5%; display: flex; justify-content: space-between; align-items: center; height: 70px; }
+    .header {
+        background-color: var(--card-bg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
     .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
-    .header .nav { display: flex; gap: 25px; }
-    .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; }
+    .header .nav { display: flex; gap: 30px; }
+    .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; transition: color 0.2s; }
+    .header .nav a:hover { color: var(--primary-color); }
+    .header .nav a.active { color: var(--primary-color); }
     
     .footer { background-color: #1f2937; color: #d1d5db; padding: 40px 5%; margin-top: 50px; }
     .footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
     .footer h4 { color: white; margin-bottom: 10px; }
     .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.9rem; border-top: 1px solid #374151;}
 
-    /* --- Main Layout & Profile Banner --- */
-    .profile-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .profile-banner { background-color: var(--card-bg); border-radius: 16px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-    .banner-bg { height: 200px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border-radius: 16px 16px 0 0; }
-    .banner-content { padding: 0 30px; display: flex; align-items: flex-end; justify-content: space-between; transform: translateY(-50px); }
-    .banner-info { display: flex; align-items: flex-end; gap: 20px; }
-    .banner-info .avatar { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 5px solid var(--card-bg); }
-    .banner-info .name-specialty h1 { font-size: 1.8rem; margin: 0 0 5px; color: var(--text-primary); }
-    .banner-info .name-specialty p { font-size: 1.1rem; color: var(--text-secondary); margin: 0; }
-    .banner-actions { display: flex; gap: 10px; margin-bottom: 10px; }
-    .action-btn { padding: 12px 25px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+    /* --- Main Layout --- */
+    .page-container {
+        max-width: 1400px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    .search-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 30px;
+        align-items: flex-start;
+    }
+
+    /* --- Filter Panel (Left) --- */
+    .filter-panel {
+        background-color: var(--card-bg);
+        border-radius: 16px;
+        padding: 25px;
+        border: 1px solid var(--border-color);
+        position: sticky;
+        top: 90px;
+    }
+    .filter-panel h3 {
+        font-size: 1.25rem;
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .filter-group { margin-bottom: 20px; }
+    .filter-group label { display: flex; align-items: center; gap: 8px; font-weight: 600; margin-bottom: 10px; }
+    .filter-group input, .filter-group select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-light);
+        font-size: 1rem;
+    }
+    .search-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    /* --- Results Area (Right) --- */
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .results-header p { margin: 0; color: var(--text-secondary); font-weight: 500; }
+    .expert-list-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px; 
+    }
+    
+    .expert-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .expert-card:hover { 
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.07); 
+    }
+
+    .expert-card .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        border: 4px solid var(--primary-color-light);
+    }
+    .expert-card .name { font-size: 1.2rem; font-weight: 700; margin: 0; }
+    .expert-card .specialty { font-size: 1rem; color: var(--primary-color); font-weight: 500; margin-top: 4px; }
+    
+    .expert-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 15px 0; min-height: 50px; }
+    .expert-tags .tag { background-color: var(--bg-light); color: var(--text-secondary); padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+    
+    .card-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border-color); width: 100%; display: flex; justify-content: center; gap: 10px; }
+    .card-btn { text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; transition: all 0.2s; }
+    .btn-secondary { background-color: var(--primary-color-light); color: var(--primary-color); }
+    .btn-secondary:hover { background-color: var(--primary-color); color: white; }
     .btn-primary { background-color: var(--primary-color); color: white; }
     .btn-primary:hover { background-color: var(--secondary-color); }
-    .btn-secondary { background-color: var(--bg-light); color: var(--text-primary); border: 1px solid var(--border-color); }
-    .btn-secondary:hover { background-color: var(--border-color); }
-    
-    .profile-main-layout { display: grid; grid-template-columns: 1fr 350px; gap: 25px; align-items: flex-start; }
-    .main-column, .sidebar-column { display: flex; flex-direction: column; gap: 25px; }
-    
-    .section { background-color: var(--card-bg); border-radius: 16px; padding: 25px; border: 1px solid var(--border-color); }
-    .section h3 { font-size: 1.25rem; margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-    
-    /* Tabs */
-    .tab-buttons { display: flex; gap: 5px; background-color: var(--bg-light); padding: 5px; border-radius: 10px; margin-bottom: 20px; }
-    .tab-btn { flex: 1; background: none; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; color: var(--text-secondary); }
-    .tab-btn.active { background-color: var(--card-bg); color: var(--primary-color); box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; animation: fadeIn 0.5s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    
-    /* About Section */
-    .about-section h3 { padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
-    .expert-bio { color: var(--text-secondary); line-height: 1.8; font-size: 1rem; padding-left: 20px; border-left: 4px solid var(--primary-color); margin-bottom: 30px; }
-    .specialty-tags-container { display: flex; flex-wrap: wrap; gap: 12px; }
-    .specialty-tag { display: inline-flex; align-items: center; gap: 8px; background-color: var(--primary-color-light); color: var(--primary-color); padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
-    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 12px; margin-bottom: 30px; }
-    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-    /* Calendar Tab */
-    .flatpickr-calendar { box-shadow: none !important; background: transparent !important; }
-    .flatpickr-day.today { border-color: var(--primary-color); }
-    .flatpickr-day.flatpickr-disabled, .flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay { color: rgba(107, 114, 128, 0.5); }
-    .flatpickr-day:hover { background: var(--primary-color-light); }
-    .flatpickr-day.selected { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+    /* Pagination */
+    .pagination-wrapper { display: flex; justify-content: center; align-items: center; padding-top: 30px; }
+    .pagination-controls button { background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 8px 15px; margin: 0 4px; font-weight: 600; border-radius: 8px; cursor: pointer; }
+    .pagination-controls button:hover { background-color: var(--bg-light); }
+    .pagination-controls button.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+    .pagination-controls button:disabled { cursor: not-allowed; opacity: 0.5; }
 
-    /* Review Section */
-    .review-summary { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
-    .avg-rating .score { font-size: 2.5rem; font-weight: 700; }
-    .avg-rating .stars { color: var(--warning-color); }
-    .rating-breakdown { flex-grow: 1; }
-    .rating-row { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
-    .progress-bar { flex-grow: 1; height: 8px; background-color: var(--border-color); border-radius: 8px; }
-    .progress-fill { height: 100%; background-color: var(--warning-color); border-radius: 8px; }
-    .review-card { padding: 15px 0; border-bottom: 1px solid var(--border-color); }
-    .review-card:last-child { border-bottom: none; }
-    .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .review-header img { width: 40px; height: 40px; border-radius: 50%; }
-    .review-header .name { font-weight: 600; }
-    .review-card .comment { color: var(--text-secondary); }
-
-    @media (max-width: 992px) { .profile-main-layout { grid-template-columns: 1fr; } .sidebar-column { grid-row: 1; } }
-    @media (max-width: 768px) { .banner-content { flex-direction: column; align-items: center; text-align: center; } .banner-actions { margin-top: 20px; } }
+    @media (max-width: 992px) { .search-layout { grid-template-columns: 1fr; } .filter-panel { position: static; } }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="logo">
-      <span>IBODY</span>
-    </div>
-    <nav class="nav">
-      <a href="#">Trang chủ</a>
-      <a href="#" class="active">Tư vấn</a>
-      <a href="#">Lịch hẹn</a>
-      <a href="#">Gói tư vấn</a>
-    </nav>
-  </header>
+  <header class="header">...</header>
 
-  <div class="profile-container">
-    <div class="profile-banner">
-        <div class="banner-bg"></div>
-        <div class="banner-content">
-            <div class="banner-info">
-                <img id="expertAvatar" class="avatar" alt="Chuyên gia">
-                <div class="name-specialty">
-                    <h1 id="expertName"></h1>
-                    <p id="expertSpecialty"></p>
-                </div>
+  <div class="page-container">
+    <div class="search-layout">
+        <div class="filter-panel">
+            <h3><i class="fas fa-filter"></i> Bộ lọc Tìm kiếm</h3>
+            <div class="filter-group">
+                <label for="searchInput"><i class="fas fa-keyboard"></i> Từ khoá</label>
+                <input type="text" id="searchInput" placeholder="Tên, chuyên môn...">
             </div>
-            <div class="banner-actions">
-                <a href="#" class="action-btn btn-secondary"><i class="fas fa-comment-dots"></i> Nhắn tin</a>
-                <a href="#" class="action-btn btn-primary"><i class="fas fa-calendar-plus"></i> Đặt lịch ngay</a>
+            <div class="filter-group">
+                <label for="specialtyFilter"><i class="fas fa-user-tag"></i> Lĩnh vực Tư vấn</label>
+                <select id="specialtyFilter"></select>
             </div>
-        </div>
-    </div>
-
-    <div class="profile-main-layout">
-        <div class="main-column">
-            <div class="section">
-                <div class="tab-buttons">
-                    <button class="tab-btn active" onclick="switchTab(event, 'about')">Giới thiệu</button>
-                    <button class="tab-btn" onclick="switchTab(event, 'schedule')">Lịch làm việc</button>
-                    <button class="tab-btn" onclick="switchTab(event, 'reviews')">Đánh giá</button>
-                </div>
-
-                <div id="about" class="tab-content active about-section">
-                    <h3><i class="fas fa-video"></i> Video Giới thiệu</h3>
-                    <!-- <link rel="stylesheet" href="https://youtu.be/H7nLmxahlfA?si=6-hiRYgJhhR6Eay2"> -->
-                    <div class="video-container">
-                        <iframe id="expertVideo" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <h3><i class="fas fa-user-graduate"></i> Về chuyên gia</h3>
-                    <p class="expert-bio" id="expertDescription"></p>
-                    <h3 style="margin-top: 30px;"><i class="fas fa-tags"></i> Lĩnh vực chuyên môn</h3>
-                    <div class="specialty-tags-container" id="expertSpecialties"></div>
-                </div>
-
-                <div id="schedule" class="tab-content">
-                    <h3>Lịch có thể đặt hẹn</h3>
-                    <p class="text-secondary">Chọn một ngày còn trống trên lịch để được chuyển đến trang đặt hẹn chi tiết.</p>
-                    <div id="availability-calendar"></div>
-                </div>
-
-                <div id="reviews" class="tab-content">
-                    <h3>Đánh giá từ khách hàng</h3>
-                    <div class="review-summary">
-                        <div class="avg-rating">
-                            <div class="score" id="avgRating"></div>
-                            <div class="stars" id="avgRatingStars"></div>
-                            <div id="totalReviews" class="text-secondary"></div>
-                        </div>
-                        <div class="rating-breakdown" id="ratingBreakdown"></div>
-                    </div>
-                    <div id="reviewList"></div>
-                </div>
-            </div>
+            <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Tìm kiếm</button>
         </div>
 
-        <div class="sidebar-column">
-            <div class="section">
-                <h3>Thông tin chi tiết</h3>
-                <ul id="expertDetailsList" style="list-style: none; padding: 0;"></ul>
+        <div class="results-area">
+            <div class="results-header">
+                <p id="resultsCount"></p>
             </div>
+            <div id="expertList" class="expert-list-grid">
+                </div>
         </div>
     </div>
   </div>
 
   <footer class="footer"> ... </footer>
-  
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const mockExpert = {
-        id: 1,
-        name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1",
-        specialty: "Tâm lý học đường",
-        videoUrl: "https://www.youtube.com/embed/H7nLmxahlfA?si=M1cN5HUVfwxYqvoN", // Example YouTube embed URL
-        // <iframe width="560" height="315" src="https://www.youtube.com/embed/H7nLmxahlfA?si=M1cN5HUVfwxYqvoN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        description: "Chuyên gia Nguyễn Thị Lan Anh có 8 năm kinh nghiệm làm việc với học sinh, sinh viên, giúp các em giải quyết các vấn đề học tập, mối quan hệ và định hướng tương lai. Với phương pháp tiếp cận đồng cảm và khoa học, chuyên gia cam kết tạo ra một không gian an toàn để các em có thể chia sẻ và phát triển.",
-        specialties: ["Tâm lý học đường", "Rối loạn lo âu ở trẻ", "Tư vấn hướng nghiệp", "Stress học đường"],
-        rating: 4.9, totalReviews: 152,
-        ratingBreakdown: { 5: 140, 4: 10, 3: 2, 2: 0, 1: 0 },
-        details: { "Kinh nghiệm": "8 năm", "Học vấn": "Thạc sĩ Tâm lý học", "Ngôn ngữ": "Tiếng Việt, Tiếng Anh" },
-        reviews: [
-            { name: "Trần Thu Trang", avatar: "https://i.pravatar.cc/150?u=clientA", rating: 5, comment: "Chuyên gia rất thấu hiểu và đưa ra những lời khuyên thực tế. Em đã tự tin hơn rất nhiều." },
-            { name: "Lê Minh", avatar: "https://i.pravatar.cc/150?u=clientB", rating: 5, comment: "Một trải nghiệm tuyệt vời. Chuyên gia đã giúp tôi nhìn nhận vấn đề một cách rõ ràng hơn." }
-        ],
-        availableDates: ["2025-06-16", "2025-06-17", "2025-06-19", "2025-06-20", "2025-06-23", "2025-06-24", "2025-06-26", "2025-06-27"],
 
-    };
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const mockExperts = [
+            { id: 1, name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 2, name: "Trần Minh Đức", avatar: "https://i.pravatar.cc/150?u=expert2", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 3, name: "Lê Minh Nguyệt", avatar: "https://i.pravatar.cc/150?u=expert3", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 4, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
+            { id: 5, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
+        ];
 
-    function renderProfile() {
-        document.getElementById('expertAvatar').src = mockExpert.avatar;
-        document.getElementById('expertName').textContent = mockExpert.name;
-        document.getElementById('expertSpecialty').textContent = mockExpert.specialty;
-        document.getElementById('expertVideo').src = mockExpert.videoUrl;
-        document.getElementById('expertDescription').textContent = mockExpert.description;
+        const expertListDiv = document.getElementById('expertList');
+        const specialtyFilter = document.getElementById('specialtyFilter');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultsCount = document.getElementById('resultsCount');
         
-        const specialtiesList = document.getElementById('expertSpecialties');
-        specialtiesList.innerHTML = '';
-        mockExpert.specialties.forEach(spec => {
-            const tag = document.createElement('span');
-            tag.className = 'specialty-tag';
-            tag.innerHTML = `<i class="fas fa-check-circle"></i> ${spec}`;
-            specialtiesList.appendChild(tag);
-        });
-
-        const detailsList = document.getElementById('expertDetailsList');
-        detailsList.innerHTML = Object.entries(mockExpert.details).map(([key, value]) => 
-            `<li style="display:flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color)"><span>${key}</span><strong style="text-align:right;">${value}</strong></li>`
-        ).join('');
-    }
-
-    function renderReviews() {
-        document.getElementById('avgRating').textContent = mockExpert.rating.toFixed(1);
-        document.getElementById('totalReviews').textContent = `từ ${mockExpert.totalReviews} đánh giá`;
-        let starsHtml = '';
-        for(let i=0; i<5; i++) starsHtml += `<i class="fas fa-star"></i>`;
-        document.getElementById('avgRatingStars').innerHTML = starsHtml;
-
-        const breakdownContainer = document.getElementById('ratingBreakdown');
-        breakdownContainer.innerHTML = '';
-        for (let i = 5; i >= 1; i--) {
-            const percentage = (mockExpert.ratingBreakdown[i] / mockExpert.totalReviews) * 100;
-            const row = document.createElement('div');
-            row.className = 'rating-row';
-            row.innerHTML = `
-                <span>${i} sao</span>
-                <div class="progress-bar"><div class="progress-fill" style="width: ${percentage}%"></div></div>
-                <span>${mockExpert.ratingBreakdown[i]}</span>
-            `;
-            breakdownContainer.appendChild(row);
+        function populateFilters() {
+            const allSpecialties = new Set();
+            mockExperts.forEach(expert => allSpecialties.add(expert.specialty));
+            
+            specialtyFilter.innerHTML = '<option value="">Tất cả lĩnh vực</option>';
+            allSpecialties.forEach(spec => {
+                specialtyFilter.innerHTML += `<option value="${spec}">${spec}</option>`;
+            });
         }
 
-        const reviewList = document.getElementById('reviewList');
-        reviewList.innerHTML = '';
-        mockExpert.reviews.forEach(review => {
-            let reviewStars = '';
-            for(let i=0; i<5; i++) reviewStars += `<i class="fas fa-star" style="color:${i < review.rating ? 'var(--warning-color)' : '#ccc'}"></i>`;
-            const card = document.createElement('div');
-            card.className = 'review-card';
-            card.innerHTML = `
-                <div class="review-header">
-                    <img src="${review.avatar}" alt="${review.name}">
-                    <div>
-                        <div class="name">${review.name}</div>
-                        <div class="rating">${reviewStars}</div>
+        function renderExperts(expertsToRender) {
+            expertListDiv.innerHTML = '';
+            resultsCount.textContent = `Tìm thấy ${expertsToRender.length} chuyên gia.`;
+
+            if (expertsToRender.length === 0) {
+                expertListDiv.innerHTML = '<p>Không tìm thấy chuyên gia phù hợp.</p>';
+                return;
+            }
+
+            expertsToRender.forEach(expert => {
+                const expertCard = document.createElement('div');
+                expertCard.className = 'expert-card';
+                expertCard.innerHTML = `
+                    <img src="${expert.avatar}" alt="${expert.name}" class="avatar">
+                    <h4 class="name">${expert.name}</h4>
+                    <p class="specialty">${expert.specialty}</p>
+                    <div class="expert-tags">
+                        ${expert.specialties.map(s => `<span class="tag">${s}</span>`).join('')}
                     </div>
-                </div>
-                <p class="comment">"${review.comment}"</p>
-            `;
-            reviewList.appendChild(card);
+                    <div class="card-footer">
+                        <a href="#" class="card-btn btn-secondary">Xem hồ sơ</a>
+                        <a href="#" class="card-btn btn-primary">Đặt lịch ngay</a>
+                    </div>
+                `;
+                expertListDiv.appendChild(expertCard);
+            });
+        }
+        
+        function filterAndRender() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedSpecialty = specialtyFilter.value;
+            
+            const filteredResults = mockExperts.filter(expert => {
+                const matchesSearch = expert.name.toLowerCase().includes(searchTerm) || 
+                                      expert.specialty.toLowerCase().includes(searchTerm);
+                const matchesSpecialty = !selectedSpecialty || expert.specialty === selectedSpecialty;
+                return matchesSearch && matchesSpecialty;
+            });
+            renderExperts(filteredResults);
+        }
+
+        searchBtn.addEventListener('click', filterAndRender);
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') filterAndRender();
         });
-    }
+        specialtyFilter.addEventListener('change', filterAndRender);
 
-    function initAvailabilityCalendar() {
-        flatpickr("#availability-calendar", {
-            inline: true,
-            locale: 'vn',
-            minDate: "today",
-            enable: mockExpert.availableDates,
-            onChange: function(selectedDates, dateStr, instance) {
-                if (selectedDates.length > 0) {
-                    alert(`Sẵn sàng chuyển đến trang đặt lịch cho chuyên gia ${mockExpert.name} vào ngày ${dateStr}`);
-                    // Trong thực tế:
-                    // window.location.href = `datLich.html?expertId=${mockExpert.id}&date=${dateStr}`;
-                }
-            },
-        });
-    }
-
-    window.switchTab = (event, tabName) => {
-        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-        document.getElementById(tabName).classList.add('active');
-
-        document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-    }
-
-    renderProfile();
-    renderReviews();
-    initAvailabilityCalendar();
-});
-</script>
+        // Initial Render
+        populateFilters();
+        renderExperts(mockExperts);
+    });
+  </script>
 </body>
 </html>

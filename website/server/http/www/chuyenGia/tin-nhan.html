@@ -121,6 +121,35 @@
         .chat-container.chat-area-visible .chat-sidebar { transform: translateX(-100%); min-width: 0; width: 0; padding: 0; border: none;}
         .chat-header .back-btn { display: block; }
     }
+    
+    /* Gọi điện */
+    .call-action-btn {
+        display: inline-flex; /* Giúp icon và chữ nằm cạnh nhau */
+        align-items: center;
+        gap: 8px; /* Khoảng cách giữa icon và chữ */
+
+        background-color: var(--primary-color); /* Sử dụng màu tím chủ đạo */
+        color: white;
+
+        padding: 10px 20px;
+        border-radius: 50px; /* Bo tròn hoàn toàn */
+
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+
+        border: none;
+        cursor: pointer;
+
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(169, 147, 236, 0.4);
+    }
+
+    .call-action-btn:hover {
+        background-color: var(--secondary-color); /* Màu tím đậm hơn khi hover */
+        transform: translateY(-2px); /* Hiệu ứng nâng lên */
+        box-shadow: 0 6px 20px rgba(169, 147, 236, 0.5);
+    }
   </style>
 </head>
 <body>
@@ -134,14 +163,14 @@
   </div>
 
   <div class="sidebar" id="sidebar">
-    <a href="#"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
-    <a href="#"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
-    <a href="#"><i class="fa-solid fa-calendar-check"></i><span class="link-text">Lịch hẹn</span></a>
-    <a href="#"><i class="fa-solid fa-users"></i><span class="link-text">Khách hàng</span></a>
+    <a href="./IndexChuyenGia.html"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
+    <a href="./TongHopChuyenGia.html"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
+    <a href="./appointments-expert.html"><i class="fa-solid fa-calendar-check"></i><span class="link-text">Lịch hẹn</span></a>
+    <a href="./clients-expert.html"><i class="fa-solid fa-users"></i><span class="link-text">Khách hàng</span></a>
     <a href="#" class="active"><i class="fa-solid fa-comments"></i><span class="link-text">Tin nhắn</span></a>
-    <a href="#"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
-    <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
-    <a href="#"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
+    <a href="./profile.html"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
+    <a href="./yeuCauLuong.html"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
+    <a href="./lichSuLuong.html"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
     <a href="#" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span class="link-text">Đăng xuất</span></a>
   </div>
 
@@ -247,8 +276,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     <div class="status">Đang hoạt động</div>
                 </div>
                 <div class="actions">
-                    <button class="icon-btn"><i class="fas fa-phone"></i></button>
-                    <button class="icon-btn"><i class="fas fa-video"></i></button>
+                    <a href="../videoCall.html" class="call-action-btn" title="Gọi điện">
+                        <i class="fas fa-video"></i>
+                        <span>Gọi điện</span>
+                    </a>
                 </div>
             </div>
             <ul class="messages" id="messageList"></ul>

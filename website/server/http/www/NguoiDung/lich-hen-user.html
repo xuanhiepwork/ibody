@@ -139,11 +139,11 @@
       <span>IBODY</span>
     </div>
     <nav class="nav">
-      <a href="#">Trang chủ</a>
-      <a href="#">Tư vấn</a>
-      <a href="#">Tin nhắn</a>
+      <a href="../index.html">Trang chủ</a>
+      <a href="./search-expert.html">Tư vấn</a>
+      <a href="./tin-nhan-user.html">Tin nhắn</a>
       <a href="#" class="active">Lịch hẹn</a>
-      <a href="#">Lịch sử</a>
+      <a href="./history.html">Lịch sử</a>
       <a href="#">Gói tư vấn</a>
     </nav>
   </header>
@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
             let actionsHtml = '';
             switch(app.status) {
                 case 'confirmed':
-                    actionsHtml = `<button class="action-btn btn-primary"><i class="fas fa-video"></i> Vào tư vấn</button>
+                    actionsHtml = `<a href="../videoCall.html" class="action-btn btn-primary"><i class="fas fa-video"></i> Vào tư vấn</a>
                                    <button class="action-btn btn-secondary">Hủy lịch</button>`;
                     break;
                 case 'pending':
