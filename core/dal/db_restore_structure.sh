@@ -6,9 +6,11 @@ echo "Login mysql $DB_ROOT_USER@$DB_HOST:"
 sudo mysql -h $DB_HOST -u $DB_ROOT_USER -p << eof
 DROP SCHEMA IF EXISTS $DB_DATABASE;
 CREATE DATABASE $DB_DATABASE DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SET GLOBAL log_bin_trust_function_creators = 1;
+
+CREATE USER IF NOT EXISTS '$DB_USER'@'$DB_HOST' IDENTIFIED BY '$DB_PASSWORD';
 GRANT ALL ON $DB_DATABASE.* TO '$DB_USER'@'$DB_HOST';
 FLUSH PRIVILEGES;
-SET GLOBAL log_bin_trust_function_creators = 1;
 eof
 
 echo
