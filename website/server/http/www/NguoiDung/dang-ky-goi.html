@@ -71,6 +71,8 @@
         z-index: 100;
     }
     .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+    .header .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--primary-color); }
+    .header .logo-image { height: 40px; }
     .header .nav { display: flex; gap: 25px; }
     .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; padding: 5px 0; border-bottom: 2px solid transparent; transition: all 0.2s; }
     .header .nav a:hover { color: var(--primary-color); }
@@ -129,8 +131,10 @@
 <body>
   <header class="header">
     <div class="logo">
-      <span>IBODY</span>
-    </div>
+      <img src="../picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
+        <span>IBODY</span>
+        </div>
+
     <nav class="nav">
       <a href="../index.html">Trang chủ</a>
       <a href="./search-expert.html">Tư vấn</a>

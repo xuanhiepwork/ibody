@@ -119,22 +119,10 @@
         .chat-header .back-btn { display: block; }
     }
 
-
-    /* --- BIẾN MÀU (VARIABLES) --- */
-/* Bạn có thể tùy chỉnh các màu này cho phù hợp với thương hiệu */
-:root {
-    --primary-color: #A993EC;
-    --text-primary: #1a202c;
-    --text-secondary: #718096;
-    --card-bg: #ffffff;
-    --border-color: #e2e8f0;
-}
-
-/* --- HEADER CHUNG --- */
 .header {
     background-color: var(--card-bg);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    padding: 0 5%; /* Hoặc padding: 0 40px; */
+    padding: 0 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -144,7 +132,6 @@
     z-index: 100;
 }
 
-/* --- LOGO --- */
 .header .logo {
     display: flex;
     align-items: center;
@@ -272,44 +259,46 @@
   </style>
 </head>
 <body>
-    <!-- #TODO: fix popup is not visible -->
-    <script src="/Component/AuthModal.js"></script>
+    <script src="../Component/AuthModal.js"></script>
+
 
     <header class="header">
-    <div class="logo">
-      <img src="../picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
-      <span class="brand">IBODY</span>
-    </div>
-
-    <button id="menu-toggle" class="menu-toggle">☰</button>
-  
-      <nav class="nav">
-      <a href="/" class="active">Trang chủ</a>
-      <a href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937">Cộng Đồng</a>
-      <a href="/NguoiDung/search-expert.html">Tư vấn</a>
-      <a href="/NguoiDung/tin-nhan-user.html">Nhắn tin</a>
-      <a href="/NguoiDung/lich-hen-user.html">Lịch hẹn</a>
-      <a href="/NguoiDung/lichSuGoi.html">Lịch sử giao dịch</a>
-      <a href="/NguoiDung/dang-ky-goi.html">Gói tư vấn</a>
-      <a href="/Admin/admin-users.html">Người dùng</a>
-      <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
-
-      <div class="user-menu" id="userMenu" style="display: none;">
-        <div class="user-button" onclick="toggleUserDropdown()">
-          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
-          <span id="usernameDisplay"></span>
-        </div>NguoiDung/search-expert.html#
-        <div class="user-dropdown" id="userDropdown">
-          <a href="profile.html">Trang cá nhân</a>
-          <a href="/NguoiDung/settings-upgrade.html">Nâng cấp thành chuyên gia</a>
-          <a href="/tracnghiem.html">Trắc nghiệm trầm cảm</a>
-          <a href="/NguoiDung/ho-tro-user.html">Hỗ trợ</a>
-          <a href="#" onclick="logout()">Đăng xuất</a>
+        <div class="logo">
+        <img src="../picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
+        <span>IBODY</span>
         </div>
-      </div>
 
-    </nav>
-  </header>
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+        
+        <nav class="nav">
+        <a href="../index.html">Trang chủ</a>
+        <a
+            href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937">
+            Cộng Đồng
+        </a>
+        <a href="./search-expert.html">Tư vấn</a>
+        <a href="#" class="active">Tin nhắn</a>
+        <a href="./lich-hen-user.html">Lịch hẹn</a>
+        <a href="./history.html">Lịch sử giao dịch</a>
+        <a href="./dang-ky-goi.html" >Gói tư vấn</a>
+
+        <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
+        <div class="user-menu" id="userMenu" style="display: none;">
+            <div class="user-button" onclick="toggleUserDropdown()">
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
+                <span id="usernameDisplay"></span>
+            </div>
+            
+            <div class="user-dropdown" id="userDropdown">
+                <a href="profile.html">Trang cá nhân</a>
+                <a href="/NguoiDung/settings-upgrade.html">Nâng cấp thành chuyên gia</a>
+                <a href="/tracnghiem.html">Trắc nghiệm trầm cảm</a>
+                <a href="/NguoiDung/ho-tro-user.html">Hỗ trợ</a>
+                <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
+            </div>
+        </div>
+        </nav>
+    </header>
 
   <div class="chat-container" id="chatContainer">
       <div class="chat-sidebar" id="chatSidebar">

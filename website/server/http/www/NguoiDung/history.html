@@ -275,18 +275,42 @@
 </head>
 <body>
   <header class="header">
-    <div class="logo">
-      <span>IBODY</span>
-    </div>
-    <nav class="nav">
-      <a href="../index.html">Trang chủ</a>
-      <a href="./search-expert.html">Tư vấn</a>
-      <a href="./tin-nhan-user.html">Tin nhắn</a>
-      <a href="./lich-hen-user.html" >Lịch hẹn</a>
-      <a href="./history.html" class="active">Lịch sử</a>
-      <a href="#">Gói tư vấn</a>
-    </nav>
-  </header>
+        <div class="logo">
+        <img src="../picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
+        <span>IBODY</span>
+        </div>
+
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+
+        <nav class="nav">
+        <a href="../index.html">Trang chủ</a>
+        <a
+            href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937">
+            Cộng Đồng
+        </a>
+        <a href="./search-expert.html">Tư vấn</a>
+        <a href="./tin-nhan-user.html">Tin nhắn</a>
+        <a href="./lich-hen-user.html">Lịch hẹn</a>
+        <a href="#" class="active">Lịch sử giao dịch</a>
+        <a href="./dang-ky-goi.html" >Gói tư vấn</a>
+
+        <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
+        <div class="user-menu" id="userMenu" style="display: none;">
+            <div class="user-button" onclick="toggleUserDropdown()">
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
+                <span id="usernameDisplay"></span>
+            </div>
+            
+            <div class="user-dropdown" id="userDropdown">
+                <a href="profile.html">Trang cá nhân</a>
+                <a href="/NguoiDung/settings-upgrade.html">Nâng cấp thành chuyên gia</a>
+                <a href="/tracnghiem.html">Trắc nghiệm trầm cảm</a>
+                <a href="/NguoiDung/ho-tro-user.html">Hỗ trợ</a>
+                <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
+            </div>
+        </div>
+        </nav>
+    </header>
 
   <div class="main-container">
     <div class="page-header">

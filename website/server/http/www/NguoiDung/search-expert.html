@@ -161,10 +161,114 @@
     .pagination-controls button:disabled { cursor: not-allowed; opacity: 0.5; }
 
     @media (max-width: 992px) { .search-layout { grid-template-columns: 1fr; } .filter-panel { position: static; } }
+
+    .footer { background-color: #49423f; color: #f1f1f1; padding: 2rem 2rem 1rem; margin-top: 3rem; }
+    .footer-container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; max-width: 1100px; margin: auto; }
+    .footer-about, .footer-contact { flex: 1 1 300px; }
+    .footer-about h3, .footer-contact h4 { color: #ff69b4; margin-bottom: 1rem; }
+    .footer-about p, .footer-contact p { line-height: 1.6; font-size: 0.95rem; }
+    .footer-bottom { text-align: center; margin-top: 1.5rem; border-top: 1px solid #444; padding-top: 1rem; font-size: 0.85rem; }
+
+    :root {
+        --primary-color: #A993EC;
+        --text-primary: #1a202c;
+        --text-secondary: #718096;
+        --card-bg: #ffffff;
+        --border-color: #e2e8f0;
+    }
+    .header {
+        background-color: var(--card-bg); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 0 5%; display: flex; justify-content: space-between; align-items: center;
+        height: 70px; position: sticky; top: 0; z-index: 100;
+    }
+    .header .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--primary-color); }
+    .header .logo-image { height: 40px; }
+    .header .brand { font-weight: 700; font-size: 1.5rem; }
+
+    .nav { display: flex; align-items: center; gap: 30px; }
+    .nav a {
+        text-decoration: none; color: var(--text-secondary); font-weight: 600;
+        padding: 5px 0; position: relative; transition: color 0.3s ease-in-out;
+    }
+    .nav a::after {
+        content: ''; position: absolute; width: 0; height: 2px;
+        bottom: -2px; left: 50%; transform: translateX(-50%);
+        background-color: var(--primary-color); transition: width 0.3s ease-in-out;
+    }
+    .nav a:hover::after,
+    .nav a.active::after { width: 100%; }
+    .nav a:hover, .nav a.active { color: var(--primary-color); }
+
+    .user-menu { position: relative; }
+    .user-button { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .user-button .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+    .user-button #usernameDisplay { font-weight: 600; }
+    .user-dropdown {
+        display: none; position: absolute; top: calc(100% + 15px); right: 0;
+        background-color: var(--card-bg); border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
+        width: 220px; overflow: hidden; z-index: 1001;
+    }
+    .user-dropdown a {
+        display: flex; align-items: center; gap: 10px;
+        padding: 12px 15px; color: var(--text-secondary); border-bottom: none;
+    }
+    .user-dropdown a:hover { background-color: #f8f7fc; color: var(--primary-color); }
+    .user-dropdown a i { width: 16px; }
+
+    .menu-toggle { display: none; font-size: 1.8rem; background: none; border: none; cursor: pointer; color: var(--text-primary); }
+
+    @media (max-width: 992px) {
+        .menu-toggle { display: block; }
+        .nav {
+            display: none; position: absolute; top: 70px; left: 0; right: 0;
+            background-color: var(--card-bg); flex-direction: column;
+            align-items: flex-start; padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .nav.nav-active { display: flex; }
+        .nav a { width: 100%; padding: 10px 0; }
+        .user-dropdown { position: static; box-shadow: none; border: none; width: 100%; margin-top: 10px; padding-left: 15px; }
+    }
   </style>
 </head>
 <body>
-  <header class="header">...</header>
+    <header class="header">
+        <div class="logo">
+        <img src="./picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
+        <span>IBODY</span>
+        </div>
+
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+
+        <nav class="nav">
+        <a href="../index.html">Trang chủ</a>
+        <a
+            href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937">
+            Cộng Đồng
+        </a>
+        <a href="#" class="active">Tư vấn</a>
+        <a href="./tin-nhan-user.html">Tin nhắn</a>
+        <a href="./lich-hen-user.html">Lịch hẹn</a>
+        <a href="./history.html">Lịch sử giao dịch</a>
+        <a href="./dang-ky-goi.html" >Gói tư vấn</a>
+
+        <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
+        <div class="user-menu" id="userMenu" style="display: none;">
+            <div class="user-button" onclick="toggleUserDropdown()">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
+            <span id="usernameDisplay"></span>
+            </div>
+            <div class="user-dropdown" id="userDropdown">
+            <a href="profile.html">Trang cá nhân</a>
+            <a href="/NguoiDung/settings-upgrade.html">Nâng cấp thành chuyên gia</a>
+            <a href="/tracnghiem.html">Trắc nghiệm trầm cảm</a>
+            <a href="/NguoiDung/ho-tro-user.html">Hỗ trợ</a>
+            <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
+            </div>
+        </div>
+        </nav>
+    </header>
 
   <div class="page-container">
     <div class="search-layout">
@@ -191,16 +295,49 @@
     </div>
   </div>
 
-  <footer class="footer"> ... </footer>
-
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-about">
+        <h4>Về chúng tôi</h4>
+        <p>
+          IBODY là dự án kết nối học sinh với chuyên gia tâm lý, giúp các em
+          hiểu và phát triển bản thân một cách lành mạnh.
+        </p>
+      </div>
+      <div class="footer-contact">
+        <h4>Liên hệ</h4>
+        <p>Email: xuanhiep.ht4f@gmail.com</p>
+        <p>Hotline: 036.382.4905</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 ibody. All rights reserved.</p>
+    </div>
+  </footer>
+  
   <script>
     document.addEventListener("DOMContentLoaded", function() {
         const mockExperts = [
-            { id: 1, name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
-            { id: 2, name: "Trần Minh Đức", avatar: "https://i.pravatar.cc/150?u=expert2", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
-            { id: 3, name: "Lê Minh Nguyệt", avatar: "https://i.pravatar.cc/150?u=expert3", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 1, name: "Nguyễn Thị Lan Anh", avatar: "../picture/HoangNhuQuynh.png", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 2, name: "Trần Minh Đức", avatar: "https://media.licdn.com/dms/image/v2/D5603AQEXqOp4DDLoEw/profile-displayphoto-shrink_800_800/B56ZSNP0gjHoAc-/0/1737536523054?e=1753920000&v=beta&t=_hOIPzbzw7qg_EciMC9hG29sx6aGyJJGvuzwZ14fVoE", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 3, name: "Lê Minh Nguyệt", avatar: "../picture/MinhNguyet.png", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
             { id: 4, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
             { id: 5, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
+            { id: 6, name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 7, name: "Trần Minh Đức", avatar: "https://i.pravatar.cc/150?u=expert2", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 8, name: "Lê Minh Nguyệt", avatar: "https://i.pravatar.cc/150?u=expert3", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 9, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
+            { id: 10, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
+            { id: 11, name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 12, name: "Trần Minh Đức", avatar: "https://i.pravatar.cc/150?u=expert2", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 13, name: "Lê Minh Nguyệt", avatar: "https://i.pravatar.cc/150?u=expert3", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 14, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
+            { id: 15, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
+            { id: 16, name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 17, name: "Trần Minh Đức", avatar: "https://i.pravatar.cc/150?u=expert2", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 18, name: "Lê Minh Nguyệt", avatar: "https://i.pravatar.cc/150?u=expert3", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 19, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
+            { id: 20, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
         ];
 
         const expertListDiv = document.getElementById('expertList');
@@ -239,8 +376,8 @@
                         ${expert.specialties.map(s => `<span class="tag">${s}</span>`).join('')}
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-btn btn-secondary">Xem hồ sơ</a>
-                        <a href="#" class="card-btn btn-primary">Đặt lịch ngay</a>
+                        <a href="./profile-expert.html" class="card-btn btn-secondary">Xem hồ sơ</a>
+                        <a href="./datLich.html" class="card-btn btn-primary">Đặt lịch ngay</a>
                     </div>
                 `;
                 expertListDiv.appendChild(expertCard);
