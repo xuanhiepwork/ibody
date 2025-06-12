@@ -1,25 +1,7 @@
 {
     const base = document.createElement("div")
-
-    base.innerHTML = `
-    <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
-    <div class="user-menu" style="display: none;">
-        <div class="user-button" onclick="toggleUserDropdown()">
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
-            <span id="usernameDisplay"></span>
-        </div>NguoiDung/search-expert.html#
-        <div class="user-dropdown" id="userDropdown">
-            <a href="profile.html">Trang cá nhân</a>
-            <a href="/NguoiDung/settings-upgrade.html">Nâng cấp thành chuyên gia</a>
-            <a href="/tracnghiem.html">Trắc nghiệm trầm cảm</a>
-            <a href="/NguoiDung/ho-tro-user.html">Hỗ trợ</a>
-            <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
-        </div>
-    </div>`
-
     const userMenu = base.firstElementChild
     window.userMenu = userMenu
-
 
     base.innerHTML = `<div name="modal" class="modal-overlay">
     <div class="auth-modal">
@@ -36,7 +18,7 @@
         <h2>Đăng nhập</h2>
         <input type="email" name="email" placeholder="Email" required />
         <input type="password" name="password" placeholder="Mật khẩu" required />
-        <a href="./reset-password.html" class="forgot-password">Quên mật khẩu?</a>
+        <a href="/reset-password" class="forgot-password">Quên mật khẩu?</a>
         <button type="submit">Đăng nhập</button>
         </form>
         <form name="registerForm" class="form">
@@ -204,24 +186,12 @@
 
     }
 
-
-    document.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("DOMContentLoaded", () => {
         const user = JSON.parse(localStorage.getItem("user"));
         const loginLink = document.getElementById("loginLink");
         const userMenu = document.getElementById("userMenu");
         const usernameDisplay = document.getElementById("usernameDisplay");
 
-        if (user) {
-            loginLink.style.display = "none";
-            userMenu.style.display = "inline-block";
-            usernameDisplay.innerText = user.fullName || user.username;
-        } else {
-            userMenu.style.display = "none";
-        }
-    });
-
-    window.addEventListener("DOMContentLoaded", () => {
-        const user = JSON.parse(localStorage.getItem("user"));
         const urlParams = new URLSearchParams(window.location.search);
         const googleUserParam = urlParams.get("googleUser");
 
@@ -262,7 +232,9 @@
             if (loginLink && userMenu && usernameDisplay) {
                 loginLink.style.display = "none";
                 userMenu.style.display = "inline-block";
-                usernameDisplay.innerText = user.fullName || user.email;
+                usernameDisplay.innerText = user.fullname || user.username;
+            } else {
+                userMenu.style.display = "none";
             }
         }
     });

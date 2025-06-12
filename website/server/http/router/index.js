@@ -1,11 +1,13 @@
 import express from 'express'
 
-// #TODO:
 const router = express.Router()
 router.use("/rpc", (await import('./rpc.js')).default)
 router.use("/api", (await import('./api/index.js')).default)
-// router.use("/file", (await import('./file/index.js')).default)
-// router.use("/desk", (await import('./desk/index.js')).default)
-// router.use("/auth", (await import('./auth/index.js')).default)
+router.use("/NguoiDung", (await import('./NguoiDung/index.js')).default)
+router.use("/profile", (await import('./profile/index.js')).default)
+router.use("/reset-password", (await import('./reset-password/index.js')).default)
+router.use("/tracnghiem", (await import('./tracnghiem/index.js')).default)
+
+router.use("/", (await import('./index.html/index.js')).default)
 
 export default router

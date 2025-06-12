@@ -1,0 +1,203 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+<style>
+    :root {
+        --primary-color: #A993EC;
+        --secondary-color: #7A63D8;
+        --success-color: #28a745;
+        --text-primary: #1a202c;
+        --text-secondary: #718096;
+        --bg-light: #f8f7fc;
+        --card-bg: #ffffff;
+        --border-color: #e2e8f0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #d9cff7, #f8f7fc);
+        color: var(--text-primary);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* --- Header & Footer --- */
+    .header {
+        background-color: var(--card-bg);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+    }
+
+    .header .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+    }
+
+    .header .nav {
+        display: flex;
+        gap: 25px;
+    }
+
+    .header .nav a {
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-weight: 600;
+    }
+
+    .footer {
+        background-color: #1f2937;
+        color: #d1d5db;
+        padding: 40px 5%;
+        margin-top: auto;
+    }
+
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .footer h4 {
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        font-size: 0.9rem;
+        border-top: 1px solid #374151;
+    }
+
+    /* --- Main Content --- */
+    .main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        padding: 40px 20px;
+    }
+
+    .reset-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-header h1 {
+        font-size: 2rem;
+        color: var(--text-primary);
+        margin-bottom: 10px;
+    }
+
+    .form-header p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .form-group .icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(25%);
+        color: var(--text-secondary);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px 12px 45px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-light);
+        font-size: 1rem;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px var(--primary-color-light);
+    }
+
+    .password-requirements {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        margin-top: 5px;
+        padding-left: 5px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 10px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .submit-btn:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .success-message {
+        text-align: center;
+    }
+
+    .success-message .icon {
+        font-size: 3rem;
+        color: var(--success-color);
+        margin-bottom: 15px;
+    }
+
+    .success-message h2 {
+        margin: 0 0 10px;
+    }
+
+    .success-message a {
+        display: inline-block;
+        margin-top: 20px;
+    }
+</style>

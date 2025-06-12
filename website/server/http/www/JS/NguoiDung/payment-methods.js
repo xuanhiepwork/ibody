@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!res2.ok) throw new Error(data.message || "Gửi yêu cầu thất bại");
 
         alert("✅ Yêu cầu xác nhận đã được gửi. Vui lòng chờ admin duyệt!");
-        window.location.href = "./lichSuGoi.html";
+        window.location.href = "./lich-su-goi";
       } catch (err) {
         alert("❌ " + err.message);
       }

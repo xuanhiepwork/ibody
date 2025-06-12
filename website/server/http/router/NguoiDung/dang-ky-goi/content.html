@@ -1,0 +1,83 @@
+<div class="main-container">
+    <h2 class="section-title">Gói Dịch Vụ Của Bạn</h2>
+
+    <div class="current-package-card">
+        <h3 id="currentPackageName"></h3>
+        <div class="package-details-grid">
+            <div class="detail-item">
+                <p>Trạng thái</p>
+                <div class="value" id="currentPackageStatus"></div>
+            </div>
+            <div class="detail-item">
+                <p>Ngày hết hạn</p>
+                <div class="value" id="currentPackageExpiry"></div>
+            </div>
+            <div class="progress-bar-container">
+                <p>Số lượt còn lại</p>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-label" id="progressLabel"></div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Nâng cấp hoặc Mua gói mới</h2>
+    <p class="section-subtitle">Lựa chọn gói dịch vụ phù hợp nhất với nhu cầu của bạn để tiếp tục hành trình thấu hiểu
+        bản thân.</p>
+
+    <div class="pricing-grid" id="goiList">
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentPackage = {
+            name: "Premium+",
+            status: "Đang hoạt động",
+            expiryDate: "08/06/2026",
+            remainingSessions: 35,
+            totalSessions: 50
+        };
+
+        const availablePackages = [
+            { name: "Gói Cơ bản", price: "149.000", features: ["10 lượt tư vấn", "Hỗ trợ qua email", "Truy cập tài liệu cơ bản"], isPopular: false },
+            { name: "Gói Premium+", price: "299.000", features: ["50 lượt tư vấn", "Hỗ trợ ưu tiên qua email & chat", "Truy cập toàn bộ tài liệu", "Báo cáo tiến độ hàng tháng"], isPopular: true },
+            { name: "Gói Pro", price: "499.000", features: ["120 lượt tư vấn", "Hỗ trợ 24/7", "Tất cả quyền lợi của Premium+", "Tư vấn trực tiếp 1-1"], isPopular: false }
+        ];
+
+        function renderCurrentPackage() {
+            document.getElementById('currentPackageName').textContent = `Gói ${currentPackage.name}`;
+            document.getElementById('currentPackageStatus').textContent = currentPackage.status;
+            document.getElementById('currentPackageExpiry').textContent = currentPackage.expiryDate;
+
+            const progressPercentage = (currentPackage.remainingSessions / currentPackage.totalSessions) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+            document.getElementById('progressLabel').textContent = `${currentPackage.remainingSessions} / ${currentPackage.totalSessions} lượt`;
+        }
+
+        function renderAvailablePackages() {
+            const packageList = document.getElementById('goiList');
+            packageList.innerHTML = '';
+
+            availablePackages.forEach(pkg => {
+                const card = document.createElement('div');
+                card.className = `pricing-card ${pkg.isPopular ? 'popular' : ''}`;
+
+                card.innerHTML = `
+                ${pkg.isPopular ? '<div class="popular-badge">Phổ biến nhất</div>' : ''}
+                <h3 class="plan-name">${pkg.name}</h3>
+                <div class="plan-price">${pkg.price}<span> VNĐ / tháng</span></div>
+                <ul class="plan-features">
+                    ${pkg.features.map(feature => `<li><i class="fas fa-check-circle"></i> ${feature}</li>`).join('')}
+                </ul>
+                <a href="./payment-methods.html" class="btn-subscribe">Đăng ký ngay</a>
+            `;
+                packageList.appendChild(card);
+            });
+        }
+
+        renderCurrentPackage();
+        renderAvailablePackages();
+    });
+</script>

@@ -1,0 +1,64 @@
+<div class="main-container">
+    <div class="reset-card">
+        <div id="form-container">
+            <div class="form-header">
+                <h1>Đặt lại Mật khẩu</h1>
+                <p>Tạo một mật khẩu mới mạnh mẽ và an toàn cho tài khoản của bạn.</p>
+            </div>
+
+            <form id="resetForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" id="email" value="nguoidung@email.com" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Mật khẩu mới</label>
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="newPassword" required>
+                    <p class="password-requirements">Ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số.</p>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Xác nhận mật khẩu mới</label>
+                    <i class="fas fa-check-circle icon"></i>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">Đặt lại Mật khẩu</button>
+            </form>
+        </div>
+
+        <div id="successMessage" class="success-message" style="display: none;">
+            <div class="icon"><i class="fas fa-check-circle"></i></div>
+            <h2>Thành công!</h2>
+            <p>Mật khẩu của bạn đã được thay đổi. Vui lòng đăng nhập lại.</p>
+            <a href="#" class="submit-btn">Đến trang Đăng nhập</a>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const resetForm = document.getElementById('resetForm');
+
+        if (resetForm) {
+            resetForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (newPassword !== confirmPassword) {
+                    alert("Mật khẩu xác nhận không khớp. Vui lòng thử lại.");
+                    return;
+                }
+
+                // Trong ứng dụng thực tế, đây là nơi gửi dữ liệu lên server
+                console.log("Đã gửi yêu cầu đổi mật khẩu.");
+
+                // Hiển thị thông báo thành công
+                document.getElementById('form-container').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            });
+        }
+    });
+</script>

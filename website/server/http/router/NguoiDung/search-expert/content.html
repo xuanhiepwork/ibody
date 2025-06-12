@@ -1,0 +1,118 @@
+<div class="page-container">
+    <div class="search-layout">
+        <div class="filter-panel">
+            <h3><i class="fas fa-filter"></i> Bộ lọc Tìm kiếm</h3>
+            <div class="filter-group">
+                <label for="searchInput"><i class="fas fa-keyboard"></i> Từ khoá</label>
+                <input type="text" id="searchInput" placeholder="Tên, chuyên môn...">
+            </div>
+            <div class="filter-group">
+                <label for="specialtyFilter"><i class="fas fa-user-tag"></i> Lĩnh vực Tư vấn</label>
+                <select id="specialtyFilter"></select>
+            </div>
+            <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Tìm kiếm</button>
+        </div>
+
+        <div class="results-area">
+            <div class="results-header">
+                <p id="resultsCount"></p>
+            </div>
+            <div id="expertList" class="expert-list-grid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mockExperts = [
+            { id: 1, name: "Nguyễn Thị Lan Anh", avatar: "../picture/HoangNhuQuynh.png", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 2, name: "Trần Minh Đức", avatar: "https://media.licdn.com/dms/image/v2/D5603AQEXqOp4DDLoEw/profile-displayphoto-shrink_800_800/B56ZSNP0gjHoAc-/0/1737536523054?e=1753920000&v=beta&t=_hOIPzbzw7qg_EciMC9hG29sx6aGyJJGvuzwZ14fVoE", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 3, name: "Lê Minh Nguyệt", avatar: "../picture/MinhNguyet.png", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 4, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
+            { id: 5, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
+            { id: 6, name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 7, name: "Trần Minh Đức", avatar: "https://i.pravatar.cc/150?u=expert2", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 8, name: "Lê Minh Nguyệt", avatar: "https://i.pravatar.cc/150?u=expert3", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 9, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
+            { id: 10, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
+            { id: 11, name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 12, name: "Trần Minh Đức", avatar: "https://i.pravatar.cc/150?u=expert2", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 13, name: "Lê Minh Nguyệt", avatar: "https://i.pravatar.cc/150?u=expert3", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 14, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
+            { id: 15, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
+            { id: 16, name: "Nguyễn Thị Lan Anh", avatar: "https://i.pravatar.cc/150?u=expert1", specialty: "Tâm lý học đường", specialties: ["Tâm lý học đường", "Rối loạn lo âu", "Stress"], rating: 4.9 },
+            { id: 17, name: "Trần Minh Đức", avatar: "https://i.pravatar.cc/150?u=expert2", specialty: "Trầm cảm", specialties: ["Trầm cảm", "Rối loạn cảm xúc", "Tư vấn cá nhân"], rating: 4.8 },
+            { id: 18, name: "Lê Minh Nguyệt", avatar: "https://i.pravatar.cc/150?u=expert3", specialty: "Tư vấn Hôn nhân", specialties: ["Tư vấn Hôn nhân", "Mâu thuẫn gia đình", "Nuôi dạy con cái"], rating: 4.9 },
+            { id: 19, name: "Phạm Quang Huy", avatar: "https://i.pravatar.cc/150?u=expert4", specialty: "Tư vấn hướng nghiệp", specialties: ["Tư vấn hướng nghiệp", "Phát triển bản thân", "Kỹ năng mềm"], rating: 4.7 },
+            { id: 20, name: "Vũ Thị Mai", avatar: "https://i.pravatar.cc/150?u=expert5", specialty: "Rối loạn lo âu", specialties: ["Rối loạn lo âu", "Ám ảnh sợ hãi", "Stress"], rating: 4.8 },
+        ];
+
+        const expertListDiv = document.getElementById('expertList');
+        const specialtyFilter = document.getElementById('specialtyFilter');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultsCount = document.getElementById('resultsCount');
+
+        function populateFilters() {
+            const allSpecialties = new Set();
+            mockExperts.forEach(expert => allSpecialties.add(expert.specialty));
+
+            specialtyFilter.innerHTML = '<option value="">Tất cả lĩnh vực</option>';
+            allSpecialties.forEach(spec => {
+                specialtyFilter.innerHTML += `<option value="${spec}">${spec}</option>`;
+            });
+        }
+
+        function renderExperts(expertsToRender) {
+            expertListDiv.innerHTML = '';
+            resultsCount.textContent = `Tìm thấy ${expertsToRender.length} chuyên gia.`;
+
+            if (expertsToRender.length === 0) {
+                expertListDiv.innerHTML = '<p>Không tìm thấy chuyên gia phù hợp.</p>';
+                return;
+            }
+
+            expertsToRender.forEach(expert => {
+                const expertCard = document.createElement('div');
+                expertCard.className = 'expert-card';
+                expertCard.innerHTML = `
+                    <img src="${expert.avatar}" alt="${expert.name}" class="avatar">
+                    <h4 class="name">${expert.name}</h4>
+                    <p class="specialty">${expert.specialty}</p>
+                    <div class="expert-tags">
+                        ${expert.specialties.map(s => `<span class="tag">${s}</span>`).join('')}
+                    </div>
+                    <div class="card-footer">
+                        <a href="./profile-expert.html" class="card-btn btn-secondary">Xem hồ sơ</a>
+                        <a href="./datLich.html" class="card-btn btn-primary">Đặt lịch ngay</a>
+                    </div>
+                `;
+                expertListDiv.appendChild(expertCard);
+            });
+        }
+
+        function filterAndRender() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedSpecialty = specialtyFilter.value;
+
+            const filteredResults = mockExperts.filter(expert => {
+                const matchesSearch = expert.name.toLowerCase().includes(searchTerm) ||
+                    expert.specialty.toLowerCase().includes(searchTerm);
+                const matchesSpecialty = !selectedSpecialty || expert.specialty === selectedSpecialty;
+                return matchesSearch && matchesSpecialty;
+            });
+            renderExperts(filteredResults);
+        }
+
+        searchBtn.addEventListener('click', filterAndRender);
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') filterAndRender();
+        });
+        specialtyFilter.addEventListener('change', filterAndRender);
+
+        // Initial Render
+        populateFilters();
+        renderExperts(mockExperts);
+    });
+</script>

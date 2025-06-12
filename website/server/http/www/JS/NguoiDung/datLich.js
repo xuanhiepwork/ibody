@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // if (!user || !chuyenGiaId) {
   //   alert("Thiếu thông tin đăng nhập hoặc chuyên gia.");
-  //   window.location.href = "search-expert.html";
+  //   window.location.href = "search-expert";
   //   return;
   // }
 
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       alert(result.message || "✅ Đặt lịch thành công!");
-      window.location.href = "lich-hen-user.html";
+      window.location.href = "lich-hen-user";
     } catch (err) {
       alert("❌ Lỗi kết nối đến server.");
       console.error(err);

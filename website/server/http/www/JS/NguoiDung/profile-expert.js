@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const chuyenGiaId = new URLSearchParams(window.location.search).get("id");
   if (!chuyenGiaId) {
     alert("Không tìm thấy chuyên gia.");
-    window.location.href = "search-expert.html";
+    window.location.href = "search-expert";
     return;
   }
 

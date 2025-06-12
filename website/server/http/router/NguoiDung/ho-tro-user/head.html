@@ -1,0 +1,156 @@
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --secondary-color: #7A63D8;
+      --success-color: #28a745;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+      --bg-light: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+    }
+
+    /* --- Header & Footer --- */
+    .header {
+        background-color: var(--card-bg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+    }
+    .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+    .header .nav { display: flex; gap: 25px; }
+    .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; padding: 5px 0; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .header .nav a:hover { color: var(--primary-color); }
+    
+    .footer { background-color: #1f2937; color: #d1d5db; padding: 40px 5%; margin-top: 50px; }
+    .footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding-bottom: 20px; border-bottom: 1px solid #374151; }
+    .footer h4 { color: white; margin-bottom: 10px; }
+    .footer p { margin: 5px 0; line-height: 1.6; }
+    .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.9rem; }
+    
+    /* --- Main Container --- */
+    .support-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+    }
+    .section-subtitle {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto 50px auto;
+    }
+
+    /* --- FAQ Section --- */
+    .faq-section { margin-bottom: 60px; }
+    .faq-accordion { max-width: 800px; margin: 0 auto; }
+    .faq-item {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .faq-question .icon { transition: transform 0.3s ease; }
+    .faq-item.active .faq-question .icon { transform: rotate(180deg); }
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        padding: 0 20px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+    .faq-item.active .faq-answer {
+        max-height: 200px; /* Hoặc một giá trị đủ lớn */
+        padding: 0 20px 20px 20px;
+    }
+    
+    /* --- Support Form Section --- */
+    .support-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+        background-color: var(--card-bg);
+        padding: 40px;
+        border-radius: 16px;
+    }
+    .support-illustration img { max-width: 100%; height: auto; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+        font-size: 1rem;
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    
+    .btn-submit {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.1rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .btn-submit:hover { background-color: var(--secondary-color); }
+
+    .success-message {
+        text-align: center;
+        padding: 40px;
+        background-color: rgba(40, 167, 69, 0.1);
+        border: 1px solid rgba(40, 167, 69, 0.2);
+        border-radius: 12px;
+    }
+    .success-message .icon { font-size: 3rem; color: var(--success-color); margin-bottom: 15px; }
+    .success-message h3 { margin: 0 0 10px; }
+
+    @media(max-width: 900px) {
+        .support-grid { grid-template-columns: 1fr; }
+        .support-illustration { display: none; }
+    }
+  </style>

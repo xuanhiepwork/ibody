@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     html += `
       <div class="cta">
-        <p>💡 Bạn có thể <a href="/NguoiDung/search-expert.html" class="link">kết nối chuyên gia tư vấn</a> để được hỗ trợ sớm.</p>
+        <p>💡 Bạn có thể <a href="/NguoiDung/search-expert" class="link">kết nối chuyên gia tư vấn</a> để được hỗ trợ sớm.</p>
       </div>
     `;
 

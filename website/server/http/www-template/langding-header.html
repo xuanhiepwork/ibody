@@ -1,0 +1,67 @@
+<header class="header">
+
+  <a class="logo" href="/">
+    <img src="/picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
+    <span class="brand">IBODY</span>
+  </a>
+
+  <button id="menu-toggle" class="menu-toggle">☰</button>
+
+  <script>{
+      const base = document.createElement("div")
+      base.innerHTML = `<nav class="nav">
+    <a href="/">Trang chủ</a>
+    <a
+      href="https://www.facebook.com/groups/1385192975848986/">Cộng
+      Đồng</a>
+    <a href="/NguoiDung/search-expert">Tư vấn</a>
+    <a href="/NguoiDung/tin-nhan-user">Tin nhắn</a>
+    <a href="/NguoiDung/lich-hen-user">Lịch hẹn</a>
+    <a href="/NguoiDung/lich-su-goi">Lịch sử giao dịch</a>
+    <a href="/NguoiDung/dang-ky-goi">Gói tư vấn</a>
+    <a href="/Admin/admin-users.html">Người dùng</a>
+    <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
+
+    <div class="user-menu" id="userMenu" style="display: none;">
+      <div class="user-button" onclick="toggleUserDropdown()">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
+        <span id="usernameDisplay"></span>
+      <div class="user-dropdown" id="userDropdown">
+        <a href="/profile">Trang cá nhân</a>
+        <a href="/NguoiDung/become-expert">Nâng cấp thành chuyên gia</a>
+        <a href="/tracnghiem">Trắc nghiệm trầm cảm</a>
+        <a href="/NguoiDung/ho-tro-user">Hỗ trợ</a>
+        <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
+      </div>
+
+  </nav>`
+      const elm = base.firstElementChild
+
+      const { pathname } = location
+      const aElms = elm.querySelectorAll("a")
+      var activated = false
+
+      for (var i = aElms.length - 1, e; i >= 0; i--) {
+        e = aElms[i]
+        if (pathname === e.getAttribute("href")) {
+          e.classList.add('active')
+          activated = true
+          break
+        }
+      }
+
+      if (!activated) for (var i = aElms.length - 1, e; i >= 0; i--) {
+        e = aElms[i]
+        if (pathname.startsWith(e.getAttribute("href"))) {
+          e.classList.add('active')
+          break
+        }
+      }
+
+
+      document.currentScript.parentElement.append(elm)
+
+    }</script>
+
+
+</header>
