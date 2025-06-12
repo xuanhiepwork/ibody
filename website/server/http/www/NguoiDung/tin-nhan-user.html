@@ -272,6 +272,9 @@
   </style>
 </head>
 <body>
+    <!-- #TODO: fix popup is not visible -->
+    <script src="/Component/AuthModal.js"></script>
+
     <header class="header">
     <div class="logo">
       <img src="../picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
@@ -289,7 +292,8 @@
       <a href="/NguoiDung/lichSuGoi.html">Lịch sử giao dịch</a>
       <a href="/NguoiDung/dang-ky-goi.html">Gói tư vấn</a>
       <a href="/Admin/admin-users.html">Người dùng</a>
-      <a href="#" id="loginLink" onclick="openAuthModal()">Đăng nhập/Đăng ký</a>
+      <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
+
       <div class="user-menu" id="userMenu" style="display: none;">
         <div class="user-button" onclick="toggleUserDropdown()">
           <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
@@ -303,6 +307,7 @@
           <a href="#" onclick="logout()">Đăng xuất</a>
         </div>
       </div>
+
     </nav>
   </header>
 

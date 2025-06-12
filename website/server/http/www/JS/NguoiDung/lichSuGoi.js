@@ -19,15 +19,15 @@
 
 //     if (avatarImg) {
 //       avatarImg.src = user.avatarUrl
-//         ? `http://localhost:5221${user.avatarUrl}`
-//         : "../../img/default-avatar.png";
+//         ? `${user.avatarUrl}`
+//         : "/picture/default-avatar.jpg";
 //     }
 //   } else {
 //     if (userMenu) userMenu.style.display = "none";
 //   }
 
 //   const tableBody = document.querySelector("#historyTable tbody");
-//   const apiUrl = `http://localhost:5221/api/user/lich-su-goi/${user.taiKhoanId}`;
+//   const apiUrl = `/api/user/lich-su-goi/${user.taiKhoanId}`;
 
 //   try {
 //     const res = await fetch(apiUrl);

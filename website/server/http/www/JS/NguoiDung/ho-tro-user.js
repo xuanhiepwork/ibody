@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5221/api";
+const API_BASE_URL = "/api";
 
 
 
@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (avatarImg) {
       avatarImg.src = user.avatarUrl
-        ? `http://localhost:5221${user.avatarUrl}`
-        : "../../img/default-avatar.png"; // fallback ảnh mặc định
+        ? `${user.avatarUrl}`
+        : "/picture/default-avatar.jpg"; // fallback ảnh mặc định
     }
   } else {
     if (userMenu) userMenu.style.display = "none";

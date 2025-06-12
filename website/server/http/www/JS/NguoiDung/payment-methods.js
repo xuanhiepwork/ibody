@@ -20,8 +20,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (avatarImg) {
       avatarImg.src = user.avatarUrl
-        ? `http://localhost:5221${user.avatarUrl}`
-        : "../../img/default-avatar.png";
+        ? `${user.avatarUrl}`
+        : "/picture/default-avatar.jpg";
     }
   } else {
     if (userMenu) userMenu.style.display = "none";

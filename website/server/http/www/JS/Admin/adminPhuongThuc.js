@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5221/api/admin";
+const API_BASE = "/api/admin";
 
 async function loadPhuongThuc() {
     const res = await fetch(`${API_BASE}/he-thong-phuong-thuc`);

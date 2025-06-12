@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewCertBtn = document.getElementById('viewCertBtn');
 
   viewCertBtn.addEventListener('click', () => {
-    fetch(`http://localhost:5221/api/chuyen-gia/thongTin/${user.taiKhoanId}`)
+    fetch(`/api/chuyen-gia/thongTin/${user.taiKhoanId}`)
       .then(res => res.json())
       .then(data => {
         if (data.anhChungChi) {
@@ -52,7 +52,7 @@ function loadSchedule() {
     console.warn("Chưa có chuyenGiaId");
     return;
   }
-  fetch(`http://localhost:5221/api/thoi-gian-ranh/chuyen-gia/${chuyenGiaId}`)
+  fetch(`/api/thoi-gian-ranh/chuyen-gia/${chuyenGiaId}`)
     .then(res => res.json())
     .then(data => {
       console.log("Dữ liệu lịch rảnh nhận được:", data);
@@ -81,7 +81,7 @@ function loadSchedule() {
 
 
   // === Lấy và hiển thị thông tin chuyên gia ===
-  fetch(`http://localhost:5221/api/chuyen-gia/thongTin/${user.taiKhoanId}`)
+  fetch(`/api/chuyen-gia/thongTin/${user.taiKhoanId}`)
     .then(res => res.json())
     .then(data => {
       chuyenGiaId = data.id;
@@ -134,7 +134,7 @@ function loadSchedule() {
 
   console.log("Payload gửi đi:", payload);
 
-  const res = await fetch(`http://localhost:5221/api/chuyen-gia/cap-nhat/${chuyenGiaId}`, {
+  const res = await fetch(`/api/chuyen-gia/cap-nhat/${chuyenGiaId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -173,7 +173,7 @@ function loadSchedule() {
   // === Hàm xoá lịch (được gọi từ HTML) ===
   window.deleteSchedule = async function (id) {
     if (confirm("Xác nhận xoá?")) {
-      await fetch(`http://localhost:5221/api/thoi-gian-ranh/${id}`, { method: 'DELETE' });
+      await fetch(`/api/thoi-gian-ranh/${id}`, { method: 'DELETE' });
       loadSchedule();
       document.getElementById('scheduleForm').reset();
       document.getElementById('scheduleId').value = "";
@@ -214,8 +214,8 @@ function loadSchedule() {
 
     const payload = { chuyenGiaId, thuTrongTuan: thu, tu, den };
     const url = id
-      ? `http://localhost:5221/api/thoi-gian-ranh/${id}`
-      : `http://localhost:5221/api/thoi-gian-ranh`;
+      ? `/api/thoi-gian-ranh/${id}`
+      : `/api/thoi-gian-ranh`;
     const method = id ? 'PUT' : 'POST';
 
     const res = await fetch(url, {
@@ -246,7 +246,7 @@ function loadSchedule() {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const res = await fetch(`http://localhost:5221/api/chuyen-gia/upload-avatar/${user.taiKhoanId}`, {
+      const res = await fetch(`/api/chuyen-gia/upload-avatar/${user.taiKhoanId}`, {
         method: "POST",
         body: formData
       });

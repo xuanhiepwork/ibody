@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ====== 2. Tải thông tin cá nhân ======
   async function loadThongTinCaNhan() {
     try {
-      const res = await fetch(`http://localhost:5221/api/user/profile/${user.taiKhoanId}`);
+      const res = await fetch(`/api/user/profile/${user.taiKhoanId}`);
       const data = await res.json();
 
       if (res.ok) {
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // ✅ Hiển thị avatar trong thông tin
         document.getElementById("currentAvatar").src = data.avatarUrl
           ? `http://localhost:5221${data.avatarUrl}`
-          : "../img/default-avatar.png";
+          : "/picture/default-avatar.jpg";
 
         // ✅ Cập nhật avatar ở menu nếu có
         const avatarMenu = document.querySelector(".user-button img");
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       try {
-        const res = await fetch(`http://localhost:5221/api/user/profile/${user.taiKhoanId}`, {
+        const res = await fetch(`/api/user/profile/${user.taiKhoanId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(dto),
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("file", fileInput.files[0]);
 
       try {
-        const res = await fetch(`http://localhost:5221/api/user/upload-avatar/${user.taiKhoanId}`, {
+        const res = await fetch(`/api/user/upload-avatar/${user.taiKhoanId}`, {
           method: "POST",
           body: formData
         });
@@ -131,7 +131,7 @@ async function loadLichSuTuVan() {
   container.innerHTML = "<p>Đang tải dữ liệu...</p>";
 
   try {
-    const res = await fetch(`http://localhost:5221/api/user/lichSuTuVan/${user.taiKhoanId}`);
+    const res = await fetch(`/api/user/lichSuTuVan/${user.taiKhoanId}`);
     const data = await res.json();
 
     if (res.ok && data.length > 0) {

@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5221/api";
+const API_BASE = "/api";
 const user = JSON.parse(localStorage.getItem("user"));
 
 // if (!user) {
@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (avatarImg) {
       avatarImg.src = user.avatarUrl
-        ? `http://localhost:5221${user.avatarUrl}`
-        : "../../img/default-avatar.png";
+        ? `${user.avatarUrl}`
+        : "/picture/default-avatar.jpg";
     }
   } else {
     if (userMenu) userMenu.style.display = "none";

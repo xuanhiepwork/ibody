@@ -20,8 +20,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (avatarImg) {
       avatarImg.src = user.avatarUrl
-        ? `http://localhost:5221${user.avatarUrl}`
-        : "../../img/default-avatar.png";
+        ? `${user.avatarUrl}`
+        : "/picture/default-avatar.jpg";
     }
   } else {
     if (userMenu) userMenu.style.display = "none";
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     // ✅ Tải gói hiện tại
-    const goiRes = await fetch(`http://localhost:5221/api/goi-dich-vu/dang-su-dung/${user.taiKhoanId}`);
+    const goiRes = await fetch(`/api/goi-dich-vu/dang-su-dung/${user.taiKhoanId}`);
     const goiText = await goiRes.text();
     let goiDangSuDung = null;
 
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // ✅ Tải danh sách gói
-    const res = await fetch("http://localhost:5221/api/goi-dich-vu/danh-sach");
+    const res = await fetch("/api/goi-dich-vu/danh-sach");
     const list = await res.json();
 
     if (!Array.isArray(list) || list.length === 0) {
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ✅ Xử lý điều hướng và thao tác gói
 async function chuyenTrangThanhToan(goiId) {
   const user = JSON.parse(localStorage.getItem("user"));
-  const goiRes = await fetch(`http://localhost:5221/api/goi-dich-vu/dang-su-dung/${user.taiKhoanId}`);
+  const goiRes = await fetch(`/api/goi-dich-vu/dang-su-dung/${user.taiKhoanId}`);
   const goiText = await goiRes.text();
   let goiDangSuDung = null;
 
@@ -120,7 +120,7 @@ async function huyGoi() {
   const user = JSON.parse(localStorage.getItem("user"));
   if (!confirm("Bạn chắc chắn muốn hủy gói hiện tại?")) return;
   try {
-    const res = await fetch(`http://localhost:5221/api/goi-dich-vu/huy-goi/${user.taiKhoanId}`, {
+    const res = await fetch(`/api/goi-dich-vu/huy-goi/${user.taiKhoanId}`, {
       method: "POST"
     });
     const text = await res.text();

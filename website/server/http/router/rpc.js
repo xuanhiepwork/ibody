@@ -1,9 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-
-// middlewares
 import session from 'server/http/middleware/session.js'
-
 import ctx from "core"
 
 const router = express.Router()

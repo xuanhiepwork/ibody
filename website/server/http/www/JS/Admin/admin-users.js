@@ -7,7 +7,7 @@
 
 // async function loadAccounts() {
 //   try {
-//     const res = await fetch("http://localhost:5221/api/admin/accounts");
+//     const res = await fetch("/api/admin/accounts");
 //     const data = await res.json();
 //     const accounts = data.data || [];
 
@@ -38,7 +38,7 @@
 
 
 // async function moKhoaTaiKhoan(id) {
-//   await fetch(`http://localhost:5221/api/admin/mo-khoa-tai-khoan/${id}`, { method: "POST" });
+//   await fetch(`/api/admin/mo-khoa-tai-khoan/${id}`, { method: "POST" });
 //   loadAccounts();
 // }
 
@@ -47,14 +47,14 @@
 // async function xoaTaiKhoan(id) {
 //   if (id === currentUserId) return alert("Bạn không thể xoá tài khoản của chính mình.");
 //   if (confirm("Bạn có chắc muốn xoá tài khoản này?")) {
-//     await fetch(`http://localhost:5221/api/admin/account/${id}`, { method: "DELETE" });
+//     await fetch(`/api/admin/account/${id}`, { method: "DELETE" });
 //     loadAccounts();
 //   }
 // }
 
 // async function khoaTaiKhoan(id) {
 //   if (id === currentUserId) return alert("Bạn không thể khóa tài khoản của chính mình.");
-//   await fetch(`http://localhost:5221/api/admin/khoa-tai-khoan/${id}`, { method: "POST" });
+//   await fetch(`/api/admin/khoa-tai-khoan/${id}`, { method: "POST" });
 //   loadAccounts();
 // }
 

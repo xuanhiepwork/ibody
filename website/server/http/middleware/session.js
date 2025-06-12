@@ -1,6 +1,7 @@
-import { RedisStore } from "connect-redis"
 import session from "express-session"
+import { RedisStore } from "connect-redis"
 import { createClient } from "redis"
+import ctx from "core"
 
 // session store
 const redisClient = createClient()
@@ -14,3 +15,31 @@ export default session({
   saveUninitialized: false,
   secret: process.env.APP_AUTH_SESSION_SECRET,
 })
+
+export const auth = {
+  async loginByEmailPassword(sess, email, password) {
+    const user = await ctx.call("User", "loginByEmailPassword", email, password)
+
+    sess.whoami = {
+      user: {
+        id: user?.id,
+        name: user?.name,
+        fullname: user?.fullname,
+        roles: ["quan_tri", "chuyen_gia"],
+        gourps: (await ctx.call("User", "getAllGroupsOfUserId", user.id)).map(g => g?.code),
+        avatarUrl: user?.avataUrl
+      },
+    }
+
+    return 'login-success'
+  },
+
+  async whoami(sess) {
+    return sess.whoami
+  },
+
+  async logout(sess) {
+    return sess.destroy()
+  }
+
+}

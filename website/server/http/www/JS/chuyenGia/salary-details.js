@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const res = await fetch(`http://localhost:5221/api/chuyen-gia/chi-tiet-luong/${billId}`);
+    const res = await fetch(`/api/chuyen-gia/chi-tiet-luong/${billId}`);
     const data = await res.json();
 
     if (!res.ok) throw new Error(data.message || "Không thể tải hóa đơn.");

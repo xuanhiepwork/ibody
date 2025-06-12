@@ -2,7 +2,7 @@ import env from './env.js'
 import userPermission from './model/UserPermission.js'
 
 
-const models = {}
+const models = Object.create(null)
 const ctx = {
     env,
     userId: 0,
@@ -22,6 +22,10 @@ const ctx = {
             if (error.code === 'ERR_MODULE_NOT_FOUND') {
                 throw (new Error(`Model ${modelId} not found!`))
             }
+        }
+
+        if (!model) {
+            throw (new Error(`Notfound model ${"./model/" + modelId + ".js"} !`))
         }
 
         if (typeof model[actionName] !== 'function') {

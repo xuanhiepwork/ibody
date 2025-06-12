@@ -7,7 +7,7 @@ if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
 
 async function loadDanhGia() {
   try {
-    const res = await fetch("http://localhost:5221/api/admin/danhGiaCuaChuyenGia");
+    const res = await fetch("/api/admin/danhGiaCuaChuyenGia");
     const data = await res.json();
     const list = data.data || data;
 
@@ -35,7 +35,7 @@ async function loadDanhGia() {
 
 async function xoaDanhGia(id) {
   if (confirm("Bạn có chắc muốn xoá đánh giá này?")) {
-    await fetch(`http://localhost:5221/api/admin/xoaDanhGia/${id}`, {
+    await fetch(`/api/admin/xoaDanhGia/${id}`, {
       method: "DELETE",
     });
     loadDanhGia();

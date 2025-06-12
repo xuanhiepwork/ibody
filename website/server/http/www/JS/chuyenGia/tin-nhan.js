@@ -32,12 +32,12 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 async function loadClients() {
   try {
-    const infoRes = await fetch(`http://localhost:5221/api/chuyen-gia/thongTin/${currentUserId}`);
+    const infoRes = await fetch(`/api/chuyen-gia/thongTin/${currentUserId}`);
     if (!infoRes.ok) throw new Error("Không tìm thấy chuyên gia");
     const expert = await infoRes.json();
     const chuyenGiaId = expert.id;
 
-    const res = await fetch(`http://localhost:5221/api/chuyen-gia/khach-hang-tu-van/${chuyenGiaId}`);
+    const res = await fetch(`/api/chuyen-gia/khach-hang-tu-van/${chuyenGiaId}`);
     const list = await res.json();
 
     const chatList = document.getElementById("chatList");
@@ -58,7 +58,7 @@ async function loadClients() {
       const li = document.createElement("li");
       li.classList.add("chat-item");
       li.innerHTML = `
-        <img src="${user.avatarUrl ? `http://localhost:5221${user.avatarUrl}` : '../images/user.png'}" alt="user">
+        <img src="${user.avatarUrl ? `${user.avatarUrl}` : '../images/user.png'}" alt="user">
         <div>
           <h3>${user.hoTenKhachHang}</h3>
           <p>${user.email}</p>
@@ -96,7 +96,7 @@ function selectReceiver(id, element) {
 
 async function loadMessages(senderId, receiverId) {
   try {
-    const res = await fetch(`http://localhost:5221/api/chuyen-gia/lichSuTinNhan?taiKhoan1=${senderId}&taiKhoan2=${receiverId}`);
+    const res = await fetch(`/api/chuyen-gia/lichSuTinNhan?taiKhoan1=${senderId}&taiKhoan2=${receiverId}`);
     const list = await res.json();
 
     const container = document.getElementById("message-list");
@@ -125,7 +125,7 @@ async function sendMessage() {
   if (!noiDung || !selectedUserId) return;
 
   try {
-    const res = await fetch("http://localhost:5221/api/chuyen-gia/guiTinNhan", {
+    const res = await fetch("/api/chuyen-gia/guiTinNhan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

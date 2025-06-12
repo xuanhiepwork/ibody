@@ -9,7 +9,7 @@ let currentEditId = null;
 
 async function loadLichHen() {
   try {
-    const res = await fetch("http://localhost:5221/api/admin/lich-hen");
+    const res = await fetch("/api/admin/lich-hen");
     const data = await res.json();
     const list = data.data || data;
 
@@ -41,7 +41,7 @@ async function loadLichHen() {
 
 async function xoaLichHen(id) {
   if (confirm("Bạn có chắc muốn xoá lịch hẹn này?")) {
-    await fetch(`http://localhost:5221/api/admin/lich-hen/${id}`, { method: "DELETE" });
+    await fetch(`/api/admin/lich-hen/${id}`, { method: "DELETE" });
     loadLichHen();
   }
 }
@@ -79,7 +79,7 @@ async function submitEdit() {
     console.log("🔁 Gửi JSON:", JSON.stringify(body));
   
     try {
-      const res = await fetch(`http://localhost:5221/api/admin/lich-hen/${currentEditId}`, {
+      const res = await fetch(`/api/admin/lich-hen/${currentEditId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)

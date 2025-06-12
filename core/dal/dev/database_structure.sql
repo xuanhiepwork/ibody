@@ -26,7 +26,7 @@ CREATE TABLE `User` (
   `id` int NOT NULL AUTO_INCREMENT,
   `roleId` int DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `avata_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `avataUrl` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `phoneNumber` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `email` varchar(320) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -65,10 +65,12 @@ DROP TABLE IF EXISTS `UserGroup`;
 CREATE TABLE `UserGroup` (
   `id` int NOT NULL AUTO_INCREMENT,
   `parentId` int DEFAULT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `parentId` (`parentId`),
+  KEY `code` (`code`),
   CONSTRAINT `UserGroup_ibfk_1` FOREIGN KEY (`parentId`) REFERENCES `UserGroup` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

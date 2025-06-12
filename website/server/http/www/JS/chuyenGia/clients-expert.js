@@ -13,14 +13,14 @@ async function loadClients() {
 
   try {
     // Lấy chuyenGiaId từ taiKhoanId
-    const infoRes = await fetch(`http://localhost:5221/api/chuyen-gia/thongTin/${taiKhoanId}`);
+    const infoRes = await fetch(`/api/chuyen-gia/thongTin/${taiKhoanId}`);
     if (!infoRes.ok) throw new Error("Không tìm thấy chuyên gia");
 
     const chuyenGia = await infoRes.json();
     const chuyenGiaId = chuyenGia.id;
 
     // Lấy danh sách khách hàng
-    const res = await fetch(`http://localhost:5221/api/chuyen-gia/khach-hang-tu-van/${chuyenGiaId}`);
+    const res = await fetch(`/api/chuyen-gia/khach-hang-tu-van/${chuyenGiaId}`);
     if (!res.ok) throw new Error("Không thể lấy danh sách khách hàng");
 
     const list = await res.json();

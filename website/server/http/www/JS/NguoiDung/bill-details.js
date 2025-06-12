@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const res = await fetch(`http://localhost:5221/api/user/goi-dang-ky/${goiId}`);
+    const res = await fetch(`/api/user/goi-dang-ky/${goiId}`);
     const data = await res.json();
 
     if (!res.ok) throw new Error(data.message || "Không tìm thấy thông tin.");

@@ -7,7 +7,7 @@ if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
 
 async function loadReports() {
   try {
-    const res = await fetch("http://localhost:5221/api/admin/bao-cao-chuyen-gia"); // ✅ API mới
+    const res = await fetch("/api/admin/bao-cao-chuyen-gia"); // ✅ API mới
     const data = await res.json();
     const reports = data.data || data;
 

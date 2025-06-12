@@ -4,7 +4,7 @@ if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
   window.location.href = "index.html";
 }
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("http://localhost:5221/api/admin/dashboard/thong-ke-tong-quan")
+  fetch("/api/admin/dashboard/thong-ke-tong-quan")
     .then(response => {
       if (!response.ok) throw new Error("Lỗi khi lấy dữ liệu thống kê");
       return response.json();

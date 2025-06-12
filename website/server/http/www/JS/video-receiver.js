@@ -1,5 +1,5 @@
 const connection = new signalR.HubConnectionBuilder()
-    .withUrl("http://localhost:5221/videoCallHub")
+    .withUrl("/videoCallHub")
     .build();
 
 const localVideo = document.getElementById("localVideo");

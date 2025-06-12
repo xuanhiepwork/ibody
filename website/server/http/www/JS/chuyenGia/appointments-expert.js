@@ -9,14 +9,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const listChoDuyetEl = document.getElementById("lichChoDuyet");
 
   try {
-    const profileRes = await fetch(`http://localhost:5221/api/chuyen-gia/thongTin/${user.taiKhoanId}`);
+    const profileRes = await fetch(`/api/chuyen-gia/thongTin/${user.taiKhoanId}`);
     if (!profileRes.ok) throw new Error("Không thể lấy thông tin chuyên gia");
 
     const profileData = await profileRes.json();
     const chuyenGiaId = profileData.id;
 
     // 🔵 Lịch đang diễn ra
-    const res1 = await fetch(`http://localhost:5221/api/lich-hen/chuyen-gia/${chuyenGiaId}?taiKhoanId=${user.taiKhoanId}&trangThai=da_dien_ra`);
+    const res1 = await fetch(`/api/lich-hen/chuyen-gia/${chuyenGiaId}?taiKhoanId=${user.taiKhoanId}&trangThai=da_dien_ra`);
     if (!res1.ok) throw new Error("Không thể tải lịch đang diễn ra");
     const list1 = await res1.json();
 
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     `).join("");
 
     // 🟡 Lịch chờ duyệt
-    const res2 = await fetch(`http://localhost:5221/api/lich-hen/chuyen-gia/${chuyenGiaId}?taiKhoanId=${user.taiKhoanId}&trangThai=cho_duyet`);
+    const res2 = await fetch(`/api/lich-hen/chuyen-gia/${chuyenGiaId}?taiKhoanId=${user.taiKhoanId}&trangThai=cho_duyet`);
     if (!res2.ok) throw new Error("Không thể tải lịch chờ duyệt");
     const list2 = await res2.json();
 
@@ -67,7 +67,7 @@ function formatTime(dateStr) {
 async function duyetLich(id) {
   if (!confirm("Xác nhận duyệt lịch này?")) return;
   try {
-    const res = await fetch(`http://localhost:5221/api/lich-hen/duyet-lich/${id}`, { method: "POST" });
+    const res = await fetch(`/api/lich-hen/duyet-lich/${id}`, { method: "POST" });
     const data = await res.json();
     alert(data.message || "Đã duyệt lịch.");
     location.reload();
@@ -79,7 +79,7 @@ async function duyetLich(id) {
 async function tuChoi(id) {
   if (!confirm("Bạn có chắc muốn từ chối lịch này?")) return;
   try {
-    const res = await fetch(`http://localhost:5221/api/lich-hen/tu-choi-lich/${id}`, { method: "POST" });
+    const res = await fetch(`/api/lich-hen/tu-choi-lich/${id}`, { method: "POST" });
     const data = await res.json();
     alert(data.message || "Đã từ chối lịch.");
     location.reload();
@@ -91,7 +91,7 @@ async function tuChoi(id) {
 async function hoanTat(id) {
   if (!confirm("Xác nhận hoàn tất buổi tư vấn?")) return;
   try {
-    const res = await fetch(`http://localhost:5221/api/lich-hen/hoan-tat/${id}`, { method: "POST" });
+    const res = await fetch(`/api/lich-hen/hoan-tat/${id}`, { method: "POST" });
     const data = await res.json();
     alert(data.message || "Đã hoàn tất buổi tư vấn.");
     location.reload();
@@ -104,7 +104,7 @@ async function huyLich(id) {
   if (!confirm("Bạn chắc chắn muốn hủy lịch này?")) return;
   const user = JSON.parse(localStorage.getItem("user"));
   try {
-    const res = await fetch(`http://localhost:5221/api/lich-hen/huy-lich-chuyen-gia/${id}?taiKhoanId=${user.taiKhoanId}`, {
+    const res = await fetch(`/api/lich-hen/huy-lich-chuyen-gia/${id}?taiKhoanId=${user.taiKhoanId}`, {
       method: "DELETE"
     });
     const data = await res.json();

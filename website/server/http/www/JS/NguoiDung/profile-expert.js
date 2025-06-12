@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   
   try {
-    const res = await fetch(`http://localhost:5221/api/tu-van/chuyen-gia/${chuyenGiaId}`);
+    const res = await fetch(`/api/tu-van/chuyen-gia/${chuyenGiaId}`);
     const data = await res.json();
 
     document.getElementById("expertName").textContent = data.hoTen;
@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("expertGioiThieu").textContent = data.gioiThieu;
     expertTaiKhoanId = data.taiKhoanId;
 
-    const avatarData = await (await fetch(`http://localhost:5221/api/chuyen-gia/thongTin/${expertTaiKhoanId}`)).json();
+    const avatarData = await (await fetch(`/api/chuyen-gia/thongTin/${expertTaiKhoanId}`)).json();
     document.querySelector(".expert-avatar").src = avatarData.avatarUrl ? `http://localhost:5221${avatarData.avatarUrl}` : "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
-    const thongKe = await (await fetch(`http://localhost:5221/api/tu-van/avgDanhGia/${chuyenGiaId}`)).json();
+    const thongKe = await (await fetch(`/api/tu-van/avgDanhGia/${chuyenGiaId}`)).json();
     document.querySelector(".expert-rating").textContent = `⭐ ${thongKe.diemTrungBinh ?? 0} (${thongKe.soLuongDanhGia ?? 0} đánh giá)`;
 
     const list = document.getElementById("expertThoiGianRanh");
@@ -84,7 +84,7 @@ async function guiDanhGia() {
   if (!nhanXet) return alert("Vui lòng nhập nhận xét.");
 
   try {
-    const res = await fetch("http://localhost:5221/api/user/them_DanhGia", {
+    const res = await fetch("/api/user/them_DanhGia", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -128,7 +128,7 @@ document.getElementById("submitReportBtn")?.addEventListener("click", async () =
   if (!reason || !expertTaiKhoanId) return alert("Thiếu thông tin tố cáo.");
 
   try {
-    const res = await fetch("http://localhost:5221/api/bao-cao/gui", {
+    const res = await fetch("/api/bao-cao/gui", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

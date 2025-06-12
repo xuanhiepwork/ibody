@@ -72,7 +72,7 @@ async function initChat() {
     }
 
     try {
-      const res = await fetch("http://localhost:5221/api/user/guiTinNhan", {
+      const res = await fetch("/api/user/guiTinNhan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -99,7 +99,7 @@ async function initChat() {
 
 async function loadExpertList(user) {
   try {
-    const res = await fetch(`http://localhost:5221/api/user/danhSachChuyenGiaKetNoi/${user.taiKhoanId}`);
+    const res = await fetch(`/api/user/danhSachChuyenGiaKetNoi/${user.taiKhoanId}`);
     const experts = await res.json();
     const ul = document.getElementById("expertList");
     ul.innerHTML = "";
@@ -141,7 +141,7 @@ async function selectExpert(user, expert) {
 
 async function loadMessages(user, expert) {
   try {
-    const res = await fetch(`http://localhost:5221/api/user/lichSuTinNhan?taiKhoan1=${user.taiKhoanId}&taiKhoan2=${expert.taiKhoanId}`);
+    const res = await fetch(`/api/user/lichSuTinNhan?taiKhoan1=${user.taiKhoanId}&taiKhoan2=${expert.taiKhoanId}`);
     const messages = await res.json();
 
     if (!Array.isArray(messages)) {
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (user && avatarImg) {
     avatarImg.src = user.avatarUrl
-      ? `http://localhost:5221${user.avatarUrl}`
-      : "../img/default-avatar.png";
+      ? `${user.avatarUrl}`
+      : "/picture/default-avatar.jpg";
   }
 });

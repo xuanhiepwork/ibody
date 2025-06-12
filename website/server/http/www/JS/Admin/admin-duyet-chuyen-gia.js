@@ -7,7 +7,7 @@ if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
 
 async function loadExpertRequests() {
   try {
-    const res = await fetch("http://localhost:5221/api/admin/expert-requests");
+    const res = await fetch("/api/admin/expert-requests");
     const data = await res.json();
     const list = data.data || data; // fallback nếu không có `data` field
 
@@ -43,7 +43,7 @@ async function loadExpertRequests() {
 async function duyetChuyenGia(id) {
   const confirmed = confirm("Xác nhận duyệt chuyên gia này?");
   if (confirmed) {
-    await fetch(`http://localhost:5221/api/admin/expert-approve/${id}`, { method: "POST" });
+    await fetch(`/api/admin/expert-approve/${id}`, { method: "POST" });
     loadExpertRequests();
   }
 }
@@ -51,7 +51,7 @@ async function duyetChuyenGia(id) {
 async function tuChoiChuyenGia(id) {
   const confirmed = confirm("Bạn có chắc muốn từ chối chuyên gia này?");
   if (confirmed) {
-    await fetch(`http://localhost:5221/api/admin/expert-reject/${id}`, { method: "POST" });
+    await fetch(`/api/admin/expert-reject/${id}`, { method: "POST" });
     loadExpertRequests();
   }
 }

@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5221/api/tu-van";
+const API_BASE_URL = "/api/tu-van";
 
 document.addEventListener("DOMContentLoaded", () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   usernameDisplay.innerText = user.fullName || user.username;
   if (avatarImg) {
     avatarImg.src = user.avatarUrl
-      ? `http://localhost:5221${user.avatarUrl}`
-      : "../img/default-avatar.png";
+      ? `${user.avatarUrl}`
+      : "/picture/default-avatar.jpg";
   }
 
   document.querySelector(".user-button")?.addEventListener("click", () => {
@@ -61,7 +61,7 @@ function triggerSearch() {
 
 async function loadChuyenMonOptions() {
   try {
-    const res = await fetch("http://localhost:5221/api/tu-van/danh-sach-chuyen-mon");
+    const res = await fetch("/api/tu-van/danh-sach-chuyen-mon");
     const list = await res.json();
     const select = document.getElementById("specialtyFilter");
 

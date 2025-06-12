@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const thongBaoYeuCau = document.getElementById("thongBaoYeuCau");
 
   try {
-    const res = await fetch(`http://localhost:5221/api/chuyen-gia/nhan-luong/${user.taiKhoanId}`);
+    const res = await fetch(`/api/chuyen-gia/nhan-luong/${user.taiKhoanId}`);
     const data = await res.json();
 
     tongCaSpan.innerText = data.tongCa;
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       guiYeuCauBtn.disabled = false;
       guiYeuCauBtn.onclick = async () => {
         try {
-          const res2 = await fetch(`http://localhost:5221/api/chuyen-gia/gui-yeu-cau-nhan-luong`, {
+          const res2 = await fetch(`/api/chuyen-gia/gui-yeu-cau-nhan-luong`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ taiKhoanId: user.taiKhoanId })

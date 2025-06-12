@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (avatarImg) {
       avatarImg.src = user.avatarUrl
-        ? `http://localhost:5221${user.avatarUrl}`
-        : "../../img/default-avatar.png";
+        ? `${user.avatarUrl}`
+        : "/picture/default-avatar.jpg";
     }
   } else {
     if (userMenu) userMenu.style.display = "none";
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const res = await fetch("http://localhost:5221/api/profile/request-upgrade", {
+      const res = await fetch("/api/profile/request-upgrade", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("file", file);
 
         try {
-          const uploadRes = await fetch(`http://localhost:5221/api/profile/upload-certificate/${user.taiKhoanId}`, {
+          const uploadRes = await fetch(`/api/profile/upload-certificate/${user.taiKhoanId}`, {
             method: "POST",
             body: formData
           });
