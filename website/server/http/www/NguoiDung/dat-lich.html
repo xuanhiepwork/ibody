@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt lịch tư vấn với Chuyên gia</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --secondary-color: #7A63D8;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+      --bg-light: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+    }
+
+    /* --- Header --- */
+    .header {
+        background-color: var(--card-bg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+    .header .nav { display: flex; gap: 25px; }
+    .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; padding: 5px 0; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .header .nav a:hover { color: var(--primary-color); }
+    .header .nav a.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+    
+    /* --- Main Container & Layout --- */
+    .main-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    
+    .booking-layout {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 30px;
+        align-items: flex-start;
+    }
+
+    .section {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 25px;
+    }
+    
+    /* --- Expert Info Panel (Left) --- */
+    .expert-panel { text-align: center; }
+    .expert-panel img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--primary-color);
+        margin-bottom: 15px;
+    }
+    .expert-panel h2 { font-size: 1.5rem; margin: 0; color: var(--text-primary); }
+    .expert-panel .specialty { font-size: 1rem; color: var(--text-secondary); margin-top: 5px; margin-bottom: 10px; }
+    .expert-panel .rating { color: var(--warning-color); font-size: 1rem; margin-bottom: 20px; }
+    .expert-panel .view-profile-btn {
+        display: inline-block;
+        width: 100%;
+        padding: 12px;
+        text-decoration: none;
+        background-color: var(--primary-color-light);
+        color: var(--primary-color);
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+    .expert-panel .view-profile-btn:hover { background-color: var(--primary-color); color: white; }
+
+    /* --- Booking Panel (Right) --- */
+    .booking-panel h2 { font-size: 1.5rem; margin-top: 0; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+    .booking-step { margin-bottom: 25px; }
+    .booking-step h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+    .booking-step .step-icon {
+        background-color: var(--primary-color);
+        color: white;
+        width: 28px; height: 28px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+    }
+    
+    /* Calendar */
+    .flatpickr-calendar { box-shadow: none !important; background-color: transparent !important; }
+    
+    /* Time Slots */
+    .time-slots-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+    }
+    .time-slot-btn {
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--card-bg);
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        font-weight: 600;
+    }
+    .time-slot-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+    .time-slot-btn.selected { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+    
+    /* Form inputs */
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+    .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+        font-size: 1rem;
+    }
+    
+    .submit-btn {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.1rem;
+        background-color: var(--success-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .submit-btn:hover { background-color: #218838; }
+    
+    @media (max-width: 900px) {
+        .booking-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span>IBODY</span>
+    </div>
+    <nav class="nav">
+      <a href="#">Trang chủ</a>
+      <a href="#" class="active">Tư vấn</a>
+      <a href="#">Tin nhắn</a>
+      <a href="#">Gói tư vấn</a>
+      <a href="#">Lịch sử</a>
+    </nav>
+  </header>
+
+  <div class="main-container">
+    <div class="booking-layout">
+        <div class="expert-panel section">
+            <img id="expertAvatar" src="" alt="Ảnh chuyên gia">
+            <h2 id="expertName"></h2>
+            <p class="specialty" id="expertSpecialty"></p>
+            <div class="rating" id="expertRating"></div>
+            <a href="#" class="view-profile-btn">Xem hồ sơ chi tiết</a>
+        </div>
+
+        <div class="booking-panel section">
+            <h2>Đặt lịch tư vấn</h2>
+            <form id="bookingForm">
+                <div class="booking-step">
+                    <h3><span class="step-icon">1</span> Chọn ngày tư vấn</h3>
+                    <div id="datePicker"></div>
+                </div>
+
+                <div class="booking-step">
+                    <h3><span class="step-icon">2</span> Chọn khung giờ</h3>
+                    <div id="slotContainer" class="time-slots-container">
+                        <p class="text-secondary">Vui lòng chọn ngày để xem các khung giờ trống.</p>
+                    </div>
+                </div>
+
+                <div class="booking-step">
+                    <h3><span class="step-icon">3</span> Xác nhận thông tin</h3>
+                    <div class="form-group">
+                        <label for="notes">Vấn đề của bạn & Mong muốn khi tư vấn</label>
+                        <textarea id="notes" rows="4" placeholder="Vui lòng tóm tắt vấn đề bạn đang gặp phải và điều bạn mong muốn đạt được sau buổi tư vấn..." required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-check-circle"></i> Xác nhận Đặt lịch
+                </button>
+            </form>
+        </div>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // --- Mock Data ---
+    const mockExpert = {
+        name: 'Hồ Hoàng Yến',
+        avatar: 'https://i.pravatar.cc/150?u=expert2',
+        specialty: 'Trị liệu cặp đôi & Gia đình',
+        rating: 4.8,
+        reviews: 120
+    };
+
+    const mockAvailableSlots = {
+        // key là 'YYYY-MM-DD'
+        '2025-06-16': ['09:00', '10:00', '11:00', '14:00'],
+        '2025-06-17': ['10:00', '11:00', '15:00', '16:00'],
+        '2025-06-19': ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00'],
+    };
+
+    // --- References ---
+    const slotContainer = document.getElementById('slotContainer');
+    
+    // --- Render Expert Info ---
+    function renderExpertInfo() {
+        document.getElementById('expertAvatar').src = mockExpert.avatar;
+        document.getElementById('expertName').textContent = mockExpert.name;
+        document.getElementById('expertSpecialty').textContent = mockExpert.specialty;
+        
+        let starsHtml = '';
+        const fullStars = Math.floor(mockExpert.rating);
+        for(let i = 0; i < fullStars; i++) starsHtml += '<i class="fas fa-star"></i>';
+        if (mockExpert.rating % 1 !== 0) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+        document.getElementById('expertRating').innerHTML = `${mockExpert.rating} ${starsHtml} (${mockExpert.reviews} đánh giá)`;
+    }
+    
+    // --- Render Time Slots ---
+    function renderTimeSlots(date) {
+        const dateKey = date.toISOString().split('T')[0];
+        const slots = mockAvailableSlots[dateKey] || [];
+        
+        slotContainer.innerHTML = '';
+        if (slots.length === 0) {
+            slotContainer.innerHTML = '<p class="text-secondary">Chuyên gia không có lịch trống vào ngày này. Vui lòng chọn ngày khác.</p>';
+            return;
+        }
+
+        slots.forEach(time => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'time-slot-btn';
+            button.textContent = time;
+            button.dataset.time = time;
+            slotContainer.appendChild(button);
+        });
+    }
+
+    // --- Event Listeners ---
+    slotContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('time-slot-btn')) {
+            // Bỏ chọn tất cả các nút khác
+            document.querySelectorAll('.time-slot-btn').forEach(btn => btn.classList.remove('selected'));
+            // Chọn nút được click
+            e.target.classList.add('selected');
+        }
+    });
+
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const selectedTime = document.querySelector('.time-slot-btn.selected');
+        if (!selectedTime) {
+            alert('Vui lòng chọn một khung giờ tư vấn!');
+            return;
+        }
+        alert(`Đã đặt lịch thành công với chuyên gia ${mockExpert.name} vào lúc ${selectedTime.dataset.time} ngày ${calendar.selectedDates[0].toLocaleDateString('vi-VN')}.`);
+    });
+
+    // --- Calendar Initialization ---
+    const enabledDates = Object.keys(mockAvailableSlots);
+    const calendar = flatpickr("#datePicker", {
+        inline: true,
+        locale: 'vn',
+        minDate: 'today',
+        enable: enabledDates,
+        onChange: (selectedDates) => {
+            if (selectedDates.length > 0) {
+                renderTimeSlots(selectedDates[0]);
+            }
+        }
+    });
+
+    // --- Initial Render ---
+    renderExpertInfo();
+});
+</script>
+</body>
+</html>

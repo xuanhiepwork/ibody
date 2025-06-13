@@ -1,0 +1,305 @@
+
+Gemini
+Tóm tắt thư mục này
+Phân tích từng tệp
+trong thư mục này
+Gemini có thể làm gì với các thư mục
+trong Google Drive
+Gemini cho Workspace có thể mắc sai sót, kể cả thông tin về con người, nên bạn hãy xác minh các câu trả lời của tính năng này. Tìm hiểu thêm
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hỗ trợ - IBODY</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --secondary-color: #7A63D8;
+      --success-color: #28a745;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+      --bg-light: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+    }
+
+    /* --- Header & Footer --- */
+    .header {
+        background-color: var(--card-bg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 0 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+    }
+    .header .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+    .header .nav { display: flex; gap: 25px; }
+    .header .nav a { text-decoration: none; color: var(--text-secondary); font-weight: 600; padding: 5px 0; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .header .nav a:hover { color: var(--primary-color); }
+    
+    .footer { background-color: #1f2937; color: #d1d5db; padding: 40px 5%; margin-top: 50px; }
+    .footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding-bottom: 20px; border-bottom: 1px solid #374151; }
+    .footer h4 { color: white; margin-bottom: 10px; }
+    .footer p { margin: 5px 0; line-height: 1.6; }
+    .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.9rem; }
+    
+    /* --- Main Container --- */
+    .support-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+    }
+    .section-subtitle {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto 50px auto;
+    }
+
+    /* --- FAQ Section --- */
+    .faq-section { margin-bottom: 60px; }
+    .faq-accordion { max-width: 800px; margin: 0 auto; }
+    .faq-item {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .faq-question .icon { transition: transform 0.3s ease; }
+    .faq-item.active .faq-question .icon { transform: rotate(180deg); }
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        padding: 0 20px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+    .faq-item.active .faq-answer {
+        max-height: 200px; /* Hoặc một giá trị đủ lớn */
+        padding: 0 20px 20px 20px;
+    }
+    
+    /* --- Support Form Section --- */
+    .support-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+        background-color: var(--card-bg);
+        padding: 40px;
+        border-radius: 16px;
+    }
+    .support-illustration img { max-width: 100%; height: auto; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+        font-size: 1rem;
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    
+    .btn-submit {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.1rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .btn-submit:hover { background-color: var(--secondary-color); }
+
+    .success-message {
+        text-align: center;
+        padding: 40px;
+        background-color: rgba(40, 167, 69, 0.1);
+        border: 1px solid rgba(40, 167, 69, 0.2);
+        border-radius: 12px;
+    }
+    .success-message .icon { font-size: 3rem; color: var(--success-color); margin-bottom: 15px; }
+    .success-message h3 { margin: 0 0 10px; }
+
+    @media(max-width: 900px) {
+        .support-grid { grid-template-columns: 1fr; }
+        .support-illustration { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span>IBODY</span>
+    </div>
+    <nav class="nav">
+      <a href="#">Trang chủ</a>
+      <a href="#">Tư vấn</a>
+      <a href="#">Tin nhắn</a>
+      <a href="#">Gói tư vấn</a>
+      <a href="#" class="active">Hỗ trợ</a>
+    </nav>
+  </header>
+
+  <div class="support-container">
+    <div class="faq-section">
+        <h2 class="section-title">Câu hỏi thường gặp</h2>
+        <p class="section-subtitle">Tìm kiếm câu trả lời cho các thắc mắc phổ biến nhất về dịch vụ của chúng tôi.</p>
+        <div class="faq-accordion" id="faqAccordion">
+            </div>
+    </div>
+
+    <div class="contact-section">
+         <h2 class="section-title">Vẫn cần trợ giúp?</h2>
+         <p class="section-subtitle">Nếu bạn không tìm thấy câu trả lời, đừng ngần ngại gửi yêu cầu hỗ trợ cho chúng tôi.</p>
+         <div class="support-grid">
+            <div class="support-form-container">
+                <form id="supportForm">
+                    <div class="form-group">
+                        <label for="supportType">Loại yêu cầu</label>
+                        <select id="supportType" required>
+                            <option value="">-- Vui lòng chọn --</option>
+                            <option value="technical">Vấn đề kỹ thuật</option>
+                            <option value="payment">Vấn đề Thanh toán</option>
+                            <option value="feedback">Góp ý & Cải thiện</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportTopic">Chủ đề</label>
+                        <input type="text" id="supportTopic" required placeholder="Ví dụ: Không thể đặt lịch hẹn">
+                    </div>
+                    <div class="form-group">
+                        <label for="supportContent">Nội dung yêu cầu</label>
+                        <textarea id="supportContent" rows="5" required placeholder="Mô tả chi tiết vấn đề bạn gặp phải..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Gửi yêu cầu</button>
+                </form>
+                <div id="successMessage" class="success-message" style="display: none;">
+                    <div class="icon"><i class="fas fa-check-circle"></i></div>
+                    <h3>Gửi yêu cầu thành công!</h3>
+                    <p>Cảm ơn bạn đã liên hệ. Chúng tôi sẽ xem xét và phản hồi trong thời gian sớm nhất.</p>
+                </div>
+            </div>
+            <div class="support-illustration">
+                <img src="https://cdni.iconscout.com/illustration/premium/thumb/customer-support-8051513-6425377.png" alt="Support Illustration">
+            </div>
+         </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-about">
+          <h4>Về chúng tôi</h4>
+          <p>IBODY là dự án kết nối học sinh với chuyên gia tâm lý, giúp các em hiểu và phát triển bản thân một cách lành mạnh.</p>
+      </div>
+      <div class="footer-contact">
+          <h4>Liên hệ</h4>
+          <p>Email: support@ibody.com</p>
+          <p>Hotline: 0889 225 315</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 ibody. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const mockFaqs = [
+        { question: "Làm thế nào để đặt lịch hẹn với một chuyên gia?", answer: "Để đặt lịch, bạn vào trang 'Tư vấn', chọn một chuyên gia phù hợp. Sau đó, vào trang cá nhân của họ và chọn ngày, giờ còn trống trên lịch và làm theo hướng dẫn." },
+        { question: "Gói dịch vụ của tôi bao gồm những gì?", answer: "Mỗi gói dịch vụ sẽ cung cấp một số lượt tư vấn nhất định. Bạn có thể vào trang 'Gói tư vấn' để xem chi tiết quyền lợi của gói bạn đang sử dụng và các gói khác." },
+        { question: "Chính sách bảo mật thông tin của tôi như thế nào?", answer: "Chúng tôi cam kết bảo mật tuyệt đối mọi thông tin cá nhân và nội dung các buổi tư vấn của bạn. Chỉ bạn và chuyên gia bạn chọn mới có thể truy cập nội dung này." },
+        { question: "Tôi có thể hủy một lịch hẹn đã đặt không?", answer: "Bạn có thể hủy lịch hẹn trước 24 giờ so với thời gian bắt đầu. Vui lòng vào trang 'Lịch hẹn' để thực hiện thao tác. Nếu hủy muộn hơn, lượt tư vấn có thể sẽ vẫn bị tính." }
+    ];
+
+    const faqAccordion = document.getElementById('faqAccordion');
+    const supportForm = document.getElementById('supportForm');
+    const successMessage = document.getElementById('successMessage');
+
+    // --- Render FAQ ---
+    function renderFaqs() {
+        faqAccordion.innerHTML = '';
+        mockFaqs.forEach(faq => {
+            const item = document.createElement('div');
+            item.className = 'faq-item';
+            item.innerHTML = `
+                <div class="faq-question">
+                    <span>${faq.question}</span>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>${faq.answer}</p>
+                </div>
+            `;
+            faqAccordion.appendChild(item);
+        });
+
+        // Add event listeners for accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    }
+
+    // --- Form Submission Logic ---
+    supportForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Trong ứng dụng thực tế, đây là nơi gửi dữ liệu lên server
+        console.log('Form submitted!');
+        supportForm.style.display = 'none';
+        successMessage.style.display = 'block';
+    });
+
+    // --- Initial Render ---
+    renderFaqs();
+});
+</script>
+</body>
+</html>
