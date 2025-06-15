@@ -7,8 +7,9 @@ const landingFooterTpl = Template.fromFile(import.meta.dirname, "langding-footer
 const landingTpl = Template.fromFile(import.meta.dirname, "langding.html")
 
 const baseObj = {
+    headTitle: 'Ibody - Thấu hiểu đứa trẻ bên trong bạn',
     header: landingHeaderTpl,
     footer: landingFooterTpl,
 }
 
-export default obj => landingTpl.render(Object.assign(baseObj, obj))
+export default obj => landingTpl.render(Object.assign({}, baseObj, obj))

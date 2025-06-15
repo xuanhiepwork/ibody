@@ -1,3 +1,4 @@
+<script src="/Component/AuthModal.js"></script>
 <header class="header">
 
   <a class="logo" href="/">
@@ -33,10 +34,9 @@
         <a href="/NguoiDung/ho-tro-user">Hỗ trợ</a>
         <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
       </div>
-
   </nav>`
-      const elm = base.firstElementChild
 
+      const elm = base.firstElementChild
       const { pathname } = location
       const aElms = elm.querySelectorAll("a")
       var activated = false
@@ -57,10 +57,7 @@
           break
         }
       }
-
-
       document.currentScript.parentElement.append(elm)
-
     }</script>
 
 
