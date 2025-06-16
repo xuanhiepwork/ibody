@@ -1,4 +1,3 @@
-<script src="/Component/AuthModal.js"></script>
 <header class="header">
 
   <a class="logo" href="/">
@@ -19,7 +18,7 @@
   <a href="/NguoiDung/lich-su-goi">Lịch sử giao dịch</a>
   <a href="/NguoiDung/dang-ky-goi">Gói tư vấn</a>
   <a href="/Admin/admin-users.html">Người dùng</a>
-  <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
+  <a href="#" name="login-btn">Đăng nhập/Đăng ký</a>
 
   <div class="user-menu" name="user-menu" style="display: none;">
     <div class="user-button" name="user-button">
@@ -70,8 +69,10 @@
       header.querySelector("[name=menu-toggle]").addEventListener("click", () => elm.classList.toggle("open"));
       // #TODO: fix loi ui chua ẩn hiện theo toggle (trường hợp màn hình có width nhỏ)
 
-      document.currentScript.parentElement.append(elm)
+      const loginBtn = elm.querySelector("[name=login-btn]")
+      loginBtn.addEventListener("click", async () => import('/static/cpm/AuthModal.mjs').then(({ open }) => open()))
 
+      document.currentScript.parentElement.append(elm)
 
       // #TODO: remove this function
       document.addEventListener("DOMContentLoaded", () => {

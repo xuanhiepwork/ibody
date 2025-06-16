@@ -1,4 +1,4 @@
-loginByEmailPassword(email, password) {
+export async function loginByEmailPassword(email, password) {
     const response = await fetch("/api/Auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -12,9 +12,9 @@ loginByEmailPassword(email, password) {
     if (response.ok) {
         const result = await response.json();
         if (result.code === "login-success") {
-            const whoami = await (await fetch("/api/Auth/whoami"))
+            var whoami = await (await fetch("/api/Auth/whoami")).text()
             localStorage.setItem("whoami", whoami)
-
+            whoami = JSON.parse(whoami)
             console.log("USER LOGGED IN:", whoami);
 
             // Kiểm tra quyền và chuyển hướng

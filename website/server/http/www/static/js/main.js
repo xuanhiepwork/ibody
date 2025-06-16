@@ -1,6 +1,6 @@
 const core = { ET: new EventTarget() }
 {
-    try { core.user = JSON.parse(localStorage.getItem("user")) } catch (e) { console.error(e) }
+    try { core.user = JSON.parse(localStorage.getItem("user")) } catch (e) { }
     if (!core.user) core.user = {}
 
     core.syncUser = async () => {
@@ -23,14 +23,15 @@ const core = { ET: new EventTarget() }
     }
 
     core.refresh = () => {
-        // #TODO:
-        const { syncCode } = core.loadCookies()
-        if (syncCode !== localStorage.getItem("user-syncCode")) {
-            localStorage.setItem("user-syncCode", syncCode)
-            // core.syncUser()
+        const syncCode = core.loadCookies().syncCode
+        if (syncCode) {
+            syncCode = String(syncCode)
+            if (syncCode !== localStorage.getItem("user-syncCode")) {
+                localStorage.setItem("user-syncCode", syncCode)
+                core.syncUser()
+            }
         }
     }
-
 }
 
 core.ET.addEventListener("syncUser-after", () => location.reload())
