@@ -38,7 +38,7 @@ export const auth = {
         fullname: user?.fullname,
         roles: ["quan_tri", "chuyen_gia"],
         gourps: (await ctx.call("User", "getAllGroupsOfUserId", user.id)).map(g => g?.code),
-        avatarUrl: user?.avataUrl
+        avatarUrl: user?.avatarUrl
       }
     }
     auth.emitSync(req)
@@ -48,6 +48,10 @@ export const auth = {
 
   whoami(req) {
     return req.session.whoami
+  },
+
+  getUser(req) {
+    return req.session?.whoami?.user || {}
   },
 
   async logout(req) {

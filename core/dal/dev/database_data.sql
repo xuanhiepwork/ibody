@@ -11,8 +11,8 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-REPLACE INTO `User` VALUES (1,NULL,'admin',NULL,NULL,NULL,'admin@ibody.com','Administrator');
-REPLACE INTO `User` VALUES (2,1,'testuser',NULL,NULL,'23135456','test@gmail.com','test An Binh');
+REPLACE INTO `User` VALUES (1,NULL,'admin',NULL,NULL,NULL,'admin@ibody.com','Administrator - 88','1998-01-07',2,'Tồn tại bất diệt');
+REPLACE INTO `User` VALUES (2,1,'testuser',NULL,NULL,'23135456','test@gmail.com','test An Binh',NULL,0,'');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `UserAuthPassword` DISABLE KEYS */;

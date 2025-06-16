@@ -31,6 +31,9 @@ CREATE TABLE `User` (
   `phoneNumber` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `email` varchar(320) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `fullname` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dateOfBirth` date DEFAULT NULL,
+  `gender` int NOT NULL DEFAULT '0' COMMENT '0: Khác 1: Nữ 2: Nam',
+  `psychologicalGoal` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `email` (`email`),
@@ -65,7 +68,7 @@ DROP TABLE IF EXISTS `UserGroup`;
 CREATE TABLE `UserGroup` (
   `id` int NOT NULL AUTO_INCREMENT,
   `parentId` int DEFAULT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),

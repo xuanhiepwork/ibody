@@ -55,39 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadThongTinCaNhan();
 
-  // ====== 3. Cập nhật thông tin người dùng ======
-  const updateForm = document.getElementById("updateInfoForm");
-  if (updateForm) {
-    updateForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const dto = {
-        hoTen: document.getElementById("hoTen").value,
-        ngaySinh: document.getElementById("ngaySinh").value || null,
-        gioiTinh: document.getElementById("gioiTinh").value,
-        mucTieuTamLy: document.getElementById("mucTieuTamLy").value,
-      };
-
-      try {
-        const res = await fetch(`/api/user/profile/${user.taiKhoanId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dto),
-        });
-
-        const result = await res.json();
-        if (res.ok) {
-          alert("Cập nhật thông tin thành công!");
-        } else {
-          alert(result.message || "Cập nhật thất bại.");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Lỗi máy chủ khi cập nhật.");
-      }
-    });
-  }
-
   // ====== 4. Upload avatar (form riêng) ======
   const avatarForm = document.getElementById("avatarUploadForm");
   if (avatarForm) {

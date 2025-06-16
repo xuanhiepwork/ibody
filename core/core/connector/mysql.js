@@ -27,6 +27,6 @@ export const queryLog = query => {
 }
 
 var query = queryRaw
-// if (true || connectInfos.logquery) query = queryLog
+if (true || connectInfos.logquery) query = queryLog
 
 export default query

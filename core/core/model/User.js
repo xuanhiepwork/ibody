@@ -37,6 +37,14 @@ WITH RECURSIVE cte_table AS (
 )
 
 SELECT * FROM UserGroup WHERE id IN (SELECT id FROM cte_table);`)
-    }
+    },
+
+    async getData(ctx, userId) {
+        return this.getOne({ id: userId })
+    },
+
+    async setData(ctx, userId, data = {}) {
+        return this.update(ctx, data, { id: userId })
+    },
 
 })

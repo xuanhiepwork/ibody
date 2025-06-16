@@ -5,8 +5,8 @@
     <div class="profile-layout">
         <aside class="profile-menu">
             <div class="user-card">
-                <img id="menuAvatar" alt="Avatar">
-                <div id="menuName" class="name"></div>
+                <img id="menuAvatar" alt="Avatar" src="{{user_avatarUrl}}" style="margin: auto;">
+                <div id="menuName" class="name">{{user_fullname}}</div>
             </div>
             <ul class="nav-list">
                 <li><a href="#" class="nav-link active" data-tab="info"><i class="fas fa-user-circle"></i> Thông tin cá
@@ -24,30 +24,66 @@
             <div id="info" class="tab-content active">
                 <div class="content-card">
                     <h3>Chỉnh sửa thông tin</h3>
-                    <form id="updateInfoForm">
+                    <form>
                         <div class="form-group">
-                            <label for="hoTen">Họ tên</label>
-                            <input type="text" id="hoTen" required>
+                            <label>Họ tên</label>
+                            <input name="fullname" type="text" required>
                         </div>
                         <div class="form-group">
-                            <label for="ngaySinh">Ngày sinh</label>
-                            <input type="date" id="ngaySinh">
+                            <label>Ngày sinh</label>
+                            <input name="dateOfBirth" type="date">
                         </div>
                         <div class="form-group">
-                            <label for="gioiTinh">Giới tính</label>
-                            <select id="gioiTinh">
-                                <option value="nam">Nam</option>
-                                <option value="nu">Nữ</option>
-                                <option value="khac">Khác</option>
+                            <label>Giới tính</label>
+                            <select name="gender">
+                                <option value="0">Khác</option>
+                                <option value=1>Nữ</option>
+                                <option value=2>Nam</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="mucTieuTamLy">Mục tiêu tâm lý</label>
-                            <textarea id="mucTieuTamLy" rows="3"
+                            <textarea name="psychologicalGoal" rows="3"
                                 placeholder="Chia sẻ ngắn gọn về điều bạn muốn cải thiện..."></textarea>
                         </div>
                         <button type="submit" class="form-btn">Lưu thay đổi</button>
                     </form>
+                    <script>{
+                            const form = document.currentScript.previousElementSibling
+
+                            form.setData = function (data) {
+                                for (var key in data) {
+                                    const elm = this.querySelector(`[name=${key}]`)
+                                    if (elm) {
+                                        if (elm.getAttribute("type") === "date") {
+                                            elm.value = (new Date(data[key])).toISOString().slice(0, 10)
+                                            continue
+                                        }
+                                        elm.value = data[key]
+                                    }
+                                }
+                            }
+
+                            form.getData = function () {
+                                return Object.fromEntries(new FormData(this).entries())
+                            }
+
+                            window.addEventListener("load", async () => {
+                                form.setData(await core.rpc("User", "getData", core.user.id))
+                            }, { once: true })
+
+                            form.addEventListener("submit", async function (e) {
+                                e.preventDefault();
+                                try {
+                                    await core.rpc("User", "setData", core.user.id, this.getData())
+                                    location.reload()
+                                } catch (err) {
+                                    console.error(err);
+                                    alert("Lỗi máy chủ khi cập nhật.");
+                                }
+                            });
+
+                        }</script>
                 </div>
             </div>
             <div id="package" class="tab-content">
@@ -189,8 +225,8 @@
 
         // --- Render Functions ---
         function renderProfileMenu() {
-            document.getElementById('menuAvatar').src = mockUser.avatar;
-            document.getElementById('menuName').textContent = mockUser.name;
+            // document.getElementById('menuAvatar').src = mockUser.avatar;
+            // document.getElementById('menuName').textContent = mockUser.name;
             document.getElementById('hoTen').value = mockUser.name;
             document.getElementById('ngaySinh').value = mockUser.dob;
             document.getElementById('gioiTinh').value = mockUser.gender;
@@ -257,12 +293,6 @@
             });
         });
 
-        // --- Update Info Form Logic ---
-        document.getElementById('updateInfoForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            showToast('Cập nhật thông tin thành công!', 'success');
-        });
-
         // --- Upgrade Form Logic ---
         const upgradeFormSteps = document.querySelectorAll('#upgrade .form-step');
         const upgradeStepIndicators = document.querySelectorAll('#upgrade .step');
@@ -294,7 +324,7 @@
         document.querySelector('#upgrade #fullName').value = mockUser.name;
 
         // --- Initial Render ---
-        renderProfileMenu();
+        // renderProfileMenu();
         renderPackageInfo();
         renderHistory();
         renderNotifications();

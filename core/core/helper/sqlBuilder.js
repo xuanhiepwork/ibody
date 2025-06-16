@@ -49,3 +49,12 @@ export const replaceInto = (tableName, data) => {
         .map(([field, value]) => [field, value === "" ? '""' : isNaN(value) ? `"${value}"` : String(value)])
     return `REPLACE INTO ${tableName} (${payload.map(([key]) => key).join(", ")}) VALUES(${payload.map(([key, value]) => value).join(", ")});`
 }
+
+export const update = (tableName, data, where) => [
+    "UPDATE ", tableName,
+    " SET ", Object.entries(data)
+        .filter(([field, value]) => value !== null && value !== undefined)
+        .map(([field, value], i) => [i > 0 ? ", " : "", field, "=", value === "" ? '""' : isNaN(value) ? `"${value}"` : String(value)]),
+    " WHERE ", processWhere(where),
+    ";"
+].flat(Infinity).join("")
