@@ -5,7 +5,7 @@ const core = { ET: new EventTarget() }
 
     core.syncUser = async () => {
         const { user, syncCode } = await (await fetch("/api/Auth/whoami")).json()
-        if (user) { localStorage.setItem("user", user) } else localStorage.removeItem("user")
+        if (user) { localStorage.setItem("user", JSON.stringify(user)) } else localStorage.removeItem("user")
         if (syncCode) { localStorage.setItem("user-syncCode", syncCode) } else localStorage.removeItem("user-syncCode")
         core.ET.dispatchEvent(new Event("syncUser-after"))
     }

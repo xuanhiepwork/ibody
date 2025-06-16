@@ -1,4 +1,22 @@
 <header class="header">
+  <style>
+.user-menu {
+  display: none;
+}
+
+.user-loged-in .nav .login-btn {
+  display: none;
+}
+
+.user-loged-in .nav .user-menu {
+  display: inline-block;
+}
+
+.nav .user-menu .user-name {
+  font-weight: 800;
+}
+</style>
+
 
   <a class="logo" href="/">
     <img src="/static/img/logo_color.png" alt="Logo IBODY" class="logo-image" />
@@ -18,12 +36,12 @@
   <a href="/NguoiDung/lich-su-goi">Lịch sử giao dịch</a>
   <a href="/NguoiDung/dang-ky-goi">Gói tư vấn</a>
   <a href="/Admin/admin-users.html">Người dùng</a>
-  <a href="#" name="login-btn">Đăng nhập/Đăng ký</a>
+  <a href="#" class="login-btn" name="login-btn">Đăng nhập/Đăng ký</a>
 
-  <div class="user-menu" name="user-menu" style="display: none;">
+  <div class="user-menu" name="user-menu">
     <div class="user-button" name="user-button">
-      <img src="/static/img/default-avatar.jpg" alt="Avatar" class="avatar">
-      <span id="usernameDisplay"></span>
+      <img name="user-avata" src="/static/img/default-avatar.jpg" alt="Avatar" class="avatar">
+      <span class="user-name" name="user-name"></span>
       <div class="user-dropdown" name="userDropdown">
         <a href="/profile">Trang cá nhân</a>
         <a href="/NguoiDung/become-expert">Nâng cấp thành chuyên gia</a>
@@ -65,14 +83,17 @@
         if (!userMenu.contains(e.target)) dropdown.classList.remove("show")
       });
 
-      const header = document.currentScript.parentElement
-      header.querySelector("[name=menu-toggle]").addEventListener("click", () => elm.classList.toggle("open"));
-      // #TODO: fix loi ui chua ẩn hiện theo toggle (trường hợp màn hình có width nhỏ)
-
       const loginBtn = elm.querySelector("[name=login-btn]")
       loginBtn.addEventListener("click", async () => import('/static/cpm/AuthModal.mjs').then(({ open }) => open()))
 
-      document.currentScript.parentElement.append(elm)
+      if (core.user?.id) {
+        document.body.classList.add("user-loged-in")
+        elm.querySelector("[name=user-name]").innerText = core.user.fullname
+        if (core.user.avatarUrl) {
+          elm.querySelector("[name=user-avata]").setAttribute("src", core.user.avatarUrl)
+        }
+
+      }
 
       // #TODO: remove this function
       document.addEventListener("DOMContentLoaded", () => {
@@ -86,6 +107,11 @@
         }
       });
 
+      const header = document.currentScript.parentElement
+      header.querySelector("[name=menu-toggle]").addEventListener("click", () => elm.classList.toggle("open"));
+      // #TODO: fix loi ui chua ẩn hiện theo toggle (trường hợp màn hình có width nhỏ)
+
+      document.currentScript.parentElement.append(elm)
     }</script>
 
 
