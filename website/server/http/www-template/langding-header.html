@@ -2,39 +2,39 @@
 <header class="header">
 
   <a class="logo" href="/">
-    <img src="/picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
+    <img src="/static/img/logo_color.png" alt="Logo IBODY" class="logo-image" />
     <span class="brand">IBODY</span>
   </a>
 
-  <button id="menu-toggle" class="menu-toggle">☰</button>
+  <button name="menu-toggle" class="menu-toggle">☰</button>
 
   <script>{
       const base = document.createElement("div")
       base.innerHTML = `<nav class="nav">
-    <a href="/">Trang chủ</a>
-    <a
-      href="https://www.facebook.com/groups/1385192975848986/">Cộng
-      Đồng</a>
-    <a href="/NguoiDung/search-expert">Tư vấn</a>
-    <a href="/NguoiDung/tin-nhan-user">Tin nhắn</a>
-    <a href="/NguoiDung/lich-hen-user">Lịch hẹn</a>
-    <a href="/NguoiDung/lich-su-goi">Lịch sử giao dịch</a>
-    <a href="/NguoiDung/dang-ky-goi">Gói tư vấn</a>
-    <a href="/Admin/admin-users.html">Người dùng</a>
-    <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
+  <a href="https://www.facebook.com/groups/1385192975848986/"><img src="/static/img/facebook-f-logo.svg" style="height: 1em; margin-right: .5em; display: inline-block;">Cộng đồng</a>
+  <a href="/">Trang chủ</a>
+  <a href="/NguoiDung/search-expert">Tư vấn</a>
+  <a href="/NguoiDung/tin-nhan-user">Tin nhắn</a>
+  <a href="/NguoiDung/lich-hen-user">Lịch hẹn</a>
+  <a href="/NguoiDung/lich-su-goi">Lịch sử giao dịch</a>
+  <a href="/NguoiDung/dang-ky-goi">Gói tư vấn</a>
+  <a href="/Admin/admin-users.html">Người dùng</a>
+  <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
 
-    <div class="user-menu" id="userMenu" style="display: none;">
-      <div class="user-button" onclick="toggleUserDropdown()">
-        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
-        <span id="usernameDisplay"></span>
-      <div class="user-dropdown" id="userDropdown">
+  <div class="user-menu" name="user-menu" style="display: none;">
+    <div class="user-button" name="user-button">
+      <img src="/static/img/default-avatar.jpg" alt="Avatar" class="avatar">
+      <span id="usernameDisplay"></span>
+      <div class="user-dropdown" name="userDropdown">
         <a href="/profile">Trang cá nhân</a>
         <a href="/NguoiDung/become-expert">Nâng cấp thành chuyên gia</a>
         <a href="/tracnghiem">Trắc nghiệm trầm cảm</a>
         <a href="/NguoiDung/ho-tro-user">Hỗ trợ</a>
         <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
       </div>
-  </nav>`
+    </div>
+  </div>
+</nav>`
 
       const elm = base.firstElementChild
       const { pathname } = location
@@ -57,7 +57,34 @@
           break
         }
       }
+
+      const dropdown = elm.querySelector("[name=userDropdown]")
+      elm.querySelector("[name=user-button]").addEventListener("click", () => dropdown.classList.toggle("show"))
+
+      const userMenu = elm.querySelector("[name=user-menu]")
+      document.addEventListener("click", function (e) {
+        if (!userMenu.contains(e.target)) dropdown.classList.remove("show")
+      });
+
+      const header = document.currentScript.parentElement
+      header.querySelector("[name=menu-toggle]").addEventListener("click", () => elm.classList.toggle("open"));
+      // #TODO: fix loi ui chua ẩn hiện theo toggle (trường hợp màn hình có width nhỏ)
+
       document.currentScript.parentElement.append(elm)
+
+
+      // #TODO: remove this function
+      document.addEventListener("DOMContentLoaded", () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const avatarImg = document.querySelector(".user-button img");
+
+        if (user && avatarImg) {
+          avatarImg.src = user.avatarUrl
+            ? `${user.avatarUrl}`
+            : "/static/img/default-avatar.jpg";
+        }
+      });
+
     }</script>
 
 

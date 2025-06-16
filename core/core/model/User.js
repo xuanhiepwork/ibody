@@ -18,7 +18,7 @@ export default instantSqlTable({
 
     async loginByEmailPassword(ctx, email, password) {
         const user = await this.getOne(ctx, { email })
-        if (!user || !UserAuthPassword.validatePassword(ctx, user.id, password)) return undefined
+        if (!user || !(await UserAuthPassword.validatePassword(ctx, user.id, password))) return undefined
         return user
     },
 
@@ -36,6 +36,7 @@ WITH RECURSIVE cte_table AS (
     SELECT t.id, t.parentId FROM UserGroup t INNER JOIN cte_table ON t.id = cte_table.parentId
 )
 
-SELECT * FROM UserGroup WHERE id IN (SELECT id FROM cte_table);`)}
+SELECT * FROM UserGroup WHERE id IN (SELECT id FROM cte_table);`)
+    }
 
 })

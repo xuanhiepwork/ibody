@@ -7,30 +7,29 @@
     <div class="auth-modal">
         <button class="close-btn" onclick="AuthModal.close()">×</button>
         <div class="form-toggle">
-        <button name="loginToggle" class="active">Đăng nhập</button>
-        <button name="registerToggle">Đăng ký</button>
-        <button onclick="window.location.href='/api/auth/google-login'" class="google-login-btn">
-            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" class="google-icon" />
-            <!-- <span>Đăng nhập bằng Google</span> -->
-        </button>
+            <button name="loginToggle" class="active">Đăng nhập</button>
+            <button name="registerToggle">Đăng ký</button>
+            <button onclick="window.location.href='/api/auth/google-login'" class="google-login-btn">
+                <img src="/static/img/Google__G__logo.svg.png" class="google-icon" />
+            </button>
         </div>
         <form name="loginForm" class="form active">
-        <h2>Đăng nhập</h2>
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Mật khẩu" required />
-        <a href="/reset-password" class="forgot-password">Quên mật khẩu?</a>
-        <button type="submit">Đăng nhập</button>
+            <h2>Đăng nhập</h2>
+            <input type="email" name="email" placeholder="Email" required />
+            <input type="password" name="password" placeholder="Mật khẩu" required />
+            <a href="/reset-password" class="forgot-password">Quên mật khẩu?</a>
+            <button type="submit">Đăng nhập</button>
         </form>
         <form name="registerForm" class="form">
-        <h2>Đăng ký</h2>
-        <input type="text" name="fullName" placeholder="Họ tên" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Mật khẩu" required />
-        <input type="password" name="confirmPassword" placeholder="Xác nhận mật khẩu" required />
-        <button type="submit">Tạo tài khoản</button>
+            <h2>Đăng ký</h2>
+            <input type="text" name="fullName" placeholder="Họ tên" required />
+            <input type="email" name="email" placeholder="Email" required />
+            <input type="password" name="password" placeholder="Mật khẩu" required />
+            <input type="password" name="confirmPassword" placeholder="Xác nhận mật khẩu" required />
+            <button type="submit">Tạo tài khoản</button>
         </form>
     </div>
-    </div>`
+</div>`
 
     const modal = base.firstElementChild,
         loginForm = modal.querySelector('[name=loginForm]'),
@@ -40,7 +39,7 @@
 
     // Ẩn modal khi bấm ra ngoài form
     modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
+        if (e.target === this) {
             AuthModal.close();
         }
     });
@@ -61,47 +60,7 @@
 
     loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-
-        try {
-            const response = await fetch("/api/Auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({
-                    email: loginForm.email.value,
-                    password: loginForm.password.value
-                })
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                const user = result.user;
-                console.log("USER LOGGED IN:", user);
-                localStorage.setItem("user", JSON.stringify(user));
-
-                // Kiểm tra quyền và chuyển hướng
-                console.log("→ Chuẩn bị redirect... user.roles = ", user.roles);
-                if (Array.isArray(user.roles)) {
-                    if (user.roles.includes("quan_tri")) {
-                        console.log("✅ Quyền admin xác thực → chuyển trang admin");
-                        setTimeout(() => {
-                            window.location.replace("/Admin/admin-dashboard.html");
-                        }, 100);
-                    } else if (user.roles.includes("chuyen_gia")) {
-                        console.log("✅ Quyền chuyên gia xác thực → chuyển trang chuyên gia");
-                        setTimeout(() => {
-                            window.location.replace("/chuyenGia/IndexChuyenGia.html");
-                        }, 100);
-                    } else {
-                        console.log("👤 Quyền người dùng thông thường → về trang chủ");
-                        window.location.replace("/");
-                    }
-                }
-            }
-        } catch (err) {
-            console.error(err);
-            alert("Không thể kết nối đến máy chủ.");
-        }
+        window.auth.loginByEmailPassword(loginForm.email.value, loginForm.password.value)
     });
 
     registerForm.addEventListener("submit", async (event) => {

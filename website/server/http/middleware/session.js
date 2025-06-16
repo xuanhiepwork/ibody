@@ -14,11 +14,16 @@ export default session({
   rolling: true,
   saveUninitialized: false,
   secret: process.env.APP_AUTH_SESSION_SECRET,
+  cookie: {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60,
+  }
 })
 
 export const auth = {
   async loginByEmailPassword(sess, email, password) {
     const user = await ctx.call("User", "loginByEmailPassword", email, password)
+    if (!user) return undefined
 
     sess.whoami = {
       user: {
@@ -29,6 +34,7 @@ export const auth = {
         gourps: (await ctx.call("User", "getAllGroupsOfUserId", user.id)).map(g => g?.code),
         avatarUrl: user?.avataUrl
       },
+      syncCode: Date.now().toString(16)
     }
 
     return 'login-success'

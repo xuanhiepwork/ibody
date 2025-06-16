@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (avatarImg) {
       avatarImg.src = user.avatarUrl
         ? `${user.avatarUrl}`
-        : "/picture/default-avatar.jpg"; // fallback ảnh mặc định
+        : "/static/img/default-avatar.jpg"; // fallback ảnh mặc định
     }
   } else {
     if (userMenu) userMenu.style.display = "none";

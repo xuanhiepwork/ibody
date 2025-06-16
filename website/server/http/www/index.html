@@ -5,48 +5,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IBODY</title>
-  <!-- <link rel="stylesheet" href="./CSS/index.css"> -->
-  <link rel="stylesheet" href="./CSS/landingpage.css">
+  <link rel="stylesheet" href="/static/css/landingpage.css">
 </head>
 
 <body>
   <header class="header">
-        <div class="logo">
-        <img src="./picture/logo_color.png" alt="Logo IBODY" class="logo-image" />
-        <span>IBODY</span>
+    <div class="logo">
+      <img src="/static/img/logo_color.png" alt="Logo IBODY" class="logo-image" />
+      <span>IBODY</span>
+    </div>
+
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+
+    <nav class="nav">
+      <a href="#" class="active">Trang chủ</a>
+      <a
+        href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937">
+        Cộng Đồng
+      </a>
+      <a href="/NguoiDung/search-expert">Tư vấn</a>
+      <a href="/NguoiDung/tin-nhan-user.html">Tin nhắn</a>
+      <a href="/NguoiDung/lich-hen-user.html">Lịch hẹn</a>
+      <a href="/NguoiDung/history.html">Lịch sử giao dịch</a>
+      <a href="/NguoiDung/dang-ky-goi.html">Gói tư vấn</a>
+
+      <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
+      <div class="user-menu" id="userMenu" style="display: none;">
+        <div class="user-button" onclick="toggleUserDropdown()">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
+          <span id="usernameDisplay"></span>
         </div>
 
-        <button id="menu-toggle" class="menu-toggle">☰</button>
-
-        <nav class="nav">
-        <a href="#" class="active">Trang chủ</a>
-        <a
-            href="https://www.facebook.com/groups/1385192975848986/?hoisted_section_header_type=recently_seen&multi_permalinks=1386106799090937">
-            Cộng Đồng
-        </a>
-        <a href="/NguoiDung/search-expert">Tư vấn</a>
-        <a href="/NguoiDung/tin-nhan-user.html" >Tin nhắn</a>
-        <a href="/NguoiDung/lich-hen-user.html">Lịch hẹn</a>
-        <a href="/NguoiDung/history.html">Lịch sử giao dịch</a>
-        <a href="/NguoiDung/dang-ky-goi.html" >Gói tư vấn</a>
-
-        <a href="#" id="loginLink" onclick="AuthModal.open()">Đăng nhập/Đăng ký</a>
-        <div class="user-menu" id="userMenu" style="display: none;">
-            <div class="user-button" onclick="toggleUserDropdown()">
-                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="avatar">
-                <span id="usernameDisplay"></span>
-            </div>
-            
-            <div class="user-dropdown" id="userDropdown">
-                <a href="profile.html">Trang cá nhân</a>
-                <a href="/NguoiDung/settings-upgrade.html">Nâng cấp thành chuyên gia</a>
-                <a href="/tracnghiem.html">Trắc nghiệm trầm cảm</a>
-                <a href="/NguoiDung/ho-tro-user.html">Hỗ trợ</a>
-                <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
-            </div>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="profile.html">Trang cá nhân</a>
+          <a href="/NguoiDung/settings-upgrade.html">Nâng cấp thành chuyên gia</a>
+          <a href="/tracnghiem.html">Trắc nghiệm trầm cảm</a>
+          <a href="/NguoiDung/ho-tro-user.html">Hỗ trợ</a>
+          <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
         </div>
-        </nav>
-    </header>
+      </div>
+    </nav>
+  </header>
 
   <!-- Hero -->
   <section class="hero">
@@ -230,7 +229,7 @@
         </div>
 
         <div class="step-card">
-          <img src="./picture/HoangNhuQuynh.png" alt="Hoàng Như Quỳnh" />
+          <img src="/static/img/HoangNhuQuynh.png" alt="Hoàng Như Quỳnh" />
 
           <div class="step-title">Hoàng Như Quỳnh</div>
           <div class="title-role">CFO</div>
@@ -241,7 +240,7 @@
         </div>
 
         <div class="step-card">
-          <img src="./picture/NguyenThuanThanh.png" alt="Nguyễn Thuận Thành" />
+          <img src="/static/img/NguyenThuanThanh.png" alt="Nguyễn Thuận Thành" />
           <div class="step-title">Nguyễn Thuận Thành</div>
           <div class="title-role">CTO</div>
           <!-- <div class="step-description">
@@ -277,8 +276,8 @@
       <div class="footer-about">
         <h4>Về chúng tôi</h4>
         <p>
-          IBODY là dự án kết nối học sinh với chuyên gia tâm lý, giúp các em
-          hiểu và phát triển bản thân một cách lành mạnh.
+          IBODY là dự án kết nối học sinh với chuyên gia tâm lý, giúp các em hiểu và phát triển bản thân một cách lành
+          mạnh.
         </p>
       </div>
       <div class="footer-contact">
@@ -292,8 +291,6 @@
     </div>
   </footer>
 
-
-  <script src="JS/index.js"></script>
 </body>
 
 </html>

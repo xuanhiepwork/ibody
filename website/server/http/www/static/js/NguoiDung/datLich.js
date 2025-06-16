@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (avatarImg) {
       avatarImg.src = user.avatarUrl
         ? `${BASE_API}${user.avatarUrl}`
-        : "/picture/default-avatar.jpg";
+        : "/static/img/default-avatar.jpg";
     }
   }
 

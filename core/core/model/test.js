@@ -17,6 +17,8 @@ export default {
         const groupAdmin = await ctx.call("UserGroup", "getOne", { code: "admin" })
         await ctx.call("UserGroup", "insertOrUpdate", { code: "experd", name: "Chuyên gia", parentId: groupBaseuser.id })
         const groupExperd = await ctx.call("UserGroup", "getOne", { code: "experd" })
+        await ctx.call("UserGroup", "insertOrUpdate", { code: "normal", name: "Người dùng thông thường", parentId: groupBaseuser.id })
+        const groupNormalUser = await ctx.call("UserGroup", "getOne", { code: "normal" })
 
         await ctx.call("User", "insertOrUpdate", {
             name: "admin",

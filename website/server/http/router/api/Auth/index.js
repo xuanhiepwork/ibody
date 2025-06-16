@@ -5,12 +5,7 @@ import bodyParser from 'body-parser'
 const router = express.Router()
 router.use(session)
 
-router.get("/whoami", async (req, res) => {
-    res.json({
-        code: 'ok',
-        whoami: req.session?.whoami
-    })
-})
+router.get("/whoami", async (req, res) => res.json(req.session?.whoami))
 
 router.post("/login", bodyParser.json(), async (req, res) => {
     const rs = await auth.loginByEmailPassword(
@@ -19,10 +14,10 @@ router.post("/login", bodyParser.json(), async (req, res) => {
         req.body?.password,
     )
 
-    if (rs === 'login-success') return res.json({
-        code: 'login-success',
-        user: req.session?.whoami?.user,
-    })
+    if (rs === 'login-success') {
+        req.res.cookie("user_syncCode", req.session.whoami.syncCode, { httpOnly: false })
+        return res.json({ code: 'login-success' })
+    }
 
     res.json({
         code: 'login-failed',

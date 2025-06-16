@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (avatarImg) {
       avatarImg.src = user.avatarUrl
         ? `${user.avatarUrl}`
-        : "/picture/default-avatar.jpg";
+        : "/static/img/default-avatar.jpg";
     }
   } else {
     if (userMenu) userMenu.style.display = "none";

@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // ✅ Hiển thị avatar trong thông tin
         document.getElementById("currentAvatar").src = data.avatarUrl
           ? `http://localhost:5221${data.avatarUrl}`
-          : "/picture/default-avatar.jpg";
+          : "/static/img/default-avatar.jpg";
 
         // ✅ Cập nhật avatar ở menu nếu có
         const avatarMenu = document.querySelector(".user-button img");

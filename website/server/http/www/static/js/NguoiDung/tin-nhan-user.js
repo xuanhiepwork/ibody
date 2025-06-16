@@ -172,6 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (user && avatarImg) {
     avatarImg.src = user.avatarUrl
       ? `${user.avatarUrl}`
-      : "/picture/default-avatar.jpg";
+      : "/static/img/default-avatar.jpg";
   }
 });
