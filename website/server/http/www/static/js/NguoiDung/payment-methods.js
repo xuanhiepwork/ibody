@@ -1,7 +1,7 @@
 const BASE_API = "http://localhost:5221";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = core.user;
   const goiId = new URLSearchParams(window.location.search).get("goiId");
 
   if (!user || !goiId) {

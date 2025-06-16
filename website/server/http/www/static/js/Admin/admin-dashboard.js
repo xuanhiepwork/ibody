@@ -1,4 +1,4 @@
-const user = JSON.parse(localStorage.getItem("user"));
+const user = core.user;
 
 if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
   window.location.href = "index.html";

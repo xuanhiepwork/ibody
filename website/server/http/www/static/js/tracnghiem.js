@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
   // ✅ Hiển thị avatar và tên người dùng
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = core.user;
   
   const loginLink = document.getElementById("loginLink");
   const userMenu = document.getElementById("userMenu");

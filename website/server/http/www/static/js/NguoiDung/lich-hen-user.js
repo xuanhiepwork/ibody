@@ -1,5 +1,5 @@
 const API_BASE = "/api";
-const user = JSON.parse(localStorage.getItem("user"));
+const user = core.user;
 
 // if (!user) {
 //   alert("Vui lòng đăng nhập để tiếp tục.");

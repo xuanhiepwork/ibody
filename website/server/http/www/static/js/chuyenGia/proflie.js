@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let chuyenGiaId = null;
   let scheduleData = [];
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = core.user;
   // if (!user) {
   //   alert("Bạn chưa đăng nhập.");
   //   window.location.href = "../index.html";
@@ -237,7 +237,7 @@ function loadSchedule() {
 
   // === Hàm tải ảnh đại diện ===
   async function uploadAvatar() {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = core.user;
     const file = document.getElementById("avatarInput").files[0];
     if (!file) {
       alert("Vui lòng chọn ảnh.");

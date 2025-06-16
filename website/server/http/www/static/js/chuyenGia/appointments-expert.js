@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  // const user = JSON.parse(localStorage.getItem("user"));
+  // const user = core.user;
   // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
   //   alert("Bạn không có quyền truy cập trang này.");
   //   return (window.location.href = "../index.html");
@@ -102,7 +102,7 @@ async function hoanTat(id) {
 
 async function huyLich(id) {
   if (!confirm("Bạn chắc chắn muốn hủy lịch này?")) return;
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = core.user;
   try {
     const res = await fetch(`/api/lich-hen/huy-lich-chuyen-gia/${id}?taiKhoanId=${user.taiKhoanId}`, {
       method: "DELETE"

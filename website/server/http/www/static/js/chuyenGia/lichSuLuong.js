@@ -1,4 +1,4 @@
-const user = JSON.parse(localStorage.getItem("user"));
+const user = core.user;
 
 document.addEventListener("DOMContentLoaded", async () => {
   // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {

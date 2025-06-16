@@ -25,7 +25,10 @@ const core = { ET: new EventTarget() }
     core.refresh = () => {
         // #TODO:
         const { syncCode } = core.loadCookies()
-        if (syncCode !== localStorage.getItem("user-syncCode")) core.syncUser()
+        if (syncCode !== localStorage.getItem("user-syncCode")) {
+            localStorage.setItem("user-syncCode", syncCode)
+            // core.syncUser()
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 // Base URL API server
 const API_BASE_URL = "/api"; // bạn sửa lại đúng server nếu cần
-const user = JSON.parse(localStorage.getItem("user")); // lấy user từ localStorage
+const user = core.user; // lấy user từ localStorage
 
 // Cập nhật Email
 const updateEmailForm = document.getElementById("updateEmailForm");

@@ -75,7 +75,7 @@
 
       // #TODO: remove this function
       document.addEventListener("DOMContentLoaded", () => {
-        const user = JSON.parse(localStorage.getItem("user"));
+        const user = core.user;
         const avatarImg = document.querySelector(".user-button img");
 
         if (user && avatarImg) {

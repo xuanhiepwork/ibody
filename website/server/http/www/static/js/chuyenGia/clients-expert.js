@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = core.user;
   // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {
   //   alert("Bạn không có quyền truy cập trang này.");
   //   return (window.location.href = "../index.html");

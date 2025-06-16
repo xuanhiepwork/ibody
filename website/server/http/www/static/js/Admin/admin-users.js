@@ -1,4 +1,4 @@
-// const user = JSON.parse(localStorage.getItem("user"));
+// const user = core.user;
 // const currentUserId = user?.taiKhoanId;
 // if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
 //   alert("Bạn không có quyền truy cập trang quản trị.");

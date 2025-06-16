@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // const user = JSON.parse(localStorage.getItem("user"));
+  // const user = core.user;
 
   // if (!user) {
   //   alert("Vui lòng đăng nhập để tiếp tục.");
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // ✅ Xử lý điều hướng và thao tác gói
 async function chuyenTrangThanhToan(goiId) {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = core.user;
   const goiRes = await fetch(`/api/goi-dich-vu/dang-su-dung/${user.taiKhoanId}`);
   const goiText = await goiRes.text();
   let goiDangSuDung = null;
@@ -117,7 +117,7 @@ async function giaHanGoi(goiDichVuId) {
 }
 
 async function huyGoi() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = core.user;
   if (!confirm("Bạn chắc chắn muốn hủy gói hiện tại?")) return;
   try {
     const res = await fetch(`/api/goi-dich-vu/huy-goi/${user.taiKhoanId}`, {
