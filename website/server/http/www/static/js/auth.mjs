@@ -21,3 +21,11 @@ export async function loginByEmailPassword(email, password) {
 
     }
 }
+
+export async function logout() {
+    await fetch("/api/Auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+    })
+    core.syncUser()
+}

@@ -1,15 +1,5 @@
 const core = { ET: new EventTarget() }
 {
-    try { core.user = JSON.parse(localStorage.getItem("user")) } catch (e) { }
-    if (!core.user) core.user = {}
-
-    core.syncUser = async () => {
-        const { user, syncCode } = await (await fetch("/api/Auth/whoami")).json()
-        if (user) { localStorage.setItem("user", JSON.stringify(user)) } else localStorage.removeItem("user")
-        if (syncCode) { localStorage.setItem("user-syncCode", syncCode) } else localStorage.removeItem("user-syncCode")
-        core.ET.dispatchEvent(new Event("syncUser-after"))
-    }
-
     const re = /\s*([^=]+)(=([\S\s]*?))?(;|$)/g
     core.loadCookies = () => {
         const C = core.cookies = Object.create(null), cookie = document.cookie
@@ -22,19 +12,31 @@ const core = { ET: new EventTarget() }
         return C
     }
 
+    core.loadLocalStorage = () => {
+        try { core.user = JSON.parse(localStorage.getItem("user")) } catch (e) { }
+        if (!core.user) core.user = {}
+        core.user_syncCode = localStorage.getItem("user_syncCode")
+    }
+
+    core.syncUser = async () => {
+        const { user } = await (await fetch("/api/Auth/whoami")).json()
+        core.loadCookies()
+
+        if (user) { localStorage.setItem("user", JSON.stringify(user)) } else localStorage.removeItem("user")
+        localStorage.setItem("user_syncCode", core.cookies?.user_syncCode || "")
+        location.reload()
+    }
+
     core.refresh = () => {
-        const syncCode = core.loadCookies().syncCode
-        if (syncCode) {
-            syncCode = String(syncCode)
-            if (syncCode !== localStorage.getItem("user-syncCode")) {
-                localStorage.setItem("user-syncCode", syncCode)
-                core.syncUser()
-            }
+        core.loadCookies()
+        core.loadLocalStorage()
+        if (core.cookies?.user_syncCode != core.user_syncCode) {
+            core.syncUser()
         }
     }
+
 }
 
-core.ET.addEventListener("syncUser-after", () => location.reload())
 core.refresh()
 
 {

@@ -20,12 +20,18 @@ export default session({
   }
 })
 
+
+
 export const auth = {
-  async loginByEmailPassword(sess, email, password) {
+  emitSync(req) {
+    req.res.cookie("user_syncCode", Date.now().toString(16), { httpOnly: false })
+  },
+
+  async loginByEmailPassword(req, email, password) {
     const user = await ctx.call("User", "loginByEmailPassword", email, password)
     if (!user) return undefined
 
-    sess.whoami = {
+    req.session.whoami = {
       user: {
         id: user?.id,
         name: user?.name,
@@ -33,19 +39,20 @@ export const auth = {
         roles: ["quan_tri", "chuyen_gia"],
         gourps: (await ctx.call("User", "getAllGroupsOfUserId", user.id)).map(g => g?.code),
         avatarUrl: user?.avataUrl
-      },
-      syncCode: Date.now().toString(16)
+      }
     }
+    auth.emitSync(req)
 
     return 'login-success'
   },
 
-  async whoami(sess) {
-    return sess.whoami
+  whoami(req) {
+    return req.session.whoami
   },
 
-  async logout(sess) {
-    return sess.destroy()
+  async logout(req) {
+    await req.session.destroy()
+    auth.emitSync(req)
   }
 
 }

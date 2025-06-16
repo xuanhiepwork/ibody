@@ -123,66 +123,8 @@ registerForm.addEventListener("submit", async (event) => {
     }
 });
 
-window.addEventListener("DOMContentLoaded", () => {
-
-    const user = core.user
-    const loginLink = document.getElementById("loginLink");
-    const userMenu = document.getElementById("userMenu");
-    const usernameDisplay = document.getElementById("usernameDisplay");
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const googleUserParam = urlParams.get("googleUser");
-
-    if (googleUserParam) {
-        try {
-            const userData = JSON.parse(decodeURIComponent(googleUserParam));
-
-            // ✅ Chuẩn hóa để frontend tương thích (vai trò dạng mảng như roles = [...])
-            const mappedUser = {
-                taiKhoanId: userData.userId,
-                email: userData.email,
-                fullName: userData.fullName || userData.email,
-                roles: [userData.role], // Gán thành mảng
-                avatarUrl: null,
-                trangThai: "hoat_dong"
-            };
-
-            localStorage.setItem("user", JSON.stringify(mappedUser));
-
-            // ✅ Chuyển trang tùy vai trò
-            if (mappedUser.roles.includes("chuyen_gia")) {
-                window.location.href = "/chuyenGia/indexChuyenGia.html";
-            } else if (mappedUser.roles.includes("quan_tri")) {
-                window.location.href = "/Admin/admin-dashboard.html";
-            } else {
-                window.location.href = "index.html";
-            }
-        } catch (err) {
-            console.error("Lỗi giải mã user từ Google:", err);
-        }
-    }
-
-    // ✅ Nếu người dùng đã đăng nhập từ trước
-    if (user) {
-        const loginLink = document.getElementById("loginLink");
-        const usernameDisplay = document.getElementById("usernameDisplay");
-
-        if (loginLink && userMenu && usernameDisplay) {
-            loginLink.style.display = "none";
-            userMenu.style.display = "inline-block";
-            usernameDisplay.innerText = user.fullname || user.username;
-        } else {
-            userMenu.style.display = "none";
-        }
-    }
-});
-
 document.body.append(modal)
 
 export const open = () => modal.classList.add('active')
 export const close = () => modal.classList.remove('active')
-export const logout = () => {
-    localStorage.removeItem("user");
-    alert("Đăng xuất thành công!");
-    window.location.href = "/";
-}
+export const logout = () => auth.logout()

@@ -1,22 +1,21 @@
 <header class="header">
   <style>
-.user-menu {
-  display: none;
-}
+    .user-menu {
+      display: none;
+    }
 
-.user-loged-in .nav .login-btn {
-  display: none;
-}
+    .user-loged-in .nav .login-btn {
+      display: none;
+    }
 
-.user-loged-in .nav .user-menu {
-  display: inline-block;
-}
+    .user-loged-in .nav .user-menu {
+      display: inline-block;
+    }
 
-.nav .user-menu .user-name {
-  font-weight: 800;
-}
-</style>
-
+    .nav .user-menu .user-name {
+      font-weight: 800;
+    }
+  </style>
 
   <a class="logo" href="/">
     <img src="/static/img/logo_color.png" alt="Logo IBODY" class="logo-image" />
@@ -47,7 +46,7 @@
         <a href="/NguoiDung/become-expert">Nâng cấp thành chuyên gia</a>
         <a href="/tracnghiem">Trắc nghiệm trầm cảm</a>
         <a href="/NguoiDung/ho-tro-user">Hỗ trợ</a>
-        <a href="#" onclick="AuthModal.logout()">Đăng xuất</a>
+        <a href="#" name="logout-btn">Đăng xuất</a>
       </div>
     </div>
   </div>
@@ -83,8 +82,8 @@
         if (!userMenu.contains(e.target)) dropdown.classList.remove("show")
       });
 
-      const loginBtn = elm.querySelector("[name=login-btn]")
-      loginBtn.addEventListener("click", async () => import('/static/cpm/AuthModal.mjs').then(({ open }) => open()))
+      elm.querySelector("[name=login-btn]").addEventListener("click", async () => import('/static/cpm/AuthModal.mjs').then(({ open }) => open()))
+      elm.querySelector("[name=logout-btn]").addEventListener("click", async () => import('/static/js/auth.mjs').then(({ logout }) => logout()))
 
       if (core.user?.id) {
         document.body.classList.add("user-loged-in")
@@ -92,20 +91,7 @@
         if (core.user.avatarUrl) {
           elm.querySelector("[name=user-avata]").setAttribute("src", core.user.avatarUrl)
         }
-
       }
-
-      // #TODO: remove this function
-      document.addEventListener("DOMContentLoaded", () => {
-        const user = core.user;
-        const avatarImg = document.querySelector(".user-button img");
-
-        if (user && avatarImg) {
-          avatarImg.src = user.avatarUrl
-            ? `${user.avatarUrl}`
-            : "/static/img/default-avatar.jpg";
-        }
-      });
 
       const header = document.currentScript.parentElement
       header.querySelector("[name=menu-toggle]").addEventListener("click", () => elm.classList.toggle("open"));
@@ -113,6 +99,5 @@
 
       document.currentScript.parentElement.append(elm)
     }</script>
-
 
 </header>
