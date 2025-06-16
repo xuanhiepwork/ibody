@@ -20,10 +20,10 @@ base.innerHTML = `<div name="modal" class="modal-overlay">
         </form>
         <form name="registerForm" class="form">
             <h2>Đăng ký</h2>
-            <input type="text" name="fullName" placeholder="Họ tên" required />
-            <input type="email" name="email" placeholder="Email" required />
-            <input type="password" name="password" placeholder="Mật khẩu" required />
-            <input type="password" name="confirmPassword" placeholder="Xác nhận mật khẩu" required />
+            <input name="fullName" type="text" placeholder="Họ tên" required />
+            <input name="email" type="email" placeholder="Email" required />
+            <input name="password" type="password" placeholder="Mật khẩu" required />
+            <input name="confirmPassword" type="password" placeholder="Xác nhận mật khẩu" required />
             <button type="submit">Tạo tài khoản</button>
         </form>
     </div>
@@ -37,7 +37,7 @@ const modal = base.firstElementChild,
 
 closeBtn.addEventListener("click", () => close())
 // Ẩn modal khi bấm ra ngoài form
-modal.addEventListener('click', function (e) { if ( e.target === this) close() });
+modal.addEventListener('click', function (e) { if (e.target === this) close() });
 
 loginToggle.onclick = () => {
     loginForm.classList.add('active');
@@ -58,62 +58,27 @@ loginForm.addEventListener("submit", async (event) => {
     auth.loginByEmailPassword(loginForm.email.value, loginForm.password.value)
 });
 
-registerForm.addEventListener("submit", async (event) => {
+registerForm.getData = function () { return Object.fromEntries(new FormData(this).entries()) }
+
+registerForm.addEventListener("submit", async function (event) {
     event.preventDefault();
-
-    const fullName = registerForm.fullName.value;
-    const email = registerForm.email.value;
-    const password = registerForm.password.value;
-    const confirmPassword = registerForm.confirmPassword.value;
-
-    if (password !== confirmPassword) {
+    const data = this.getData()
+    if (data.password !== data.confirmPassword) {
         alert("Mật khẩu xác nhận không khớp!");
         return;
     }
 
-    const userData = {
-        fullName,
-        email,
-        password,
-        gender: null, // nếu sau này thêm select => lấy value ở đây
-        dob: null     // nếu có input type="date" => lấy từ registerForm.dob.value
-    };
-
     try {
         const response = await fetch("/api/Auth/register", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
         });
 
         const result = await response.json();
 
         if (response.ok) {
-            // ✅ Sau khi đăng ký xong → tự động đăng nhập luôn
-            const loginRes = await fetch("/api/Auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            });
-
-            const loginResult = await loginRes.json();
-
-            if (loginRes.ok) {
-                localStorage.setItem("user", JSON.stringify(loginResult.user));
-                alert("Đăng ký & đăng nhập thành công!");
-                closeAuthModal();
-                window.location.href = "index.html";
-            } else {
-                alert("Đăng ký thành công, nhưng tự động đăng nhập thất bại.");
-            }
+            auth.loginByEmailPassword(data.email, data.password)
         } else {
             alert(result.message || "Đăng ký thất bại.");
         }

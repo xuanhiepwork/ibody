@@ -33,5 +33,10 @@ router.post("/logout", async (req, res) => {
     })
 })
 
+router.post("/register", bodyParser.json(), async (req, res) => {
+    
+    ctx.call("User", "register", req.body)
+})
+
 
 export default router

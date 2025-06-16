@@ -58,3 +58,11 @@ export const update = (tableName, data, where) => [
     " WHERE ", processWhere(where),
     ";"
 ].flat(Infinity).join("")
+
+
+export const insert = (tableName, data) => {
+    const payload = Object.entries(data)
+        .filter(([field, value]) => value !== null && value !== undefined)
+        .map(([field, value]) => [field, value === "" ? '""' : isNaN(value) ? `"${value}"` : String(value)])
+    return `INSERT INTO ${tableName} (${payload.map(([key]) => key).join(", ")}) VALUES(${payload.map(([key, value]) => value).join(", ")});`
+}

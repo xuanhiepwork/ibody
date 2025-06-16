@@ -7,6 +7,22 @@ import instantSqlTable from './sqlBaseTable.js'
 export default instantSqlTable({
     tableName: "User",
 
+
+    async register(ctx, data) {
+        const baseuserGroup = await UserGroup.getOne(ctx, { code: "baseuser" })
+
+        await this.insert(ctx, {
+            email: data.email,
+            roleId: baseuserGroup.id,
+            fullName: data.fullName,
+        })
+
+        const user = await this.getOne(ctx, { email: data.email })
+        UserAuthPassword.setPassword(ctx, user.id, data.password)
+
+        return user
+    },
+
     async setRole(ctx, userName, groupName) {
         const group = await UserGroup.getOne(ctx, { name: groupName })
 

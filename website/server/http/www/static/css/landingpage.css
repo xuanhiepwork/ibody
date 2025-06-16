@@ -1259,6 +1259,17 @@ img {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   }
 
+  .nav {
+    height: fit-content;
+    overflow-y: scroll;
+    max-height: 0;
+    transition: max-height .3s ease-out;
+  }
+
+  .nav.open {
+    max-height: 100vh;
+  }
+
   .nav.nav-active {
     display: flex;
     /* Hiện menu khi có class nav-active */

@@ -1,5 +1,5 @@
 import query from "core/connector/mysql.js"
-import { update, insertOrUpdate, listWithOpt, getOne, replaceInto } from "../helper/sqlBuilder.js"
+import { update, insertOrUpdate, listWithOpt, getOne, replaceInto, insert } from "../helper/sqlBuilder.js"
 
 const basetable = {
     tableName: "",
@@ -24,6 +24,9 @@ const basetable = {
         return query(update(this.tableName, obj, where))
     },
 
+    async insert(ctx, obj, where) {
+        return query(insert(this.tableName, obj, where))
+    },
     
 }
 
