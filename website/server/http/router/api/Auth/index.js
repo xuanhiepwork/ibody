@@ -7,6 +7,7 @@ const router = express.Router()
 router.use(session)
 
 router.get("/whoami", async (req, res) => res.json(auth.whoami(req) || {}))
+router.get("/refresh-whoami", async (req, res) => res.json(await auth.refreshWhoami(req) || {}))
 
 router.post("/login", bodyParser.json(), async (req, res) => {
     const rs = await auth.loginByEmailPassword(

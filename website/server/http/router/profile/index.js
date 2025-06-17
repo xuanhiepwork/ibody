@@ -17,7 +17,7 @@ router.use("/", session, async (req, res, next) => {
     if (!sessionUser) return res.redirect("/")
 
     const userId = sessionUser.id
-    const user = await ctx.asUserId(userId).call("User", "getData", userId)
+    const user = (await ctx.asUserId(userId).call("User", "getData", userId)).result
 
     res.setHeader('Content-Type', 'text/html; charset=UTF-8')
     res.send(landingPage({

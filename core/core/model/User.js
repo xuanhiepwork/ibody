@@ -56,7 +56,7 @@ SELECT * FROM UserGroup WHERE id IN (SELECT id FROM cte_table);`)
     },
 
     async getData(ctx, userId) {
-        return this.getOne({ id: userId })
+        return this.getOne(ctx, { id: userId })
     },
 
     async setData(ctx, userId, data = {}) {

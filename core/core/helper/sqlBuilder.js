@@ -38,10 +38,10 @@ export const listWithOpt = (tableName, { fields, where, order, limit, offset }) 
 
 export const getOne = (tableName, where) => [
     "SELECT *",
-    "FROM", tableName,
+    " FROM ", tableName,
     where ? [" WHERE ", processWhere(where)] : [],
-    "LIMIT 1 ;"
-].flat(Infinity).join(" ")
+    " LIMIT 1 ;"
+].flat(Infinity).join("")
 
 export const replaceInto = (tableName, data) => {
     const payload = Object.entries(data)

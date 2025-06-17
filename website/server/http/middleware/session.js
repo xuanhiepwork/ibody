@@ -27,8 +27,8 @@ export const auth = {
     req.res.cookie("user_syncCode", Date.now().toString(16), { httpOnly: false })
   },
 
-  async loginByEmailPassword(req, email, password) {
-    const user = (await ctx.call("User", "loginByEmailPassword", email, password)).result
+  async refreshWhoami(req) {
+    const user = (await ctx.call("User", "getOne", { id: req.session.whoami.user.id })).result
     if (!user) return undefined
 
     req.session.whoami = {
@@ -42,7 +42,19 @@ export const auth = {
       }
     }
     auth.emitSync(req)
+  },
 
+  async loginByEmailPassword(req, email, password) {
+    const user = (await ctx.call("User", "loginByEmailPassword", email, password)).result
+    if (!user) return undefined
+
+    req.session.whoami = {
+      user: {
+        id: user?.id
+      }
+    }
+
+    await this.refreshWhoami(req, user)
     return 'login-success'
   },
 
