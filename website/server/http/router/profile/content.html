@@ -69,15 +69,15 @@
                             }
 
                             window.addEventListener("load", async () => {
-                                form.setData((await core.rpc("User", "getData", core.user.id)).result)
+                                form.setData((await ctx.call("User", "getData", ctx.user.id)).result)
                             }, { once: true })
 
                             form.addEventListener("submit", async function (e) {
                                 e.preventDefault();
                                 try {
-                                    await core.rpc("User", "setData", core.user.id, this.getData())
+                                    await ctx.call("User", "setData", ctx.user.id, this.getData())
                                     await fetch("/api/Auth/refresh-whoami")
-                                    core.syncUser()
+                                    ctx.syncUser()
                                 } catch (err) {
                                     console.error(err);
                                     alert("Lỗi máy chủ khi cập nhật.");

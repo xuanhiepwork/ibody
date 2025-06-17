@@ -1,4 +1,4 @@
-const user = core.user;
+const user = ctx.user;
 
 document.addEventListener("DOMContentLoaded", () => {
   const loginLink = document.getElementById("loginLink");

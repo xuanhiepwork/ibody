@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("soLuot").innerText = data.soLuot;
     document.getElementById("conLai").innerText = data.soLuotConLai;
     document.getElementById("trangThai").innerText = data.trangThai === "con_hieu_luc" ? "Đang hoạt động" : "Hết hiệu lực";
-    document.getElementById("emailNguoiDung").innerText = data.nguoiDung.email;
+    document.getElementById("emailnguoi-dung").innerText = data.nguoi-dung.email;
 
   } catch (err) {
     alert("❌ Lỗi tải thông tin: " + err.message);

@@ -1,4 +1,4 @@
-const user = core.user;
+const user = ctx.user;
 
 if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
   alert("Bạn không có quyền truy cập trang quản trị.");

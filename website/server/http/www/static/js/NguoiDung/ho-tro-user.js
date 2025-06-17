@@ -4,7 +4,7 @@ const API_BASE_URL = "/api";
 
 // ✅ Gộp xử lý hiển thị avatar + tên tài khoản sau khi đăng nhập
 document.addEventListener("DOMContentLoaded", () => {
-  const user = core.user;
+  const user = ctx.user;
   const loginLink = document.getElementById("loginLink");
   const userMenu = document.getElementById("userMenu");
   const usernameDisplay = document.getElementById("usernameDisplay");

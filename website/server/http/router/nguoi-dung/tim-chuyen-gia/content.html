@@ -1,0 +1,30 @@
+<div class="page-container">
+    <div class="search-layout">
+        <div class="filter-panel">
+            <h3><i class="fas fa-filter"></i> Bộ lọc Tìm kiếm</h3>
+            <form action="?" method="get">
+                <div class="filter-group">
+                    <label><i class="fas fa-keyboard"></i> Từ khoá</label>
+                    <input type="text" name="keyword" placeholder="Tên, chuyên môn...">
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-user-tag"></i> Lĩnh vực Tư vấn</label>
+                    <select name="specialtyId">{{specialtiesOptions}}</select>
+                </div>
+                <button type="submit" class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Tìm kiếm</button>
+            </form>
+            <script>{
+                    const formElm = document.currentScript.previousElementSibling
+                    const params = new URLSearchParams(window.location.search);
+                    for (const [key, value] of params.entries()) formElm[key].value = value
+                }</script>
+        </div>
+
+        <div class="results-area">
+            <div class="results-header">
+                <p>Tìm thấy {{resultsCount}} chuyên gia.</p>
+            </div>
+            <div class="expert-list-grid">{{expertList}}</div>
+        </div>
+    </div>
+</div>

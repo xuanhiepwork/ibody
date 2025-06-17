@@ -2,7 +2,7 @@ import express from 'express'
 
 const router = express.Router()
 
-import Template from 'server/http/www-template/template-engine.js'
+import Template from 'server/lib/template-engine.js'
 import landingPage from 'server/http/www-template/landing.js'
 router.use("/", (req, res, next) => {
     if (req.path !== "/" || (req.method !== 'GET' && req.method !== 'HEAD')) return next()

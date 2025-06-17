@@ -1,12 +1,12 @@
 const BASE_API = "http://localhost:5221";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const user = core.user;
+  const user = ctx.user;
   const chuyenGiaId = new URLSearchParams(window.location.search).get("chuyenGiaId");
 
   // if (!user || !chuyenGiaId) {
   //   alert("Thiếu thông tin đăng nhập hoặc chuyên gia.");
-  //   window.location.href = "search-expert";
+  //   window.location.href = "tim-chuyen-gia";
   //   return;
   // }
 
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const batDau = `${date}T${slot.start}:00`;
 
     const body = {
-      nguoiDungId: userData.id,
+      nguoi-dungId: userData.id,
       chuyenGiaId: parseInt(chuyenGiaId),
       hinhThucId: hinhThuc,
       thoiGianBatDau: batDau,

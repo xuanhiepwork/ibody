@@ -64,10 +64,10 @@ async function loadClients() {
           <p>${user.email}</p>
         </div>
       `;
-      li.addEventListener("click", () => selectReceiver(user.taiKhoanIdNguoiDung, li));
+      li.addEventListener("click", () => selectReceiver(user.taiKhoanIdnguoi-dung, li));
       chatList.appendChild(li);
 
-      if (index === 0) selectReceiver(user.taiKhoanIdNguoiDung, li);
+      if (index === 0) selectReceiver(user.taiKhoanIdnguoi-dung, li);
     });
 
   } catch (err) {

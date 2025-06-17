@@ -1,8 +1,8 @@
-const core = { ET: new EventTarget() }
+const ctx = { ET: new EventTarget() }
 {
     const re = /\s*([^=]+)(=([\S\s]*?))?(;|$)/g
-    core.loadCookies = () => {
-        const C = core.cookies = Object.create(null), cookie = document.cookie
+    ctx.loadCookies = () => {
+        const C = ctx.cookies = Object.create(null), cookie = document.cookie
         re.lastIndex = 0
         var m, v
         while (m = re.exec(cookie)) {
@@ -12,38 +12,36 @@ const core = { ET: new EventTarget() }
         return C
     }
 
-    core.loadLocalStorage = () => {
-        try { core.user = JSON.parse(localStorage.getItem("user")) } catch (e) { }
-        if (!core.user) core.user = {}
-        core.user_syncCode = localStorage.getItem("user_syncCode")
+    ctx.loadLocalStorage = () => {
+        try { ctx.user = JSON.parse(localStorage.getItem("user")) } catch (e) { }
+        if (!ctx.user) ctx.user = {}
+        ctx.user_syncCode = localStorage.getItem("user_syncCode")
     }
 
-    core.syncUser = async () => {
+    ctx.syncUser = async () => {
         const { user } = await (await fetch("/api/Auth/whoami")).json()
-        core.loadCookies()
+        ctx.loadCookies()
 
         if (user) { localStorage.setItem("user", JSON.stringify(user)) } else localStorage.removeItem("user")
-        localStorage.setItem("user_syncCode", core.cookies?.user_syncCode || "")
+        localStorage.setItem("user_syncCode", ctx.cookies?.user_syncCode || "")
         location.reload()
     }
 
-    core.refresh = () => {
-        core.loadCookies()
-        core.loadLocalStorage()
-        if (core.cookies?.user_syncCode != core.user_syncCode) {
-            core.syncUser()
+    ctx.refresh = () => {
+        ctx.loadCookies()
+        ctx.loadLocalStorage()
+        if (ctx.cookies?.user_syncCode != ctx.user_syncCode) {
+            ctx.syncUser()
         }
     }
 
-}
-
-core.refresh()
-
-{
     const rpcOptions = { method: "POST", headers: { 'Content-Type': 'application/json' } }
-    core.rpc = function () {
+    ctx.call = function () {
         const options = Object.create(rpcOptions)
         options.body = JSON.stringify([...arguments])
         return fetch("/rpc", options).then((response) => response.json())
     }
+
 }
+
+ctx.refresh()

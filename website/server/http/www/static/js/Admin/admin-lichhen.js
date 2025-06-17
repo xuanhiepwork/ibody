@@ -1,4 +1,4 @@
-const user = core.user;
+const user = ctx.user;
 
 if (!user || !Array.isArray(user.roles) || !user.roles.includes("quan_tri")) {
   alert("Bạn không có quyền truy cập trang quản trị.");
@@ -20,7 +20,7 @@ async function loadLichHen() {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${item.id}</td>
-        <td>${item.nguoiDung.hoTen}</td>
+        <td>${item.nguoi-dung.hoTen}</td>
         <td>${item.chuyenGia.hoTen}</td>
         <td>${item.chuyenGia.chuyenMon}</td>
         <td>${new Date(item.thoiGianBatDau).toLocaleString()}</td>

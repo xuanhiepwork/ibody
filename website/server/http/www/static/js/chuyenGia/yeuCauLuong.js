@@ -1,5 +1,5 @@
 const BASE_API = "http://localhost:5221";
-const user = core.user;
+const user = ctx.user;
 
 document.addEventListener("DOMContentLoaded", async () => {
   // if (!user?.taiKhoanId) return alert("Chưa đăng nhập.");

@@ -1,4 +1,4 @@
-const user = core.user;
+const user = ctx.user;
 
 document.addEventListener("DOMContentLoaded", async () => {
   // if (!user || !user.taiKhoanId || !user.roles.includes("chuyen_gia")) {

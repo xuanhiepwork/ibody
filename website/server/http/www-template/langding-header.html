@@ -4,6 +4,10 @@
       display: none;
     }
 
+    body:not(.user-loged-in) .require-user-loged-in  {
+      display: none;
+    }
+
     .user-loged-in .nav .login-btn {
       display: none;
     }
@@ -29,11 +33,11 @@
       base.innerHTML = `<nav class="nav">
   <a href="https://www.facebook.com/groups/1385192975848986/"><img src="/static/img/facebook-f-logo.svg" style="height: 1em; margin-right: .5em; display: inline-block;">Cộng đồng</a>
   <a href="/">Trang chủ</a>
-  <a href="/NguoiDung/search-expert">Tư vấn</a>
-  <a href="/NguoiDung/tin-nhan-user">Tin nhắn</a>
-  <a href="/NguoiDung/lich-hen-user">Lịch hẹn</a>
-  <a href="/NguoiDung/lich-su-goi">Lịch sử giao dịch</a>
-  <a href="/NguoiDung/dang-ky-goi">Gói tư vấn</a>
+  <a href="/nguoi-dung/tim-chuyen-gia">Tư vấn</a>
+  <a class="require-user-loged-in" href="/nguoi-dung/tin-nhan-user">🗨 Tin nhắn</a>
+  <a class="require-user-loged-in" href="/nguoi-dung/lich-hen-user">Lịch hẹn</a>
+  <a href="/nguoi-dung/lich-su-goi">Lịch sử giao dịch</a>
+  <a href="/nguoi-dung/dang-ky-goi">Gói tư vấn</a>
   <a href="/Admin/admin-users.html">Người dùng</a>
   <a href="#" class="login-btn" name="login-btn">Đăng nhập/Đăng ký</a>
 
@@ -43,9 +47,9 @@
       <span class="user-name" name="user-name"></span>
       <div class="user-dropdown" name="userDropdown">
         <a href="/profile">Trang cá nhân</a>
-        <a href="/NguoiDung/become-expert">Nâng cấp thành chuyên gia</a>
+        <a href="/nguoi-dung/become-expert">Nâng cấp thành chuyên gia</a>
         <a href="/tracnghiem">Trắc nghiệm trầm cảm</a>
-        <a href="/NguoiDung/ho-tro-user">Hỗ trợ</a>
+        <a href="/nguoi-dung/ho-tro-user">Hỗ trợ</a>
         <a href="#" name="logout-btn">Đăng xuất</a>
       </div>
     </div>
@@ -85,11 +89,11 @@
       elm.querySelector("[name=login-btn]").addEventListener("click", async () => import('/static/cpm/AuthModal.mjs').then(({ open }) => open()))
       elm.querySelector("[name=logout-btn]").addEventListener("click", async () => import('/static/js/auth.mjs').then(({ logout }) => logout()))
 
-      if (core.user?.id) {
+      if (ctx.user?.id) {
         document.body.classList.add("user-loged-in")
-        elm.querySelector("[name=user-name]").innerText = core.user.fullname
-        if (core.user.avatarUrl) {
-          elm.querySelector("[name=user-avata]").setAttribute("src", core.user.avatarUrl)
+        elm.querySelector("[name=user-name]").innerText = ctx.user.fullname
+        if (ctx.user.avatarUrl) {
+          elm.querySelector("[name=user-avata]").setAttribute("src", ctx.user.avatarUrl)
         }
       }
 

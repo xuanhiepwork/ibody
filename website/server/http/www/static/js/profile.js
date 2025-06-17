@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // const user = core.user;
+  // const user = ctx.user;
   // if (!user) {
   //   alert("Bạn cần đăng nhập.");
   //   window.location.href = "index.html";

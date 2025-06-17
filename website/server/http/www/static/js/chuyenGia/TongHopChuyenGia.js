@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         data.forEach(dg => {
           total += dg.diemSo;
           const p = document.createElement("p");
-          p.innerHTML = `⭐ ${dg.diemSo} - "${dg.nhanXet}"<br>👤 ${dg.hoTenNguoiDung} (${new Date(dg.thoiGianTuvan).toLocaleDateString()})`;
+          p.innerHTML = `⭐ ${dg.diemSo} - "${dg.nhanXet}"<br>👤 ${dg.hoTennguoi-dung} (${new Date(dg.thoiGianTuvan).toLocaleDateString()})`;
           reviewList.appendChild(p);
         });
         document.getElementById("avgRating").textContent = `${(total / data.length).toFixed(1)} / 5`;

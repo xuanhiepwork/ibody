@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const user = core.user;
+  const user = ctx.user;
   const loginLink = document.getElementById("loginLink");
   const userMenu = document.getElementById("userMenu");
   const usernameDisplay = document.getElementById("usernameDisplay");
@@ -59,7 +59,7 @@ let selectedExpert = null;
 let refreshInterval = null;
 
 async function initChat() {
-  const user = core.user;
+  const user = ctx.user;
   await loadExpertList(user);
 
   document.getElementById("messageForm").addEventListener("submit", async (e) => {
@@ -166,7 +166,7 @@ async function loadMessages(user, expert) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const user = core.user;
+  const user = ctx.user;
   const avatarImg = document.querySelector(".user-button img");
 
   if (user && avatarImg) {

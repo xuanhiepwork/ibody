@@ -1,5 +1,5 @@
 const API_BASE = "/api";
-const user = core.user;
+const user = ctx.user;
 
 // if (!user) {
 //   alert("Vui lòng đăng nhập để tiếp tục.");
@@ -58,9 +58,9 @@ async function loadLichHen() {
   try {
     const profileRes = await fetch(`${API_BASE}/user/profile/${user.taiKhoanId}`);
     const profileData = await profileRes.json();
-    const nguoiDungId = profileData.id;
+    const nguoi-dungId = profileData.id;
 
-    const res = await fetch(`${API_BASE}/lich-trinh/nguoi-dung/${nguoiDungId}`);
+    const res = await fetch(`${API_BASE}/lich-trinh/nguoi-dung/${nguoi-dungId}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Lỗi tải lịch hẹn");
 
@@ -103,9 +103,9 @@ async function loadLichSuTuVan() {
   try {
     const profileRes = await fetch(`${API_BASE}/user/profile/${user.taiKhoanId}`);
     const profileData = await profileRes.json();
-    const nguoiDungId = profileData.id;
+    const nguoi-dungId = profileData.id;
 
-    const res = await fetch(`${API_BASE}/lich-trinh/nguoi-dung/${nguoiDungId}`);
+    const res = await fetch(`${API_BASE}/lich-trinh/nguoi-dung/${nguoi-dungId}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Lỗi tải lịch sử tư vấn");
 

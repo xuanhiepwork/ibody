@@ -10,20 +10,140 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+/*!40000 ALTER TABLE `Chatbox` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Chatbox` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `ChatboxMessage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ChatboxMessage` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `ChatboxRole` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ChatboxRole` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `ChatboxUser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ChatboxUser` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `Expert` DISABLE KEYS */;
+REPLACE INTO `Expert` VALUES (1,NULL,'Nguyễn Thị Lan Anh','/static/img/HoangNhuQuynh.png',1,4.9,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (2,NULL,'Trần Minh Đức','https://media.licdn.com/dms/image/v2/D5603AQEXqOp4DDLoEw/profile-displayphoto-shrink_800_800/B56ZSNP0gjHoAc-/0/1737536523054?e=1753920000&v=beta&t=_hOIPzbzw7qg_EciMC9hG29sx6aGyJJGvuzwZ14fVoE',11,4.8,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (3,NULL,'Lê Minh Nguyệt','/static/img/MinhNguyet.png',2,4.9,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (4,NULL,'Phạm Quang Huy','https://i.pravatar.cc/150?u=expert4',3,4.7,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (5,NULL,'Vũ Thị Mai','https://i.pravatar.cc/150?u=expert5',4,4.8,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (6,NULL,'Nguyễn Thị Lan Anh','https://i.pravatar.cc/150?u=expert1',1,4.9,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (7,NULL,'Trần Minh Đức','https://i.pravatar.cc/150?u=expert2',11,4.8,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (8,NULL,'Lê Minh Nguyệt','https://i.pravatar.cc/150?u=expert3',2,4.9,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (9,NULL,'Phạm Quang Huy','https://i.pravatar.cc/150?u=expert4',3,4.7,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (10,NULL,'Vũ Thị Mai','https://i.pravatar.cc/150?u=expert5',4,4.8,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (11,NULL,'Nguyễn Thị Lan Anh','https://i.pravatar.cc/150?u=expert1',1,4.9,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
+REPLACE INTO `Expert` VALUES (12,NULL,'Trần Minh Đức','https://i.pravatar.cc/150?u=expert2',11,4.8,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+REPLACE INTO `Expert` VALUES (13,NULL,'Lê Minh Nguyệt','https://i.pravatar.cc/150?u=expert3',2,4.9,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+REPLACE INTO `Expert` VALUES (14,NULL,'Phạm Quang Huy','https://i.pravatar.cc/150?u=expert4',3,4.7,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+REPLACE INTO `Expert` VALUES (15,NULL,'Vũ Thị Mai','https://i.pravatar.cc/150?u=expert5',4,4.8,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+REPLACE INTO `Expert` VALUES (16,NULL,'Nguyễn Thị Lan Anh','https://i.pravatar.cc/150?u=expert1',1,4.9,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+REPLACE INTO `Expert` VALUES (17,NULL,'Trần Minh Đức','https://i.pravatar.cc/150?u=expert2',11,4.8,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+REPLACE INTO `Expert` VALUES (18,NULL,'Lê Minh Nguyệt','https://i.pravatar.cc/150?u=expert3',2,4.9,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+REPLACE INTO `Expert` VALUES (19,NULL,'Phạm Quang Huy','https://i.pravatar.cc/150?u=expert4',3,4.7,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+REPLACE INTO `Expert` VALUES (20,NULL,'Vũ Thị Mai','https://i.pravatar.cc/150?u=expert5',4,4.8,NULL,0,0,0,'2025-06-17 18:24:42','2025-06-17 18:24:42');
+/*!40000 ALTER TABLE `Expert` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `ExpertSpecialty` DISABLE KEYS */;
+REPLACE INTO `ExpertSpecialty` VALUES (1,'Tâm lý học đường');
+REPLACE INTO `ExpertSpecialty` VALUES (2,'Tư vấn Hôn nhân');
+REPLACE INTO `ExpertSpecialty` VALUES (3,'Tư vấn hướng nghiệp');
+REPLACE INTO `ExpertSpecialty` VALUES (4,'Rối loạn lo âu');
+REPLACE INTO `ExpertSpecialty` VALUES (5,'Stress');
+REPLACE INTO `ExpertSpecialty` VALUES (6,'Mâu thuẫn gia đình');
+REPLACE INTO `ExpertSpecialty` VALUES (7,'Nuôi dạy con cái');
+REPLACE INTO `ExpertSpecialty` VALUES (8,'Phát triển bản thân');
+REPLACE INTO `ExpertSpecialty` VALUES (9,'Kỹ năng mềm');
+REPLACE INTO `ExpertSpecialty` VALUES (10,'Ám ảnh sợ hãi');
+REPLACE INTO `ExpertSpecialty` VALUES (11,'Trầm cảm');
+REPLACE INTO `ExpertSpecialty` VALUES (12,'Rối loạn cảm xúc');
+REPLACE INTO `ExpertSpecialty` VALUES (13,'Tư vấn cá nhân');
+REPLACE INTO `ExpertSpecialty` VALUES (14,'Kỹ năng xã hội');
+/*!40000 ALTER TABLE `ExpertSpecialty` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `Expert_Specialty` DISABLE KEYS */;
+REPLACE INTO `Expert_Specialty` VALUES (1,1);
+REPLACE INTO `Expert_Specialty` VALUES (4,1);
+REPLACE INTO `Expert_Specialty` VALUES (5,1);
+REPLACE INTO `Expert_Specialty` VALUES (11,2);
+REPLACE INTO `Expert_Specialty` VALUES (12,2);
+REPLACE INTO `Expert_Specialty` VALUES (13,2);
+REPLACE INTO `Expert_Specialty` VALUES (2,3);
+REPLACE INTO `Expert_Specialty` VALUES (6,3);
+REPLACE INTO `Expert_Specialty` VALUES (7,3);
+REPLACE INTO `Expert_Specialty` VALUES (3,4);
+REPLACE INTO `Expert_Specialty` VALUES (8,4);
+REPLACE INTO `Expert_Specialty` VALUES (9,4);
+REPLACE INTO `Expert_Specialty` VALUES (4,5);
+REPLACE INTO `Expert_Specialty` VALUES (5,5);
+REPLACE INTO `Expert_Specialty` VALUES (10,5);
+REPLACE INTO `Expert_Specialty` VALUES (1,6);
+REPLACE INTO `Expert_Specialty` VALUES (4,6);
+REPLACE INTO `Expert_Specialty` VALUES (5,6);
+REPLACE INTO `Expert_Specialty` VALUES (11,7);
+REPLACE INTO `Expert_Specialty` VALUES (12,7);
+REPLACE INTO `Expert_Specialty` VALUES (13,7);
+REPLACE INTO `Expert_Specialty` VALUES (2,8);
+REPLACE INTO `Expert_Specialty` VALUES (6,8);
+REPLACE INTO `Expert_Specialty` VALUES (7,8);
+REPLACE INTO `Expert_Specialty` VALUES (3,9);
+REPLACE INTO `Expert_Specialty` VALUES (8,9);
+REPLACE INTO `Expert_Specialty` VALUES (9,9);
+REPLACE INTO `Expert_Specialty` VALUES (4,10);
+REPLACE INTO `Expert_Specialty` VALUES (5,10);
+REPLACE INTO `Expert_Specialty` VALUES (10,10);
+REPLACE INTO `Expert_Specialty` VALUES (1,11);
+REPLACE INTO `Expert_Specialty` VALUES (4,11);
+REPLACE INTO `Expert_Specialty` VALUES (5,11);
+REPLACE INTO `Expert_Specialty` VALUES (11,12);
+REPLACE INTO `Expert_Specialty` VALUES (12,12);
+REPLACE INTO `Expert_Specialty` VALUES (13,12);
+REPLACE INTO `Expert_Specialty` VALUES (2,13);
+REPLACE INTO `Expert_Specialty` VALUES (6,13);
+REPLACE INTO `Expert_Specialty` VALUES (7,13);
+REPLACE INTO `Expert_Specialty` VALUES (3,14);
+REPLACE INTO `Expert_Specialty` VALUES (8,14);
+REPLACE INTO `Expert_Specialty` VALUES (9,14);
+REPLACE INTO `Expert_Specialty` VALUES (4,15);
+REPLACE INTO `Expert_Specialty` VALUES (5,15);
+REPLACE INTO `Expert_Specialty` VALUES (10,15);
+REPLACE INTO `Expert_Specialty` VALUES (1,16);
+REPLACE INTO `Expert_Specialty` VALUES (4,16);
+REPLACE INTO `Expert_Specialty` VALUES (5,16);
+REPLACE INTO `Expert_Specialty` VALUES (11,17);
+REPLACE INTO `Expert_Specialty` VALUES (12,17);
+REPLACE INTO `Expert_Specialty` VALUES (13,17);
+REPLACE INTO `Expert_Specialty` VALUES (2,18);
+REPLACE INTO `Expert_Specialty` VALUES (6,18);
+REPLACE INTO `Expert_Specialty` VALUES (7,18);
+REPLACE INTO `Expert_Specialty` VALUES (3,19);
+REPLACE INTO `Expert_Specialty` VALUES (8,19);
+REPLACE INTO `Expert_Specialty` VALUES (9,19);
+REPLACE INTO `Expert_Specialty` VALUES (4,20);
+REPLACE INTO `Expert_Specialty` VALUES (5,20);
+REPLACE INTO `Expert_Specialty` VALUES (10,20);
+/*!40000 ALTER TABLE `Expert_Specialty` ENABLE KEYS */;
+
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-REPLACE INTO `User` VALUES (1,NULL,'admin',NULL,NULL,NULL,'admin@ibody.com','Administrator - 88','1998-01-07',2,'Tồn tại bất diệt');
+REPLACE INTO `User` VALUES (1,2,'admin',NULL,NULL,NULL,'admin@ibody.com','Administrator','1998-01-07',2,'Tồn tại bất diệt');
 REPLACE INTO `User` VALUES (2,1,'testuser',NULL,NULL,'23135456','test@gmail.com','test An Binh',NULL,0,'');
+REPLACE INTO `User` VALUES (3,1,NULL,NULL,NULL,NULL,'admin2@ibody.com','Administrator - 88','1998-01-06',0,'Tồn tại bất diệt');
+REPLACE INTO `User` VALUES (20,1,NULL,NULL,NULL,NULL,'admin2a@ibody.com','Tồn tại bất diệt','2025-06-09',0,'asdas');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `UserAuthPassword` DISABLE KEYS */;
-REPLACE INTO `UserAuthPassword` VALUES (1,'0780d631553d84607754323537662d587ead5cde6732f633e9ca6e4e7526d64d6435a8440e7bf927f9a6d8223c6cf7ce66e3aab15b529c4d4ecd416651230e01b719f98388164fbe642582b894be2eccf99e87a451e2e114be781e2c120969056d4f58453ee0afd40ad42cb38d2bdfc1e75075522e1d94c9a9acda7615ded2','db24b4a73feaaea11d033211e6139e2447f48cbcc955de23c66b5db54f787381a1de425da2768b15ec6f5ff95366ef0e74234b8488041e04124a83cb385b814bc294ea575e0420f89eb9b9d20c11e5ab8f86bbd02c025d686c85519a19a3e73a07cada197cf8e383f50d98c672ee31edc84a2f45496e3e236c3dca04457ab7');
+REPLACE INTO `UserAuthPassword` VALUES (1,'8df839190fc699c6d7d11d33ad71a49707c9f116b5362f1f6adb4cd2b0101f9c6ed555f54958966f5a97842ac979579c2e60f29637715149ad2e3a2b5e4c197308a0d56379b577712c85acf84f132a47fa609431e25eac7fddf71529ef351b213c96965cc2bd2f4a727a4c21f96e2459ae1682e2665965be3b593c610a21d0','e8425e8af7eb29c771ae6441d54be0da7cb5191656b28854ba3b7287434edcb917ec15038e664295816dcc8147c65843884c1504edb79178025b09c9eca49c59be78204991168f5e0c119daa1937389b32a5c4ae0334a445325e4a7d8c29e8c45ab111c502a23e8fb44a9c7fab4aa55c3634138ebad3fad41d12816fc028f3');
 REPLACE INTO `UserAuthPassword` VALUES (2,'31bdbfc36812f86879c72773e46f92e0719f12ca2cba0b0f2b5f24a20a9dff6e41e1066f0ca4d1a36d66992e0e29ff568a30f0e22530d51b7ac28268b8b7e55573d7490fc50ad40171cbe9146c2c1bf9dccb78d17e7944e71d3216b981bf6dab6050c05548d3754bd23487f2d66ba01cd123520e7d6b01fabdc753b0017579','902f8457c9b7e9b7727cdfa90544450b1b03d8a7cf56be732e60f012ef3e8b5b3255b66f18678e94e6fded36f4cd44d50d2c78ff29968c59c6dc015890d37ebaac9ebe39a686a19341124113d4e349fa305123e67ee72745e94b810b416ccb669579f4f7c9cd06b36538c823c4eb13235ab071ecb3e069a44f67128114faa1');
+REPLACE INTO `UserAuthPassword` VALUES (3,'1acfeaa116503fef3620d637f80cbabbb21c3d8b26f32cda20776d523776ac0ad70e08d0d2ed7e9eab7da73254c72fe5a5c73a543f43c35832e161d6d0701e5c41e785991a885c0a0cadf482ec31cbba2f83c55d1c4c965cc45561e480282000167c2aaa4f1ae8c88eacc84433a2c6d140e02bc580ff9bb71b95b9bb36b933','ae803a1d462d5ad7fa9be43b0dac9003f744ead115f415262103166a8a7f69659264b151c93bf01dde1f25a45066ae9ddee50e8d4ee5b0195b1254aac9d461c5cda3e82d0ce983d5b4b2e2aa8cab480cd1c98dff5aee2fdc032a89be3dd18027c55d2a83f2e6a860e0b9856d6dcfddb0ae972441e6d88a4375ae542685ec71');
+REPLACE INTO `UserAuthPassword` VALUES (20,'fa474a6dfce20b610723a01066aefb25475287c846082681dd14ca43dd5a2119960bfe2a79a4c5d9da277899337022bc6ef60959b86df16f84cf0369e25a4ec9810af8680bb061ae9e9d003690a629ff5a89c3210602b33e8408ad745432481b6db086b44edda848839adf437949e15339636ab287bc0382a6e554a61550a7','cec1682e7de5406fb3cbe75fb003ae2d723f497ad184676e937fa837a6e927d4731da765409f6efb3e4393271d169cffe8faa49e5b8f07b4b5aa83486ce86b330d49667305051e3523f4b74f801b7482f77b70445d33d091e3695881b88ab12a5084b968469eded01fc80a7c7161792104c6b97f7158ec3844f7308f10b1f9');
 /*!40000 ALTER TABLE `UserAuthPassword` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `UserGroup` DISABLE KEYS */;
 REPLACE INTO `UserGroup` VALUES (1,NULL,'baseuser','Người dùng');
 REPLACE INTO `UserGroup` VALUES (2,1,'admin','Quản trị viên');
 REPLACE INTO `UserGroup` VALUES (3,1,'experd','Chuyên gia');
+REPLACE INTO `UserGroup` VALUES (7,1,'normal','Người dùng thông thường');
 /*!40000 ALTER TABLE `UserGroup` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `UserGroup_permission` DISABLE KEYS */;
@@ -38,19 +158,12 @@ REPLACE INTO `UserPermission` VALUES (4,'base2');
 
 /*!40000 ALTER TABLE `User_group` DISABLE KEYS */;
 REPLACE INTO `User_group` VALUES (1,2);
+REPLACE INTO `User_group` VALUES (2,1);
+REPLACE INTO `User_group` VALUES (3,1);
 /*!40000 ALTER TABLE `User_group` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
-
-/*!40000 ALTER TABLE `chatbox` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chatbox` ENABLE KEYS */;
-
-/*!40000 ALTER TABLE `chatboxRole` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chatboxRole` ENABLE KEYS */;
-
-/*!40000 ALTER TABLE `chatboxUser` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chatboxUser` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `expert_available_slots` DISABLE KEYS */;
 /*!40000 ALTER TABLE `expert_available_slots` ENABLE KEYS */;
@@ -58,17 +171,11 @@ REPLACE INTO `User_group` VALUES (1,2);
 /*!40000 ALTER TABLE `expert_payout_methods` DISABLE KEYS */;
 /*!40000 ALTER TABLE `expert_payout_methods` ENABLE KEYS */;
 
-/*!40000 ALTER TABLE `expert_profile` DISABLE KEYS */;
-/*!40000 ALTER TABLE `expert_profile` ENABLE KEYS */;
-
 /*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
 /*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `invoice_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `invoice_item` ENABLE KEYS */;
-
-/*!40000 ALTER TABLE `message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `message` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `payout_requests` DISABLE KEYS */;
 /*!40000 ALTER TABLE `payout_requests` ENABLE KEYS */;

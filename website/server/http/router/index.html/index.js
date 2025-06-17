@@ -1,4 +1,4 @@
-import Template from 'server/http/www-template/template-engine.js'
+import Template from 'server/lib/template-engine.js'
 import landingPage from 'server/http/www-template/landing.js'
 
 

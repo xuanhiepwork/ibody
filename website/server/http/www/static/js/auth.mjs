@@ -12,7 +12,7 @@ export async function loginByEmailPassword(email, password) {
     if (response.ok) {
         const result = await response.json();
         if (result.code === "login-success") {
-            core.syncUser()
+            ctx.syncUser()
         }
         else {
             // #TODO: build giao diện cho khúc này
@@ -27,5 +27,5 @@ export async function logout() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
     })
-    core.syncUser()
+    ctx.syncUser()
 }

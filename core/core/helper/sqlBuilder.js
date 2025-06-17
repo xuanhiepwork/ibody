@@ -14,7 +14,7 @@ export const escapeString = str => Array.from(String(str)).map(e => escapeString
 export const escapeField = (raw) => raw
 export const escapeValue = (raw) => raw
 
-const processWhere = (where) => {
+export const processWhere = (where) => {
     if (Array.isArray(where)) return where
     if (typeof where === "object") return Object.entries(where).map(([field, value]) => [field, "=", value === "" ? '""' : isNaN(value) ? `"${value}"` : String(value)])
 }
@@ -26,9 +26,9 @@ export const insertOrUpdate = (tableName, data) => {
     return `INSERT ${tableName} (${payload.map(([key]) => key).join(", ")}) VALUES(${payload.map(([key, value]) => value).join(", ")}) ON DUPLICATE KEY UPDATE ${payload.map(([key, value]) => `\`${key}\`=${value}`).join(", ")};`
 }
 
-export const listWithOpt = (tableName, { fields, where, order, limit, offset }) => [
-    "SELECT ", Array.isArray(fields) && fields.length > 0 ? fields.map((f, i) => i > 0 ? [", `", f, "`"] : ["`", f, "`"]) : "*",
-    "FROM ", tableName,
+export const listWithOpt = (tableName, { fields, where, order, limit, offset } = {}) => [
+    "SELECT ", fields !== undefined ? (Array.isArray(fields) && fields.length > 0 ? fields.map((f, i) => i > 0 ? [", `", f, "`"] : ["`", f, "`"]) : fields ) : "*",
+    " FROM ", tableName,
     where ? [" WHERE ", where] : [],
     order ? [" ORDER BY ", order] : [],
     limit > 0 ? [" LIMIT ", limit, offset > 0 ? [" OFFSET ", offset] : []] : [],

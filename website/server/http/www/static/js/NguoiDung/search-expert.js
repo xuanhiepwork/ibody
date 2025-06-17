@@ -1,7 +1,7 @@
 const API_BASE_URL = "/api/tu-van";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const user = core.user;
+  const user = ctx.user;
   // if (!user) {
   //   alert("Vui lòng đăng nhập để tiếp tục.");
   //   return (window.location.href = "../index.html");

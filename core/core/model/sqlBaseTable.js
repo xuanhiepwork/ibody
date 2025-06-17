@@ -12,6 +12,10 @@ const basetable = {
         return query(listWithOpt(this.tableName, opt))
     },
 
+    async list (ctx, opt) {
+        return query(listWithOpt(this.tableName, opt))
+    },
+
     async getOne (ctx, where) {
         return (await query(getOne(this.tableName, where)))[0]
     },

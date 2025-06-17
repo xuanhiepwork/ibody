@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const chuyenGiaId = new URLSearchParams(window.location.search).get("id");
   if (!chuyenGiaId) {
     alert("Không tìm thấy chuyên gia.");
-    window.location.href = "search-expert";
+    window.location.href = "tim-chuyen-gia";
     return;
   }
 
@@ -89,7 +89,7 @@ async function guiDanhGia() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         lichHenId: 0,
-        nguoiDungId: currentUser.taiKhoanId,
+        nguoi-dungId: currentUser.taiKhoanId,
         chuyenGiaId,
         diemSo: diem,
         nhanXet

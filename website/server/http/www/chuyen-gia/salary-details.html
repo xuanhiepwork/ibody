@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết hóa đơn nhận lương</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary-color: #A993EC;
+      --primary-color-light: rgba(169, 147, 236, 0.1);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --sidebar-bg: #ffffff;
+      --main-bg: #f8f7fc;
+      --card-bg: #ffffff;
+      --border-color: #eef0f4;
+      --text-primary: #1a202c;
+      --text-secondary: #718096;
+      --sidebar-width: 260px;
+      --sidebar-width-collapsed: 80px;
+    }
+
+    body.dark-mode {
+      --primary-color-light: rgba(169, 147, 236, 0.15);
+      --sidebar-bg: #1f2937;
+      --main-bg: #111827;
+      --card-bg: #1f2937;
+      --border-color: #374151;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--main-bg); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
+    
+    /* --- Layout chung --- */
+    .topbar { position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1001; }
+    .topbar-left { display: flex; align-items: center; gap: 15px; }
+    #toggleSidebarBtn, #toggleThemeBtn { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; transition: color 0.2s; }
+    #toggleSidebarBtn:hover, #toggleThemeBtn:hover { color: var(--primary-color); }
+    .topbar-title { font-weight: 600; color: var(--primary-color); }
+    
+    .sidebar { position: fixed; top: 60px; left: 0; width: var(--sidebar-width); height: calc(100vh - 60px); background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 20px 15px; display: flex; flex-direction: column; transition: width 0.3s ease; overflow: hidden; }
+    .sidebar.collapsed { width: var(--sidebar-width-collapsed); }
+    .sidebar a { display: flex; align-items: center; gap: 15px; padding: 12px; text-decoration: none; color: var(--text-secondary); border-radius: 8px; font-weight: 500; white-space: nowrap; }
+    .sidebar a .fa-solid { font-size: 1.2rem; width: 28px; text-align: center; }
+    .sidebar a:hover { background-color: var(--main-bg); color: var(--text-primary); }
+    .sidebar a.active { background-color: var(--primary-color); color: white; }
+    .sidebar a.logout { margin-top: auto; color: var(--danger-color); }
+    .sidebar.collapsed a .link-text { display: none; }
+    
+    .main-content { margin-top: 60px; margin-left: var(--sidebar-width); padding: 25px; transition: margin-left 0.3s ease; }
+    .main-content.collapsed { margin-left: var(--sidebar-width-collapsed); }
+    
+    .page-header { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+    .page-header h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+    .action-bar { display: flex; gap: 10px; }
+    .action-btn { background-color: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease; }
+    .action-btn:hover { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+    .back-link { text-decoration: none; color: var(--text-secondary); font-weight: 600; display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+    
+    /* --- Invoice Styling --- */
+    .invoice-container { background-color: var(--card-bg); border-radius: 12px; padding: 40px; border: 1px solid var(--border-color); max-width: 800px; margin: 0 auto; }
+    .invoice-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+    .invoice-header .logo { font-size: 2rem; font-weight: 700; color: var(--primary-color); }
+    .invoice-header .company-details { text-align: right; color: var(--text-secondary); }
+    
+    .invoice-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+    .invoice-parties h4 { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase; }
+    .invoice-parties p { margin: 4px 0; font-weight: 500; }
+    
+    .invoice-table table { width: 100%; border-collapse: collapse; }
+    .invoice-table thead { background-color: var(--main-bg); }
+    .invoice-table th, .invoice-table td { padding: 12px 15px; text-align: right; border-bottom: 1px solid var(--border-color); }
+    .invoice-table th:first-child, .invoice-table td:first-child { text-align: left; }
+    .invoice-table tbody .clickable-row:hover { background-color: var(--primary-color-light); cursor: pointer; }
+    .invoice-table tfoot td { font-weight: 700; border-bottom: none; }
+    .invoice-table .total { font-size: 1.2rem; color: var(--primary-color); border-top: 2px solid var(--text-primary); padding-top: 15px; }
+
+    .invoice-footer { margin-top: 30px; padding-top: 20px; border-top: 1px dashed var(--border-color); }
+    .status-badge { font-weight: 600; padding: 6px 12px; border-radius: 20px; font-size: 0.9rem; }
+    .status-completed { background-color: rgba(40, 167, 69, 0.15); color: #28a745; }
+    
+    /* Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1002; opacity: 0; transition: opacity 0.3s ease; }
+    .modal-overlay.show { display: flex; opacity: 1; }
+    .modal-content { background-color: var(--card-bg); padding: 30px; border-radius: 12px; width: 100%; max-width: 700px; position: relative; max-height: 90vh; display: flex; flex-direction: column; }
+    .modal-close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.8rem; color: var(--text-secondary); cursor: pointer; }
+    .modal-content h3 { margin-top: 0; }
+    .modal-body { overflow-y: auto; }
+
+    @media print {
+        body { background-color: white; color: black; }
+        .topbar, .sidebar, .page-header, .main-content { margin: 0; padding: 0; display: none; }
+        .invoice-container { box-shadow: none; border: none; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <button id="toggleSidebarBtn" title="Ẩn/Hiện menu"><i class="fa-solid fa-bars"></i></button>
+      <span class="topbar-title">IBODY - Chuyên gia</span>
+    </div>
+    <button id="toggleThemeBtn" title="Đổi giao diện"><i class="fas fa-moon"></i></button>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <a href="/chuyen-gia/"><i class="fa-solid fa-house"></i><span class="link-text">Trang chủ</span></a>
+    <a href="./TongHopChuyenGia.html"><i class="fa-solid fa-chart-line"></i><span class="link-text">Quản lý thống kê</span></a>
+    <a href="./appointments-expert.html"><i class="fa-solid fa-calendar-check"></i><span class="link-text">Lịch hẹn</span></a>
+    <a href="./clients-expert.html"><i class="fa-solid fa-users"></i><span class="link-text">Khách hàng</span></a>
+    <a href="./tin-nhan.html"><i class="fa-solid fa-comments"></i><span class="link-text">Tin nhắn</span></a>
+    <a href="/profile"><i class="fa-solid fa-user-circle"></i><span class="link-text">Hồ sơ cá nhân</span></a>
+    <a href="./yeuCauLuong.html"><i class="fa-solid fa-hand-holding-dollar"></i><span class="link-text">Yêu cầu nhận lương</span></a>
+    <a href="#" class="active"><i class="fa-solid fa-clock-rotate-left"></i><span class="link-text">Lịch sử nhận lương</span></a>
+    <a href="#" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span class="link-text">Đăng xuất</span></a>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <div class="page-header">
+        <a href="lichSuLuong.html" class="back-link"><i class="fas fa-arrow-left"></i> Quay lại Lịch sử</a>
+        <div class="action-bar">
+            <button class="action-btn" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Tải về PDF</button>
+            <button class="action-btn" onclick="window.print()"><i class="fas fa-print"></i> In hóa đơn</button>
+        </div>
+    </div>
+    
+    <div class="invoice-container" id="invoiceToPrint">
+        <div class="invoice-header">
+            <div class="logo">IBODY</div>
+            <div class="company-details">
+                <p>123 Đường ABC, Quận 1, TP.HCM</p>
+                <p>support@ibody.com</p>
+            </div>
+        </div>
+        
+        <div class="invoice-parties">
+            <div class="from-details">
+                <h4>TỪ</h4>
+                <p><strong>Công ty TNHH IBODY</strong></p>
+                <p>Phòng Kế toán</p>
+            </div>
+            <div class="to-details">
+                <h4>ĐẾN CHUYÊN GIA</h4>
+                <p><strong id="expertName"></strong></p>
+                <p id="paymentMethod"></p>
+            </div>
+        </div>
+        
+        <div class="invoice-details" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 30px; background-color: var(--main-bg); padding: 20px; border-radius: 8px;">
+            <div> <strong>Mã giao dịch:</strong> <br> <span id="transactionId"></span> </div>
+            <div> <strong>Ngày phát hành:</strong> <br> <span id="issueDate"></span> </div>
+            <div> <strong>Trạng thái:</strong> <br> <span class="status-badge" id="paymentStatus"></span> </div>
+        </div>
+        
+        <div class="invoice-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mô tả</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceItems"></tbody>
+                <tfoot>
+                    <tr><td colspan="3">Tạm tính</td><td id="subTotal"></td></tr>
+                    <tr><td colspan="3">Phí nền tảng (0%)</td><td id="platformFee"></td></tr>
+                    <tr><td colspan="3" class="total">TỔNG CỘNG</td><td class="total" id="grandTotal"></td></tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="invoice-footer">
+            <p style="font-size: 0.9rem; color: var(--text-secondary)">Cảm ơn sự đóng góp của bạn. Chúc bạn một ngày tốt lành!</p>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="sessionsModal">
+      <div class="modal-content">
+          <button class="modal-close-btn">&times;</button>
+          <h3 id="modalTitle"></h3>
+          <div class="modal-body">
+              <table style="width: 100%; text-align: left;">
+                  <thead><tr><th>Mã Khách hàng</th><th>Ngày tư vấn</th><th>Thời lượng</th><th>Thành tiền</th></tr></thead>
+                  <tbody id="sessionsTableBody"></tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // --- Mock Data ---
+    const mockInvoiceData = {
+        transactionId: 'IB-202506-001', expertName: 'Hồ Hoàng Yến',
+        paymentMethod: 'ACB - ******3210', issueDate: new Date('2025-06-01'),
+        status: 'completed', sessionCount: 52, ratePerSession: 500000,
+        totalAmount: 26000000,
+    };
+    const mockSessionsInInvoice = Array.from({length: 52}, (_, i) => ({
+        clientId: `KH-${Math.floor(10000 + Math.random() * 90000)}`,
+        sessionDate: new Date(2025, 4, Math.floor(1 + Math.random() * 30)),
+        duration: 60,
+        amount: 500000
+    }));
+
+    // --- References ---
+    const sessionsModal = document.getElementById('sessionsModal');
+
+    // --- Render Logic ---
+    function formatCurrency(num) { return num.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }); }
+    function renderInvoice() {
+        document.getElementById('transactionId').textContent = mockInvoiceData.transactionId;
+        document.getElementById('expertName').textContent = mockInvoiceData.expertName;
+        document.getElementById('paymentMethod').textContent = mockInvoiceData.paymentMethod;
+        document.getElementById('issueDate').textContent = mockInvoiceData.issueDate.toLocaleDateString('vi-VN');
+        
+        const itemsBody = document.getElementById('invoiceItems');
+        itemsBody.innerHTML = `<tr class="clickable-row" title="Nhấn để xem chi tiết">
+                <td>Dịch vụ tư vấn tâm lý tháng 05/2025</td>
+                <td>${mockInvoiceData.sessionCount}</td>
+                <td>${formatCurrency(mockInvoiceData.ratePerSession)}</td>
+                <td>${formatCurrency(mockInvoiceData.totalAmount)}</td>
+            </tr>`;
+
+        document.getElementById('subTotal').textContent = formatCurrency(mockInvoiceData.totalAmount);
+        document.getElementById('platformFee').textContent = formatCurrency(0);
+        document.getElementById('grandTotal').textContent = formatCurrency(mockInvoiceData.totalAmount);
+        
+        const statusEl = document.getElementById('paymentStatus');
+        statusEl.textContent = 'Đã thanh toán';
+        statusEl.classList.add('status-completed');
+    }
+
+    // --- Modal Logic ---
+    function openSessionsModal() {
+        document.getElementById('modalTitle').textContent = `Chi tiết ${mockInvoiceData.sessionCount} buổi tư vấn`;
+        const sessionsTableBody = document.getElementById('sessionsTableBody');
+        sessionsTableBody.innerHTML = '';
+        mockSessionsInInvoice.forEach(session => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${session.clientId}</td>
+                <td>${session.sessionDate.toLocaleDateString('vi-VN')}</td>
+                <td>${session.duration} phút</td>
+                <td>${formatCurrency(session.amount)}</td>
+            `;
+            sessionsTableBody.appendChild(row);
+        });
+        sessionsModal.classList.add('show');
+    }
+
+    // --- Event Listeners ---
+    document.getElementById('invoiceItems').addEventListener('click', (e) => {
+        if(e.target.closest('.clickable-row')) {
+            openSessionsModal();
+        }
+    });
+    sessionsModal.querySelector('.modal-close-btn').addEventListener('click', () => sessionsModal.classList.remove('show'));
+    sessionsModal.addEventListener('click', (e) => { if(e.target === sessionsModal) sessionsModal.classList.remove('show'); });
+
+    document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const invoiceElement = document.getElementById('invoiceToPrint');
+        
+        html2canvas(invoiceElement, { scale: 2 }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`hoa-don-${mockInvoiceData.transactionId}.pdf`);
+        });
+    });
+
+    // --- Sidebar & Theme Toggle Logic ---
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+    const toggleThemeBtn = document.getElementById('toggleThemeBtn');
+    const body = document.body;
+    toggleSidebarBtn.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); mainContent.classList.toggle('collapsed'); });
+    function setIconForTheme(theme) { toggleThemeBtn.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; }
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.classList.add(savedTheme + '-mode');
+    setIconForTheme(savedTheme);
+    toggleThemeBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', currentTheme);
+        setIconForTheme(currentTheme);
+    });
+
+    // --- Initial Render ---
+    renderInvoice();
+});
+</script>
+</body>
+</html>
