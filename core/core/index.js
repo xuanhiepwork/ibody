@@ -14,7 +14,7 @@ const ctx = {
     hasPerm: function (perm) {
         return userPermission.userHasPerm(this, perm)
     },
-    call: async function (modelId, actionName, ...args) {
+    exec: async function (modelId, actionName, ...args) {
         let model
         try {
             model = models[modelId] || (models[modelId] = (await import("./model/" + modelId + ".js")).default)
@@ -33,6 +33,20 @@ const ctx = {
         }
 
         return model[actionName](this, ...args)
+    },
+    call: async function (...args) {
+        try {
+            return {
+                code: "ok",
+                result: await this.exec(...args)
+            }
+        } catch (error) {
+            console.error(error)
+            return {
+                code: error.code || "error",
+                error: error.message,
+            }
+        }
     }
 }
 

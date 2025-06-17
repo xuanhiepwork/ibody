@@ -13,7 +13,10 @@ const content = Template.fromFile(import.meta.dirname, "content.html")
 router.use("/", session, async (req, res, next) => {
     if (req.path !== "/" || (req.method !== 'GET' && req.method !== 'HEAD')) return next()
 
-    const userId = auth.getUser(req).id
+    const sessionUser = auth.getUser(req)
+    if (!sessionUser) return res.redirect("/")
+
+    const userId = sessionUser.id
     const user = await ctx.asUserId(userId).call("User", "getData", userId)
 
     res.setHeader('Content-Type', 'text/html; charset=UTF-8')
@@ -29,4 +32,3 @@ router.use("/", session, async (req, res, next) => {
 })
 
 export default router
-

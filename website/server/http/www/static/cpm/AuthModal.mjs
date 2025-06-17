@@ -13,14 +13,15 @@ base.innerHTML = `<div name="modal" class="modal-overlay">
         </div>
         <form name="loginForm" class="form active">
             <h2>Đăng nhập</h2>
-            <input type="email" name="email" placeholder="Email" required />
-            <input type="password" name="password" placeholder="Mật khẩu" required />
+            <input type="email" name="email" placeholder="Email" autocomplete="email" required />
+            <input type="password" name="password" autocomplete="password" placeholder="Mật khẩu" required />
             <a href="/reset-password" class="forgot-password">Quên mật khẩu?</a>
             <button type="submit">Đăng nhập</button>
         </form>
         <form name="registerForm" class="form">
             <h2>Đăng ký</h2>
             <input name="fullName" type="text" placeholder="Họ tên" required />
+            <div name="email-error"></div>
             <input name="email" type="email" placeholder="Email" required />
             <input name="password" type="password" placeholder="Mật khẩu" required />
             <input name="confirmPassword" type="password" placeholder="Xác nhận mật khẩu" required />
@@ -33,11 +34,13 @@ const modal = base.firstElementChild,
     loginForm = modal.querySelector('[name=loginForm]'),
     registerForm = modal.querySelector('[name=registerForm]'),
     loginToggle = modal.querySelector('[name=loginToggle]'),
-    registerToggle = modal.querySelector('[name=registerToggle]')
+    registerToggle = modal.querySelector('[name=registerToggle]'),
+    emailErrElm = modal.querySelector('[name=email-error]')
 
 closeBtn.addEventListener("click", () => close())
 // Ẩn modal khi bấm ra ngoài form
-modal.addEventListener('click', function (e) { if (e.target === this) close() });
+modal.addEventListener('onmousedown', function (e) { if (e.target === this) close() });
+modal.addEventListener('pointerdown', function (e) { if (e.target === this) close() });
 
 loginToggle.onclick = () => {
     loginForm.classList.add('active');
@@ -62,6 +65,8 @@ registerForm.getData = function () { return Object.fromEntries(new FormData(this
 
 registerForm.addEventListener("submit", async function (event) {
     event.preventDefault();
+    emailErrElm.innerHTML = ""
+
     const data = this.getData()
     if (data.password !== data.confirmPassword) {
         alert("Mật khẩu xác nhận không khớp!");
@@ -75,10 +80,17 @@ registerForm.addEventListener("submit", async function (event) {
             body: JSON.stringify(data)
         });
 
-        const result = await response.json();
-
         if (response.ok) {
-            auth.loginByEmailPassword(data.email, data.password)
+            const result = await response.json();
+            if (!result.error) return auth.loginByEmailPassword(data.email, data.password)
+
+            if (result.code = "ER_DUP_ENTRY") {
+                emailErrElm.innerHTML = "Email đã tồn tại."
+            }
+            else {
+                emailErrElm.innerHTML = result.error
+            }
+
         } else {
             alert(result.message || "Đăng ký thất bại.");
         }

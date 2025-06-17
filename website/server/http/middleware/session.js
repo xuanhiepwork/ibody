@@ -28,7 +28,7 @@ export const auth = {
   },
 
   async loginByEmailPassword(req, email, password) {
-    const user = await ctx.call("User", "loginByEmailPassword", email, password)
+    const user = (await ctx.call("User", "loginByEmailPassword", email, password)).result
     if (!user) return undefined
 
     req.session.whoami = {
@@ -37,7 +37,7 @@ export const auth = {
         name: user?.name,
         fullname: user?.fullname,
         roles: ["quan_tri", "chuyen_gia"],
-        gourps: (await ctx.call("User", "getAllGroupsOfUserId", user.id)).map(g => g?.code),
+        gourps: ((await ctx.call("User", "getAllGroupsOfUserId", user.id)).result || []).map(g => g?.code),
         avatarUrl: user?.avatarUrl
       }
     }
@@ -51,7 +51,7 @@ export const auth = {
   },
 
   getUser(req) {
-    return req.session?.whoami?.user || {}
+    return req.session?.whoami?.user
   },
 
   async logout(req) {
