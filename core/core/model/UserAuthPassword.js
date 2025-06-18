@@ -23,7 +23,7 @@ export const randomText = length => {
 }
 
 
-import instantSqlTable from './sqlBaseTable.js'
+import instantSqlTable from './_sqlBaseTable.js'
 export default instantSqlTable({
     tableName: "UserAuthPassword",
 

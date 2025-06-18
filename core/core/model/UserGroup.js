@@ -4,7 +4,7 @@ import User from './User.js'
 import UserPermission from './UserPermission.js'
 
 
-import instantSqlTable from './sqlBaseTable.js'
+import instantSqlTable from './_sqlBaseTable.js'
 export default instantSqlTable({
     tableName: "UserGroup",
 

@@ -1,6 +1,6 @@
 import query from "core/connector/mysql.js"
 import { processWhere } from "core/helper/sqlBuilder.js"
-import instantSqlTable from './sqlBaseTable.js'
+import instantSqlTable from './_sqlBaseTable.js'
 
 export default instantSqlTable({
     tableName: "Expert",

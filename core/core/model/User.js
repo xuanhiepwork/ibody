@@ -1,9 +1,11 @@
 import query from "core/connector/mysql.js"
 import UserGroup from './UserGroup.js'
 import UserAuthPassword from './UserAuthPassword.js'
+import Chatbox from './Chatbox.js'
+import ChatboxUser from './ChatboxUser.js'
 
 
-import instantSqlTable from './sqlBaseTable.js'
+import instantSqlTable from './_sqlBaseTable.js'
 export default instantSqlTable({
     tableName: "User",
 
@@ -61,6 +63,14 @@ SELECT * FROM UserGroup WHERE id IN (SELECT id FROM cte_table);`)
 
     async setData(ctx, userId, data = {}) {
         return this.update(ctx, data, { id: userId })
+    },
+
+    async getCheckboxes(ctx) {
+        return query(`SELECT * FROM Chatbox
+WHERE id IN (
+    SELECT DISTINCT chatboxId FROM ChatboxUser WHERE userId=${ctx.userId}
+)
+ORDER BY lastMessageAt DESC;`)
     },
 
 })

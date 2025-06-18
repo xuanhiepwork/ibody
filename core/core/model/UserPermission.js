@@ -2,7 +2,7 @@ import query from "core/connector/mysql.js"
 import userGroup from './UserGroup.js'
 
 
-import instantSqlTable from './sqlBaseTable.js'
+import instantSqlTable from './_sqlBaseTable.js'
 export default instantSqlTable({
     tableName: "UserPermission",
     userHasPerm: function (ctx, perm) {

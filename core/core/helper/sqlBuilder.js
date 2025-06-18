@@ -29,7 +29,7 @@ export const insertOrUpdate = (tableName, data) => {
 export const listWithOpt = (tableName, { fields, where, order, limit, offset } = {}) => [
     "SELECT ", fields !== undefined ? (Array.isArray(fields) && fields.length > 0 ? fields.map((f, i) => i > 0 ? [", `", f, "`"] : ["`", f, "`"]) : fields ) : "*",
     " FROM ", tableName,
-    where ? [" WHERE ", where] : [],
+    where ? [" WHERE ", processWhere(where)] : [],
     order ? [" ORDER BY ", order] : [],
     limit > 0 ? [" LIMIT ", limit, offset > 0 ? [" OFFSET ", offset] : []] : [],
     ";"

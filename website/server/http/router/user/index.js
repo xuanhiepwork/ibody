@@ -11,7 +11,7 @@ router.use(session, async (req, res, next) => {
 })
 
 router.use("/profile", (await import('./profile/index.js')).default)
-router.use("/tin-nhan-user", (await import('./tin-nhan-user/index.js')).default)
+router.use("/message", (await import('./message/index.js')).default)
 router.use("/lich-hen", (await import('./lich-hen/index.js')).default)
 router.use("/lich-su-goi", (await import('./lich-su-goi/index.js')).default)
 router.use("/become-expert", (await import('./become-expert/index.js')).default)
