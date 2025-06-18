@@ -68,13 +68,13 @@ CREATE TABLE `ChatboxRole` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `ChatboxUser`
+-- Table structure for table `ChatboxMember`
 --
 
-DROP TABLE IF EXISTS `ChatboxUser`;
+DROP TABLE IF EXISTS `ChatboxMember`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ChatboxUser` (
+CREATE TABLE `ChatboxMember` (
   `chatboxId` int NOT NULL,
   `userId` int NOT NULL,
   `roleId` int NOT NULL,
@@ -82,9 +82,9 @@ CREATE TABLE `ChatboxUser` (
   UNIQUE KEY `chatboxId` (`chatboxId`),
   UNIQUE KEY `userId` (`userId`),
   KEY `roleId` (`roleId`) USING BTREE,
-  CONSTRAINT `ChatboxUser_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `Chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ChatboxUser_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ChatboxUser_ibfk_3` FOREIGN KEY (`roleId`) REFERENCES `ChatboxRole` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `ChatboxMember_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `Chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ChatboxMember_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ChatboxMember_ibfk_3` FOREIGN KEY (`roleId`) REFERENCES `ChatboxRole` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

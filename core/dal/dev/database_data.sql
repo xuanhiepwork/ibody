@@ -19,8 +19,8 @@
 /*!40000 ALTER TABLE `ChatboxRole` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ChatboxRole` ENABLE KEYS */;
 
-/*!40000 ALTER TABLE `ChatboxUser` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ChatboxUser` ENABLE KEYS */;
+/*!40000 ALTER TABLE `ChatboxMember` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ChatboxMember` ENABLE KEYS */;
 
 /*!40000 ALTER TABLE `Expert` DISABLE KEYS */;
 REPLACE INTO `Expert` VALUES (1,NULL,'Nguyễn Thị Lan Anh','/static/img/HoangNhuQuynh.png',1,4.9,NULL,0,0,0,'2025-06-17 18:24:16','2025-06-17 18:24:16');
