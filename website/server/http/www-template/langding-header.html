@@ -25,7 +25,7 @@
       <div class="user-dropdown" name="userDropdown">
         <div style="border-bottom: 1px solid var(--border-color);">
           <a href="/user/profile">Hồ sơ cá nhân</a>
-          <a href="/Admin/admin-users.html">Quản trị viên</a>
+          ${(ctx?.user.gourps || []).includes("admin") ? `<a href="/admin/admin-users.html">Quản trị viên</a>` : ``}
         </div>
         <div style="border-bottom: 1px solid var(--border-color);">
           <a href="/tracnghiem">Trắc nghiệm trầm cảm</a>
