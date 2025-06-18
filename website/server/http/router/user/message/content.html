@@ -6,193 +6,193 @@
         <div class="search-wrapper">
             <input type="text" id="chatSearchInput" placeholder="Tìm kiếm chuyên gia...">
         </div>
-        <div class="chat-list" id="expertList"></div>
+        <div class="chat-list" id="chatList"></div>
     </div>
-    <div class="chat-area" id="chatArea"></div>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Giả lập ngày hôm nay để dữ liệu luôn hợp lý
-        const today = new Date();
-        const yesterday = new Date();
-        yesterday.setDate(today.getDate() - 1);
-        const twoDaysAgo = new Date();
-        twoDaysAgo.setDate(today.getDate() - 2);
-
-        const mockExperts = [
-            { id: 1, name: 'Hồ Hoàng Yến', avatar: 'https://i.pravatar.cc/150?u=expert2', lastMessage: 'Bạn: Cảm ơn chuyên gia ạ!', timestamp: '10:30', unreadCount: 0, lastMessageSeenByExpert: true },
-            { id: 2, name: 'Vũ Phương Thảo', avatar: 'https://i.pravatar.cc/150?u=expert3', lastMessage: 'Vâng, tôi sẽ xem xét lại lịch ạ.', timestamp: 'Hôm qua', unreadCount: 0, lastMessageSeenByExpert: false },
-            { id: 3, name: 'Phạm Minh Cường', avatar: 'https://i.pravatar.cc/150?u=expert1', lastMessage: 'Đã gửi một tệp đính kèm', timestamp: 'Thứ 4', unreadCount: 1 },
-        ];
-
-        const mockMessages = {
-            1: [
-                { sender: 'expert', text: 'Chào bạn, tôi đã nhận được yêu cầu tư vấn của bạn.', timestamp: twoDaysAgo },
-                { sender: 'user', text: 'Dạ vâng, tôi muốn hỏi về vấn đề...', timestamp: yesterday },
-                { sender: 'expert', text: 'Tôi hiểu rồi, bạn có thể nói rõ hơn được không?', timestamp: yesterday },
-                { sender: 'user', text: 'Cảm ơn chuyên gia ạ!', timestamp: today },
-            ],
-            2: [
-                { sender: 'expert', text: 'Tôi đã xem lịch của bạn. Khung giờ đó tôi không còn trống.' },
-                { sender: 'user', text: 'Vâng, tôi sẽ xem xét lại lịch ạ.', timestamp: yesterday },
-            ],
-        };
-
-        const expertList = document.getElementById('expertList');
-        const chatArea = document.getElementById('chatArea');
-        const chatContainer = document.getElementById('chatContainer');
-        let messageListEl = null;
-
-        // --- Helper Functions ---
-        function scrollToBottom() {
-            if (messageListEl) {
-                messageListEl.scrollTo({ top: messageListEl.scrollHeight, behavior: 'smooth' });
-            }
-        }
-
-        function formatDateSeparator(date) {
-            const todaySep = new Date();
-            const yesterdaySep = new Date();
-            yesterdaySep.setDate(todaySep.getDate() - 1);
-
-            if (date.toDateString() === todaySep.toDateString()) return 'Hôm nay';
-            if (date.toDateString() === yesterdaySep.toDateString()) return 'Hôm qua';
-            return date.toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'long' });
-        }
-
-        // --- Render Functions ---
-        function renderExpertList() {
-            expertList.innerHTML = '';
-            mockExperts.forEach(expert => {
-                const item = document.createElement('div');
-                item.className = 'chat-list-item';
-                item.dataset.id = expert.id;
-                item.innerHTML = `
-                <img src="${expert.avatar}" alt="Avatar">
-                <div class="chat-info">
-                    <div class="chat-info-header">
-                        <span class="name">${expert.name}</span>
-                        <span class="timestamp">${expert.timestamp}</span>
-                    </div>
-                    <div class="last-message">${expert.lastMessage}</div>
-                </div>
-            `;
-                expertList.appendChild(item);
-            });
-        }
-
-        function renderChatWindow(expertId) {
-            const expert = mockExperts.find(e => e.id === expertId);
-            const messages = mockMessages[expertId] || [];
-
-            chatArea.innerHTML = `
+    <div class="chat-area" id="chatArea">
+        <div class="welcome-screen">
+            <i class="fas fa-comments"></i>
+            <h2>Bắt đầu cuộc trò chuyện</h2>
+            <p>Chọn một chuyên gia từ danh sách bên trái để xem tin nhắn.</p>
+        </div>
+        <div class="chat-screen">
+            <ul class="messages" id="messageList"></ul>
             <div class="chat-header">
-                <button class="icon-btn back-btn" id="backBtn"><i class="fas fa-arrow-left"></i></button>
-                <img src="${expert.avatar}" alt="Avatar">
-                <div> 
-                    <div class="name">${expert.name}</div> 
-                    <div class="status">Đang hoạt động</div> 
+                <img src="/static/img/default-avatar.jpg" alt="Avatar">
+                <div>
+                    <div class="name" name="name"></div>
+                    <div class="status">Đang hoạt động</div>
                 </div>
-                
+
                 <div class="actions" style="margin-left: auto;">
                     <a href="../videoCall.html" class="icon-btn" title="Bắt đầu cuộc gọi">
                         <i class="fas fa-video"></i>
                     </a>
                 </div>
             </div>
-            <ul class="messages" id="messageList"></ul>
             <form class="chat-footer" id="messageForm">
                 <button type="button" class="icon-btn"><i class="fas fa-paperclip"></i></button>
                 <input type="text" id="message-input" placeholder="Nhập tin nhắn..." autocomplete="off">
                 <button type="submit" class="icon-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
-            </form>`;
+            </form>
+        </div>
+    </div>
+</div>
 
-            messageListEl = document.getElementById('messageList');
+<script>{
+        let chatboxes = []
 
-            let lastDate = null;
-            messages.forEach(msg => {
-                const msgDate = new Date(msg.timestamp);
-                if (!lastDate || msgDate.toDateString() !== lastDate.toDateString()) {
-                    const dateSeparator = document.createElement('div');
-                    dateSeparator.className = 'date-separator';
-                    dateSeparator.textContent = formatDateSeparator(msgDate);
-                    messageListEl.appendChild(dateSeparator);
-                    lastDate = msgDate;
+        let userCache = {}
+        const fetchUserInfo = async userId => (await ctx.call("Chatbox", "getUserInfo", 33)).result || {}
+        const getUserInfo = async userId => userCache[userId] || (userCache[userId] = await fetchUserInfo(userId))
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Giả lập ngày hôm nay để dữ liệu luôn hợp lý
+            const today = new Date();
+            const yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
+            const twoDaysAgo = new Date();
+            twoDaysAgo.setDate(today.getDate() - 2);
+
+            const mockMessages = {
+                1: [
+                    { sender: 'expert', text: 'Chào bạn, tôi đã nhận được yêu cầu tư vấn của bạn.', timestamp: twoDaysAgo },
+                    { sender: 'user', text: 'Dạ vâng, tôi muốn hỏi về vấn đề...', timestamp: yesterday },
+                    { sender: 'expert', text: 'Tôi hiểu rồi, bạn có thể nói rõ hơn được không?', timestamp: yesterday },
+                    { sender: 'user', text: 'Cảm ơn chuyên gia ạ!', timestamp: today },
+                ],
+                2: [
+                    { sender: 'expert', text: 'Tôi đã xem lịch của bạn. Khung giờ đó tôi không còn trống.' },
+                    { sender: 'user', text: 'Vâng, tôi sẽ xem xét lại lịch ạ.', timestamp: yesterday },
+                ],
+            };
+
+            const chatArea = document.getElementById('chatArea');
+            const chatContainer = document.getElementById('chatContainer');
+            let messageListEl = null;
+
+            // --- Helper Functions ---
+            function scrollToBottom() {
+                if (messageListEl) {
+                    messageListEl.scrollTo({ top: messageListEl.scrollHeight, behavior: 'smooth' });
                 }
-                const bubble = document.createElement('li');
-                bubble.className = `message-bubble ${msg.sender === 'user' ? 'sent' : 'received'}`;
-                bubble.textContent = msg.text;
-                messageListEl.appendChild(bubble);
-            });
-
-            const lastMessage = messages[messages.length - 1];
-            if (expert.lastMessageSeenByExpert && lastMessage && lastMessage.sender === 'user') {
-                const seenIndicator = document.createElement('div');
-                seenIndicator.className = 'seen-indicator';
-                seenIndicator.innerHTML = `<img src="${expert.avatar}" alt="seen"> <span>Đã xem</span>`;
-                messageListEl.appendChild(seenIndicator);
             }
 
-            scrollToBottom();
+            function formatDateSeparator(date) {
+                const todaySep = new Date();
+                const yesterdaySep = new Date();
+                yesterdaySep.setDate(todaySep.getDate() - 1);
 
-            document.getElementById('backBtn').addEventListener('click', () => chatContainer.classList.remove('chat-area-visible'));
-            const messageInput = document.getElementById('message-input');
-            const messageForm = document.getElementById('messageForm');
+                if (date.toDateString() === todaySep.toDateString()) return 'Hôm nay';
+                if (date.toDateString() === yesterdaySep.toDateString()) return 'Hôm qua';
+                return date.toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'long' });
+            }
 
-            function sendMessage() {
-                const text = messageInput.value.trim();
-                if (text === '') return;
-                const newMessage = { sender: 'user', text, timestamp: new Date() };
-                messages.push(newMessage);
+            // --- Render Functions ---
+            const chatList = document.getElementById('chatList');
+            async function renderchatList() {
+                chatList.innerHTML = '';
 
-                const bubble = document.createElement('li');
-                bubble.className = 'message-bubble sent newly-sent';
-                bubble.textContent = newMessage.text;
+                const elms = document.createDocumentFragment()
+                chatboxes = (await ctx.call("User", "getCheckboxes")).result || []
+                chatboxes.forEach(cb => {
+                    const time = new Date(cb.lastMessageAt)
 
-                const existingSeenIndicator = messageListEl.querySelector('.seen-indicator');
-                if (existingSeenIndicator) existingSeenIndicator.remove();
+                    const item = document.createElement('div');
+                    item.className = 'chat-list-item';
+                    item.dataset.id = cb.id;
+                    item.innerHTML = `
+                <img src="/static/img/default-avatar.jpg" alt="Avatar">
+                <div class="chat-info">
+                    <div class="chat-info-header">
+                        <span class="name">${cb.name}</span>
+                        <span class="timestamp">${time.toLocaleDateString()}<br>${time.toLocaleTimeString()}</span>
+                    </div>
+                </div>`;
+                    elms.appendChild(item);
+                })
+                chatList.appendChild(elms);
+            }
 
-                messageListEl.appendChild(bubble);
-                messageInput.value = '';
-                messageInput.focus();
+            function renderChatWindow(chatboxId) {
+                const chatbox = chatboxes.find(e => e.id === chatboxId);
+                const messages = mockMessages[chatboxId] || [];
+
+                chatArea.classList.add("in-chat")
+                chatArea.querySelector("[name=name]").innerHTML = chatbox.name
+
+                messageListEl = document.getElementById('messageList');
+
+                let lastDate = null;
+                messages.forEach(msg => {
+                    const msgDate = new Date(msg.timestamp);
+                    if (!lastDate || msgDate.toDateString() !== lastDate.toDateString()) {
+                        const dateSeparator = document.createElement('div');
+                        dateSeparator.className = 'date-separator';
+                        dateSeparator.textContent = formatDateSeparator(msgDate);
+                        messageListEl.appendChild(dateSeparator);
+                        lastDate = msgDate;
+                    }
+                    const bubble = document.createElement('li');
+                    bubble.className = `message-bubble ${msg.sender === 'user' ? 'sent' : 'received'}`;
+                    bubble.textContent = msg.text;
+                    messageListEl.appendChild(bubble);
+                });
+
+                const lastMessage = messages[messages.length - 1];
+                if (chatbox.lastMessageSeenBychatbox && lastMessage && lastMessage.sender === 'user') {
+                    const seenIndicator = document.createElement('div');
+                    seenIndicator.className = 'seen-indicator';
+                    seenIndicator.innerHTML = `<img src="/static/img/default-avatar.jpg" alt="seen"> <span>Đã xem</span>`;
+                    messageListEl.appendChild(seenIndicator);
+                }
+
                 scrollToBottom();
-            }
 
-            messageForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                sendMessage();
-            });
-            messageInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
+                const messageInput = document.getElementById('message-input');
+                const messageForm = document.getElementById('messageForm');
+
+                function sendMessage() {
+                    const text = messageInput.value.trim();
+                    if (text === '') return;
+                    const newMessage = { sender: 'user', text, timestamp: new Date() };
+                    messages.push(newMessage);
+
+                    const bubble = document.createElement('li');
+                    bubble.className = 'message-bubble sent newly-sent';
+                    bubble.textContent = newMessage.text;
+
+                    const existingSeenIndicator = messageListEl.querySelector('.seen-indicator');
+                    if (existingSeenIndicator) existingSeenIndicator.remove();
+
+                    messageListEl.appendChild(bubble);
+                    messageInput.value = '';
+                    messageInput.focus();
+                    scrollToBottom();
+                }
+
+                messageForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     sendMessage();
+                });
+                messageInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+            }
+
+            chatList.addEventListener('click', function (e) {
+                const targetItem = e.target.closest('.chat-list-item');
+                if (targetItem) {
+                    const expertId = parseInt(targetItem.dataset.id);
+                    document.querySelectorAll('.chat-list-item').forEach(item => item.classList.remove('active'));
+                    targetItem.classList.add('active');
+                    renderChatWindow(expertId);
+                    chatContainer.classList.add('chat-area-visible');
                 }
             });
-        }
 
-        function showWelcomeScreen() {
-            chatArea.innerHTML = `
-            <div class="welcome-screen">
-                <i class="fas fa-comments"></i>
-                <h2>Bắt đầu cuộc trò chuyện</h2>
-                <p>Chọn một chuyên gia từ danh sách bên trái để xem tin nhắn.</p>
-            </div>
-        `;
-        }
-
-        expertList.addEventListener('click', function (e) {
-            const targetItem = e.target.closest('.chat-list-item');
-            if (targetItem) {
-                const expertId = parseInt(targetItem.dataset.id);
-                document.querySelectorAll('.chat-list-item').forEach(item => item.classList.remove('active'));
-                targetItem.classList.add('active');
-                renderChatWindow(expertId);
-                chatContainer.classList.add('chat-area-visible');
-            }
+            renderchatList();
         });
-
-        renderExpertList();
-        showWelcomeScreen();
-    });
-</script>
+    }</script>
