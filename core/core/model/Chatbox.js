@@ -17,5 +17,13 @@ export default instantSqlTable({
         return ChatboxMessage.list(ctx, { where: { chatboxId } })
     },
 
+    async sendMessage(ctx, chatboxId, { typeId = 1, content = "" }) {
+        return ChatboxMessage.insert(ctx, {
+            chatboxId,
+            senderId: ctx.userId,
+            typeId,
+            content
+        })
+    },
 
 })

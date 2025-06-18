@@ -148,9 +148,7 @@
     }
 
     .chat-info-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        display: block;
     }
 
     .chat-info .name {
@@ -239,18 +237,22 @@
     }
 
     .message-bubble {
-        max-width: 70%;
+        display: block;
+        width: fit-content;
+        max-width: 80%;
         padding: 10px 15px;
         border-radius: 18px;
         line-height: 1.5;
         margin-top: 10px;
+        overflow-wrap: anywhere;
     }
 
     .message-bubble.sent {
+        margin-left: auto;
+        margin-right: 0;
         background-color: var(--chat-bubble-sent-bg);
         color: white;
         border-bottom-right-radius: 4px;
-        align-self: flex-end;
     }
 
     .message-bubble.received {
@@ -261,15 +263,31 @@
         align-self: flex-start;
     }
 
+    .message-bubble-sender {
+        position: absolute;
+        width: 3em;
+        margin-top: 3px;
+    }
+
+    .message-bubble-sender>img {
+        height: 2.5em;
+        border-radius: 50%;
+    }
+
+    .message-bubble.received {
+        position: relative;
+        margin-left: 3em;
+    }
+
     .date-separator {
-        align-self: center;
+        margin: auto;
+        width: fit-content;
         color: var(--text-secondary);
         background-color: var(--border-color);
         font-size: 0.8rem;
         font-weight: 600;
         padding: 2px 10px;
         border-radius: 20px;
-        margin: 15px 0;
     }
 
     .seen-indicator {

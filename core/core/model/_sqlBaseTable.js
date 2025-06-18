@@ -4,6 +4,14 @@ import { update, insertOrUpdate, listWithOpt, getOne, replaceInto, insert } from
 const basetable = {
     tableName: "",
 
+    async insert(ctx, obj) {
+        return query(insert(this.tableName, obj))
+    },
+
+    async update(ctx, obj, where) {
+        return query(update(this.tableName, obj, where))
+    },
+
     async insertOrUpdate (ctx, obj) {
         return query(insertOrUpdate(this.tableName, obj))
     },
@@ -24,14 +32,6 @@ const basetable = {
         return query(replaceInto(this.tableName, obj))
     },
 
-    async update(ctx, obj, where) {
-        return query(update(this.tableName, obj, where))
-    },
-
-    async insert(ctx, obj, where) {
-        return query(insert(this.tableName, obj, where))
-    },
-    
 }
 
 export default (rawModel) => Object.assign(Object.create(basetable), rawModel)
