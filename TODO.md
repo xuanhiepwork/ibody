@@ -1,1 +1,3 @@
 - `/reset-password`
+- `/expert/1/dat-lich`
+- `/expert/1`

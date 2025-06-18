@@ -60,7 +60,7 @@ async function loadLichHen() {
     const profileData = await profileRes.json();
     const nguoi-dungId = profileData.id;
 
-    const res = await fetch(`${API_BASE}/lich-trinh/nguoi-dung/${nguoi-dungId}`);
+    const res = await fetch(`${API_BASE}/lich-trinh/user/${nguoi-dungId}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Lỗi tải lịch hẹn");
 
@@ -105,7 +105,7 @@ async function loadLichSuTuVan() {
     const profileData = await profileRes.json();
     const nguoi-dungId = profileData.id;
 
-    const res = await fetch(`${API_BASE}/lich-trinh/nguoi-dung/${nguoi-dungId}`);
+    const res = await fetch(`${API_BASE}/lich-trinh/user/${nguoi-dungId}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Lỗi tải lịch sử tư vấn");
 

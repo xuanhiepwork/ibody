@@ -1,7 +1,6 @@
 import express from 'express'
 
 const router = express.Router()
-router.use("/tim-chuyen-gia", (await import('./tim-chuyen-gia/index.js')).default)
 router.use("/tin-nhan-user", (await import('./tin-nhan-user/index.js')).default)
 router.use("/lich-hen-user", (await import('./lich-hen-user/index.js')).default)
 router.use("/lich-su-goi", (await import('./lich-su-goi/index.js')).default)

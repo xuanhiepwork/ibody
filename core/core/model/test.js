@@ -90,7 +90,6 @@ export default {
 
             console.log("specialties", specialties);
             
-
             specialties.forEach(async sid => {
                 await query(insertOrUpdate("Expert_Specialty", {
                     specialtyId: sid,
