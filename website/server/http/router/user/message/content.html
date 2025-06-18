@@ -142,7 +142,7 @@
         }
 
         const chatList = document.getElementById('chatList');
-        chatList.renderchatList = async function () {
+        chatList.refreshChatList = async function () {
             chatList.innerHTML = '';
 
             const elms = document.createDocumentFragment()
@@ -171,6 +171,7 @@
             document.querySelectorAll('.chat-list-item').forEach(item => {
                 if (parseInt(item.dataset.id) === chatboxId) {
                     item.classList.add('active')
+                    item.classList.remove("has-new-msg")
                 }
                 else item.classList.remove('active')
             });
@@ -184,7 +185,16 @@
             if (targetItem) this.activeChatbox(parseInt(targetItem.dataset.id))
         });
 
-        window.addEventListener("load", () => chatList.renderchatList());
+        chatList.receiveMsg = function (msgRecord) {
+            const cb = document.querySelector(`.chat-list-item[data-id="${msgRecord.chatboxId}"]`)
+            if (!cb) return this.refreshChatList()
+
+            cb.classList.add("has-new-msg")
+            const time = new Date(msgRecord.sendAt)
+            cb.querySelector(".timestamp").innerHTML = time.toLocaleDateString() + " " + time.toLocaleTimeString()
+        }
+
+        window.addEventListener("load", () => chatList.refreshChatList());
 
         const messageInput = document.getElementById('message-input');
         const messageForm = document.getElementById('messageForm');
@@ -213,6 +223,7 @@
 
 
         function receiveMsg(msgRecord) {
+            chatList.receiveMsg(msgRecord)
             if (parseInt(chatArea.dataset.chatboxId) === msgRecord.chatboxId) {
                 chatArea.appendMessage(msgRecord)
                 messageListEl.scrollToBottom();
