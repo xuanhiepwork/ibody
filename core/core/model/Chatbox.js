@@ -1,6 +1,8 @@
 import instantSqlTable from './_sqlBaseTable.js'
 import User from './User.js'
 import ChatboxMessage from './ChatboxMessage.js'
+import ChatboxMember from './ChatboxMember.js'
+
 
 export default instantSqlTable({
     tableName: "Chatbox",
@@ -23,6 +25,13 @@ export default instantSqlTable({
             senderId: ctx.userId,
             typeId,
             content
+        })
+    },
+
+    async getMemberIds(ctx, chatboxId) {
+        return ChatboxMember.list(ctx, {
+            fields: ["userId"],
+            where: { chatboxId }
         })
     },
 

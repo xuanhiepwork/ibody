@@ -35,6 +35,7 @@
     </div>
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script>{
         const chatContainer = document.getElementById('chatContainer');
 
@@ -194,19 +195,33 @@
             messageInput.focus();
 
             const chatboxId = parseInt(chatArea.dataset.chatboxId)
-            await ctx.call("Chatbox", "sendMessage", chatboxId, {content})
-            chatArea.refreshChatWindow(chatboxId)
 
+            socket.emit("message-to-chatbox", chatboxId, content)
         }
         messageForm.addEventListener('submit', (e) => {
             e.preventDefault();
             sendMessage();
+            messageListEl.scrollToBottom();
         });
         messageInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
+                messageListEl.scrollToBottom();
             }
         });
+
+
+        function receiveMsg(msgRecord) {
+            if (parseInt(chatArea.dataset.chatboxId) === msgRecord.chatboxId) {
+                chatArea.appendMessage(msgRecord)
+                messageListEl.scrollToBottom();
+            }
+        }
+
+        // socketio
+        const socket = io();
+        socket.emit("join-room-user", ctx.user.id)
+        socket.on("message-chatbox-to-user", receiveMsg)
 
     }</script>
