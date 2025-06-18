@@ -12,7 +12,6 @@ router.use("/", (req, res, next) => {
         headTitle: Template.contentOfFile(import.meta.dirname, "headTitle.html"),
         head: Template.contentOfFile(import.meta.dirname, "head.html"),
         content: Template.contentOfFile(import.meta.dirname, "content.html"),
-        footer: "",
     }))
 })
 
