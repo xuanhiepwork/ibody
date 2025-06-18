@@ -27,43 +27,51 @@
                     </div>
                     <div class="form-group">
                         <label for="introduction">Giới thiệu bản thân</label>
-                        <textarea id="introduction" rows="5"
-                            placeholder="Mô tả ngắn gọn về kinh nghiệm, phương pháp làm việc..." required></textarea>
-                        <p class="form-hint"><i class="fas fa-info-circle"></i> Gợi ý: Hãy chia sẻ về triết lý làm việc
-                            và những gì khách hàng có thể mong đợi từ bạn.</p>
+                        <textarea id="introduction" rows="5" placeholder="Mô tả ngắn gọn về kinh nghiệm, phương pháp làm việc..." required></textarea>
+                        <p class="form-hint"><i class="fas fa-info-circle"></i> Gợi ý: Hãy chia sẻ về triết lý làm việc và những gì khách hàng có thể mong đợi từ bạn.</p>
                     </div>
                     <div class="form-buttons">
-                        <span></span> <button type="button" class="form-btn btn-next">Tiếp theo <i
-                                class="fas fa-arrow-right"></i></button>
+                        <span></span> <button type="button" class="form-btn btn-next">Tiếp theo <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
 
                 <div class="form-step" data-step="1">
                     <div class="form-group">
+                        <datalist id="available-specialties"></datalist>
+                        <script>{
+                                const currentScript = document.currentScript, elm = currentScript.previousElementSibling
+                                window.addEventListener("load", async () => {
+                                    const specialties = (await ctx.call("ExpertSpecialty", "list")).result || [],
+                                        sElms = document.createDocumentFragment()
+                                    specialties.forEach(s => {
+                                        const e = document.createElement("option")
+                                        e.setAttribute("value", s.name)
+                                        sElms.append(e)
+                                    })
+                                    elm.append(sElms)
+                                    currentScript.remove()
+                                })
+                            }</script>
+
                         <label for="specialty">Lĩnh vực chuyên môn chính</label>
-                        <input type="text" id="specialty" placeholder="Ví dụ: Trị liệu cặp đôi" required>
-                        <p class="form-hint"><i class="fas fa-info-circle"></i> Đây là lĩnh vực sẽ được hiển thị nổi bật
-                            nhất trên hồ sơ của bạn.</p>
+                        <input type="text" id="specialty" placeholder="Ví dụ: Trị liệu cặp đôi" list="available-specialties" required>
+                        <p class="form-hint"><i class="fas fa-info-circle"></i> Đây là lĩnh vực sẽ được hiển thị nổi bật nhất trên hồ sơ của bạn.</p>
                     </div>
                     <div class="form-group">
                         <label for="experienceYears">Số năm kinh nghiệm</label>
                         <input type="number" id="experienceYears" min="0" placeholder="Ví dụ: 5" required>
                     </div>
                     <div class="form-buttons">
-                        <button type="button" class="form-btn btn-prev"><i class="fas fa-arrow-left"></i> Quay
-                            lại</button>
-                        <button type="button" class="form-btn btn-next">Tiếp theo <i
-                                class="fas fa-arrow-right"></i></button>
+                        <button type="button" class="form-btn btn-prev"><i class="fas fa-arrow-left"></i> Quay lại</button>
+                        <button type="button" class="form-btn btn-next">Tiếp theo <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
 
                 <div class="form-step" data-step="2">
                     <div class="form-group">
                         <label for="certificates">Bằng cấp & Chứng chỉ</label>
-                        <textarea id="certificates" rows="3"
-                            placeholder="Liệt kê các bằng cấp, chứng chỉ quan trọng nhất..." required></textarea>
-                        <p class="form-hint"><i class="fas fa-info-circle"></i> Gợi ý: Mỗi bằng cấp/chứng chỉ trên một
-                            dòng để dễ đọc hơn.</p>
+                        <textarea id="certificates" rows="3" placeholder="Liệt kê các bằng cấp, chứng chỉ quan trọng nhất..." required></textarea>
+                        <p class="form-hint"><i class="fas fa-info-circle"></i> Gợi ý: Mỗi bằng cấp/chứng chỉ trên một dòng để dễ đọc hơn.</p>
                     </div>
                     <div class="form-group">
                         <label for="certificateImage">Tải lên ảnh chứng chỉ</label>
@@ -73,14 +81,11 @@
                             <p>Kéo và thả hoặc nhấn để chọn ảnh</p>
                         </div>
                         <div id="image-preview"></div>
-                        <p class="form-hint"><i class="fas fa-info-circle"></i> Vui lòng tải ảnh rõ nét. Định dạng cho
-                            phép: JPG, PNG.</p>
+                        <p class="form-hint"><i class="fas fa-info-circle"></i> Vui lòng tải ảnh rõ nét. Định dạng cho phép: JPG, PNG.</p>
                     </div>
                     <div class="form-buttons">
-                        <button type="button" class="form-btn btn-prev"><i class="fas fa-arrow-left"></i> Quay
-                            lại</button>
-                        <button type="submit" class="form-btn btn-submit"><i class="fas fa-check-circle"></i> Gửi yêu
-                            cầu</button>
+                        <button type="button" class="form-btn btn-prev"><i class="fas fa-arrow-left"></i> Quay lại</button>
+                        <button type="submit" class="form-btn btn-submit"><i class="fas fa-check-circle"></i> Gửi yêu cầu</button>
                     </div>
                 </div>
             </form>
@@ -97,16 +102,9 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const mockCurrentUser = {
-            fullName: 'Nguyễn Văn Người Dùng',
-            email: 'nguoi-dung@email.com'
-        };
-
         // --- Tự động điền thông tin ---
         const fullNameInput = document.getElementById('fullName');
-        if (fullNameInput) {
-            fullNameInput.value = mockCurrentUser.fullName;
-        }
+        if (fullNameInput && ctx?.user.fullname) fullNameInput.value = ctx.user.fullname;
 
         // --- Logic cho form nhiều bước ---
         const steps = document.querySelectorAll('.form-step');
