@@ -12,6 +12,9 @@
                     <select name="specialtyId">{{specialtiesOptions}}</select>
                 </div>
                 <button type="submit" class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Tìm kiếm</button>
+                <div class="results-header">
+                    <p>Tìm thấy {{resultsCount}} chuyên gia.</p>
+                </div>
             </form>
             <script>{
                     const formElm = document.currentScript.previousElementSibling
@@ -21,9 +24,6 @@
         </div>
 
         <div class="results-area">
-            <div class="results-header">
-                <p>Tìm thấy {{resultsCount}} chuyên gia.</p>
-            </div>
             <div class="expert-list-grid">{{expertList}}</div>
         </div>
     </div>

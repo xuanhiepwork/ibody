@@ -5,31 +5,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
 <style>
-    :root {
-        --primary-color: #A993EC;
-        --primary-color-light: rgba(169, 147, 236, 0.1);
-        --success-color: #28a745;
-        --danger-color: #dc3545;
-        --info-color: #0d6efd;
-        --sidebar-bg: #ffffff;
-        --main-bg: #f8f7fc;
-        --card-bg: #ffffff;
-        --border-color: #eef0f4;
-        --text-primary: #1a202c;
-        --text-secondary: #718096;
-    }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: var(--bg-light);
-        color: var(--text-primary);
-    }
 
     /* --- General Layout & Components --- */
     .header {
@@ -168,7 +144,9 @@
     }
 
     .profile-menu .nav-link {
+        position: relative;
         display: flex;
+        cursor: pointer;
         align-items: center;
         gap: 12px;
         padding: 12px;
@@ -177,11 +155,11 @@
         color: var(--text-secondary);
         font-weight: 600;
         margin-bottom: 5px;
-        position: relative;
     }
 
-    .profile-menu .nav-link:hover {
-        background-color: var(--bg-light);
+    .profile-menu .nav-link:not(.active):hover {
+        /* background-color: var(--bg-light); */
+        background-color: #f8f7fc;
     }
 
     .profile-menu .nav-link.active {

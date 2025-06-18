@@ -419,15 +419,7 @@ body {
 }
 
 
-
-/* User Menu */
-
-
-.user-menu {
-  position: relative;
-  display: inline-block;
-}
-
+/* nav */
 .user-button {
   cursor: pointer;
   display: flex;
@@ -1174,8 +1166,26 @@ img {
 }
 
 /* --- MENU NGƯỜI DÙNG (KHI ĐÃ ĐĂNG NHẬP) --- */
+/* User Menu */
 .user-menu {
   position: relative;
+  display: inline-block;
+}
+
+body:not(.user-loged-in) .require-user-loged-in {
+  display: none;
+}
+
+.user-loged-in .nav .login-btn {
+  display: none;
+}
+
+.user-loged-in .nav .user-menu {
+  display: inline-block;
+}
+
+.nav .user-menu .user-name {
+  font-weight: 800;
 }
 
 .user-button {
@@ -1197,17 +1207,17 @@ img {
 }
 
 .user-dropdown {
-  display: none;
   /* Mặc định ẩn */
-  position: absolute;
-  top: calc(100% + 15px);
+  display: none;
   /* Vị trí của menu con */
+  position: absolute;
+  margin-top: 1em;
   right: 0;
   background-color: var(--card-bg);
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--border-color);
-  width: 220px;
+  width: max-content;
   overflow: hidden;
 }
 

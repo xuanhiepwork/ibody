@@ -20,9 +20,9 @@ class Template {
     render(obj = {}) {
         return this.raw.replace(R, placeholder => {
             let value = obj[placeholder.slice(2, -2).trim()]
-            if (Array.isArray(value)) {
-                value = value.join("")
-            }
+            if (Array.isArray(value)) return value = value.join("")
+            if (typeof value === 'string' || value instanceof String) return value
+            if (value === 0) return "0"
             return value || ""
         })
     }

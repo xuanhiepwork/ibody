@@ -8,7 +8,10 @@ import Template from 'server/lib/template-engine.js'
 import landingPage from 'server/http/www-template/landing.js'
 
 
-const content = Template.fromFile(import.meta.dirname, "content.html")
+const headTitle = Template.contentOfFile(import.meta.dirname, "headTitle.html"),
+    head = Template.contentOfFile(import.meta.dirname, "head.html"),
+    content = Template.fromFile(import.meta.dirname, "content.html"),
+    footer = ""
 
 router.use("/", session, async (req, res, next) => {
     if (req.path !== "/" || (req.method !== 'GET' && req.method !== 'HEAD')) return next()
@@ -21,13 +24,13 @@ router.use("/", session, async (req, res, next) => {
 
     res.setHeader('Content-Type', 'text/html; charset=UTF-8')
     res.send(landingPage({
-        headTitle: Template.contentOfFile(import.meta.dirname, "headTitle.html"),
-        head: Template.contentOfFile(import.meta.dirname, "head.html"),
+        headTitle,
+        head,
         content: content.render({
             user_avatarUrl: user.avatarUrl || "/static/img/default-avatar.jpg",
             user_fullname: user.fullname,
         }),
-        footer: "",
+        footer,
     }))
 })
 

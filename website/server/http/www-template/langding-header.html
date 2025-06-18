@@ -1,26 +1,4 @@
 <header class="header">
-  <style>
-    .user-menu {
-      display: none;
-    }
-
-    body:not(.user-loged-in) .require-user-loged-in  {
-      display: none;
-    }
-
-    .user-loged-in .nav .login-btn {
-      display: none;
-    }
-
-    .user-loged-in .nav .user-menu {
-      display: inline-block;
-    }
-
-    .nav .user-menu .user-name {
-      font-weight: 800;
-    }
-  </style>
-
   <a class="logo" href="/">
     <img src="/static/img/logo_color.png" alt="Logo IBODY" class="logo-image" />
     <span class="brand">IBODY</span>
@@ -35,22 +13,27 @@
   <a href="/">Trang chủ</a>
   <a href="/tim-chuyen-gia">Tư vấn</a>
   <a class="require-user-loged-in" href="/user/tin-nhan-user">🗨 Tin nhắn</a>
-  <a class="require-user-loged-in" href="/user/lich-hen-user">Lịch hẹn</a>
+  <a class="require-user-loged-in" href="/user/lich-hen"><i class="fas fa-calendar-alt"></i> Lịch hẹn</a>
   <a class="require-user-loged-in" href="/user/lich-su-goi">Lịch sử giao dịch</a>
-  <a href="/user/dang-ky-goi">Gói tư vấn</a>
-  <a class="require-user-loged-in" href="/Admin/admin-users.html">Người dùng</a>
+  <a href="/dang-ky-goi">Gói tư vấn</a>
   <a href="#" class="login-btn" name="login-btn">Đăng nhập/Đăng ký</a>
 
-  <div class="user-menu" name="user-menu">
+  <div class="user-menu require-user-loged-in" name="user-menu">
     <div class="user-button" name="user-button">
       <img name="user-avata" src="/static/img/default-avatar.jpg" alt="Avatar" class="avatar">
       <span class="user-name" name="user-name"></span>
       <div class="user-dropdown" name="userDropdown">
-        <a href="/profile">Trang cá nhân</a>
-        <a href="/user/become-expert">Nâng cấp thành chuyên gia</a>
-        <a href="/tracnghiem">Trắc nghiệm trầm cảm</a>
-        <a href="/user/ho-tro-user">Hỗ trợ</a>
-        <a href="#" name="logout-btn">Đăng xuất</a>
+        <div style="border-bottom: 1px solid var(--border-color);">
+          <a href="/user/profile">Hồ sơ cá nhân</a>
+          <a href="/Admin/admin-users.html">Quản trị viên</a>
+        </div>
+        <div style="border-bottom: 1px solid var(--border-color);">
+          <a href="/tracnghiem">Trắc nghiệm trầm cảm</a>
+          <a href="/user/ho-tro-user">Hỗ trợ</a>
+        </div>
+        <div>
+          <a href="#" name="logout-btn">Đăng xuất</a>
+        </div>
       </div>
     </div>
   </div>

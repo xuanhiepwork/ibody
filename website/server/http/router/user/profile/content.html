@@ -9,14 +9,15 @@
                 <div id="menuName" class="name">{{user_fullname}}</div>
             </div>
             <ul class="nav-list">
-                <li><a href="#" class="nav-link active" data-tab="info"><i class="fas fa-user-circle"></i> Thông tin cá
-                        nhân</a></li>
-                <li><a href="#" class="nav-link" data-tab="package"><i class="fas fa-box-open"></i> Gói dịch vụ</a></li>
-                <li><a href="#" class="nav-link" data-tab="history"><i class="fas fa-history"></i> Lịch sử tư vấn</a>
-                </li>
-                <li><a href="#" class="nav-link" data-tab="notifications"><i class="fas fa-bell"></i> Thông báo</a></li>
-                <li><a href="#" class="nav-link" data-tab="upgrade"><i class="fas fa-rocket"></i> Nâng cấp tài khoản</a>
-                </li>
+                <li><a class="nav-link active" data-tab="info"><i class="fas fa-user-circle"></i>Thông tin cá nhân</a></li>
+                <li><a class="nav-link" data-tab="package"><i class="fas fa-box-open"></i>Gói dịch vụ</a></li>
+                <li><a class="nav-link" data-tab="history"><i class="fas fa-history"></i>Lịch sử tư vấn</a></li>
+                <li><a class="nav-link" data-tab="notifications"><i class="fas fa-bell"></i>Thông báo</a></li>
+                <script>{
+                    if (!(ctx?.user.gourps || []).includes("experd")) {
+                        document.currentScript.parentElement.innerHTML += `<li><a class="nav-link" href="/user/become-expert" data-tab="upgrade"><i class="fas fa-rocket"></i>Trở thành chuyên gia</a></li>`
+                    }
+                }</script>
             </ul>
         </aside>
 
@@ -114,77 +115,6 @@
                     <div id="notificationList" class="notification-list"></div>
                 </div>
             </div>
-            <div id="upgrade" class="tab-content">
-                <div class="content-card">
-                    <div id="formWrapper">
-                        <h3>Nâng cấp thành Chuyên gia</h3>
-                        <div class="progress-bar-upgrade">
-                            <div class="progress-indicator" id="progressIndicator"></div>
-                            <div class="step active" id="step1">
-                                <div class="step-icon">1</div> <span>Cơ bản</span>
-                            </div>
-                            <div class="step" id="step2">
-                                <div class="step-icon">2</div> <span>Chuyên môn</span>
-                            </div>
-                            <div class="step" id="step3">
-                                <div class="step-icon">3</div> <span>Xác minh</span>
-                            </div>
-                        </div>
-                        <form id="upgradeForm">
-                            <div class="form-step active" data-step="0">
-                                <div class="form-group"><label for="fullName">Họ và Tên</label><input type="text"
-                                        id="fullName" required></div>
-                                <div class="form-group"><label for="introduction">Giới thiệu bản thân</label><textarea
-                                        id="introduction" rows="5" required></textarea>
-                                    <p class="form-hint"><i class="fas fa-info-circle"></i> Gợi ý: Hãy chia sẻ về triết
-                                        lý làm việc của bạn.</p>
-                                </div>
-                                <div class="form-buttons"><span></span><button type="button"
-                                        class="form-btn btn-next">Tiếp theo <i class="fas fa-arrow-right"></i></button>
-                                </div>
-                            </div>
-                            <div class="form-step" data-step="1">
-                                <div class="form-group"><label for="specialty">Lĩnh vực chuyên môn chính</label><input
-                                        type="text" id="specialty" required>
-                                    <p class="form-hint"><i class="fas fa-info-circle"></i> Lĩnh vực này sẽ được hiển
-                                        thị nổi bật trên hồ sơ.</p>
-                                </div>
-                                <div class="form-group"><label for="experienceYears">Số năm kinh nghiệm</label><input
-                                        type="number" id="experienceYears" min="0" required></div>
-                                <div class="form-buttons"><button type="button" class="form-btn btn-prev"><i
-                                            class="fas fa-arrow-left"></i> Quay lại</button><button type="button"
-                                        class="form-btn btn-next">Tiếp theo <i class="fas fa-arrow-right"></i></button>
-                                </div>
-                            </div>
-                            <div class="form-step" data-step="2">
-                                <div class="form-group"><label for="certificates">Bằng cấp & Chứng chỉ</label><textarea
-                                        id="certificates" rows="3" required></textarea>
-                                    <p class="form-hint"><i class="fas fa-info-circle"></i> Mỗi bằng cấp/chứng chỉ trên
-                                        một dòng.</p>
-                                </div>
-                                <div class="form-group"><label for="certificateImage">Tải lên ảnh chứng
-                                        chỉ</label><input type="file" id="certificateImage" style="display: none;">
-                                    <div class="file-upload-area" id="fileUploadArea"><i
-                                            class="fas fa-cloud-upload-alt"></i>
-                                        <p>Nhấn để chọn ảnh</p>
-                                    </div>
-                                    <div id="image-preview"></div>
-                                </div>
-                                <div class="form-buttons"><button type="button" class="form-btn btn-prev"><i
-                                            class="fas fa-arrow-left"></i> Quay lại</button><button type="submit"
-                                        class="form-btn btn-submit"><i class="fas fa-check-circle"></i> Gửi yêu
-                                        cầu</button></div>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="successMessage" class="success-message" style="display: none;">
-                        <div class="icon"><i class="fas fa-check-circle"></i></div>
-                        <h2>Gửi yêu cầu thành công!</h2>
-                        <p>Bước tiếp theo, vui lòng cập nhật phương thức thanh toán.</p>
-                        <a href="#" class="form-btn">Cài đặt Thanh toán</a>
-                    </div>
-                </div>
-            </div>
         </main>
     </div>
 </div>
@@ -201,7 +131,7 @@
             { id: 2, expertId: 3, expertName: 'Vũ Phương Thảo', avatar: 'https://i.pravatar.cc/150?u=expert3', date: '25/05/2025', reviewed: false },
         ];
         const mockNotifications = [
-            { icon: 'fa-calendar-check', color: 'var(--success-color)', message: 'Chuyên gia Hồ Hoàng Yến đã xác nhận lịch hẹn của bạn.', timestamp: '2 giờ trước', isRead: false, link: 'lich-hen-user' },
+            { icon: 'fa-calendar-check', color: 'var(--success-color)', message: 'Chuyên gia Hồ Hoàng Yến đã xác nhận lịch hẹn của bạn.', timestamp: '2 giờ trước', isRead: false, link: 'lich-hen' },
             { icon: 'fa-credit-card', color: 'var(--primary-color)', message: 'Gia hạn gói Premium+ thành công.', timestamp: '1 ngày trước', isRead: true, link: 'dang-ky-goi.html' },
         ];
 
@@ -281,7 +211,7 @@
 
         // --- Tab Switching Logic ---
         navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
+            if (!link.getAttribute("href")) link.addEventListener('click', (e) => {
                 if (link.dataset.tab) {
                     e.preventDefault();
                     const tabId = link.dataset.tab;
@@ -293,36 +223,6 @@
                 }
             });
         });
-
-        // --- Upgrade Form Logic ---
-        const upgradeFormSteps = document.querySelectorAll('#upgrade .form-step');
-        const upgradeStepIndicators = document.querySelectorAll('#upgrade .step');
-        const upgradeProgressIndicator = document.getElementById('progressIndicator');
-        let upgradeCurrentStep = 0;
-
-        function updateUpgradeProgress() {
-            upgradeStepIndicators.forEach((step, index) => step.classList.toggle('active', index <= upgradeCurrentStep));
-            if (upgradeProgressIndicator) {
-                upgradeProgressIndicator.style.width = `${(upgradeCurrentStep / (upgradeFormSteps.length - 1)) * 100}%`;
-            }
-        }
-
-        function showUpgradeStep(stepIndex) {
-            upgradeFormSteps.forEach((step, index) => step.classList.toggle('active', index === stepIndex));
-            upgradeCurrentStep = stepIndex;
-            updateUpgradeProgress();
-        }
-
-        document.querySelectorAll('#upgrade .btn-next').forEach(b => b.addEventListener('click', () => showUpgradeStep(upgradeCurrentStep + 1)));
-        document.querySelectorAll('#upgrade .btn-prev').forEach(b => b.addEventListener('click', () => showUpgradeStep(upgradeCurrentStep - 1)));
-
-        document.getElementById('upgradeForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            document.getElementById('formWrapper').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-        });
-
-        document.querySelector('#upgrade #fullName').value = mockUser.name;
 
         // --- Initial Render ---
         // renderProfileMenu();

@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       alert(result.message || "✅ Đặt lịch thành công!");
-      window.location.href = "lich-hen-user";
+      window.location.href = "lich-hen";
     } catch (err) {
       alert("❌ Lỗi kết nối đến server.");
       console.error(err);

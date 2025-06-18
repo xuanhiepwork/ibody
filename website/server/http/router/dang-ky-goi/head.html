@@ -56,55 +56,6 @@
         right: -100px;
     }
 
-    /* --- Header --- */
-    .header {
-        background-color: var(--card-bg);
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        /* Hiệu ứng thủy tinh mờ */
-        border-bottom: 1px solid var(--border-color);
-        padding: 0 5%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 70px;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
-
-    .header .logo {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 700;
-        font-size: 1.5rem;
-        color: var(--primary-color);
-    }
-
-    .header .nav {
-        display: flex;
-        gap: 25px;
-    }
-
-    .header .nav a {
-        text-decoration: none;
-        color: var(--text-secondary);
-        font-weight: 600;
-        padding: 5px 0;
-        border-bottom: 2px solid transparent;
-        transition: all 0.2s;
-    }
-
-    .header .nav a:hover {
-        color: var(--primary-color);
-    }
-
-    .header .nav a.active {
-        color: var(--primary-color);
-        border-bottom-color: var(--primary-color);
-    }
-
     /* --- Main Container --- */
     .main-container {
         max-width: 1200px;
