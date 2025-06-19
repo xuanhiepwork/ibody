@@ -12,7 +12,8 @@ export async function loginByEmailPassword(email, password) {
     if (response.ok) {
         const result = await response.json();
         if (result.code === "login-success") {
-            ctx.syncUser()
+            await ctx.syncUser()
+            location.reload()
         }
         else {
             // #TODO: build giao diện cho khúc này
@@ -27,5 +28,6 @@ export async function logout() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
     })
-    ctx.syncUser()
+    await ctx.syncUser()
+    location.reload()
 }

@@ -16,6 +16,25 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Attachment`
+--
+
+DROP TABLE IF EXISTS `Attachment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Attachment` (
+  `ownerId` int DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mimeType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uploadTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `ownerId` (`ownerId`),
+  CONSTRAINT `Attachment_ibfk_1` FOREIGN KEY (`ownerId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `Chatbox`
 --
 
@@ -25,45 +44,9 @@ DROP TABLE IF EXISTS `Chatbox`;
 CREATE TABLE `Chatbox` (
   `id` int NOT NULL AUTO_INCREMENT,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `lastMessageAt` datetime NOT NULL,
+  `lastMessageAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ChatboxMessage`
---
-
-DROP TABLE IF EXISTS `ChatboxMessage`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ChatboxMessage` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `chatboxId` int NOT NULL,
-  `senderId` int NOT NULL,
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `message_id` (`id`),
-  KEY `senderId` (`senderId`) USING BTREE,
-  KEY `chatboxId` (`chatboxId`) USING BTREE,
-  CONSTRAINT `ChatboxMessage_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `Chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ChatboxMessage_ibfk_2` FOREIGN KEY (`senderId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ChatboxRole`
---
-
-DROP TABLE IF EXISTS `ChatboxRole`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ChatboxRole` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -78,13 +61,69 @@ CREATE TABLE `ChatboxMember` (
   `chatboxId` int NOT NULL,
   `userId` int NOT NULL,
   `roleId` int NOT NULL,
-  PRIMARY KEY (`chatboxId`,`userId`),
-  UNIQUE KEY `chatboxId` (`chatboxId`),
-  UNIQUE KEY `userId` (`userId`),
+  PRIMARY KEY (`chatboxId`,`userId`,`roleId`),
   KEY `roleId` (`roleId`) USING BTREE,
+  KEY `userId` (`userId`) USING BTREE,
+  KEY `chatboxId` (`chatboxId`) USING BTREE,
   CONSTRAINT `ChatboxMember_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `Chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ChatboxMember_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ChatboxMember_ibfk_3` FOREIGN KEY (`roleId`) REFERENCES `ChatboxRole` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `ChatboxMember_ibfk_3` FOREIGN KEY (`roleId`) REFERENCES `ChatboxMemberRole` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ChatboxMemberRole`
+--
+
+DROP TABLE IF EXISTS `ChatboxMemberRole`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ChatboxMemberRole` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ChatboxMessage`
+--
+
+DROP TABLE IF EXISTS `ChatboxMessage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ChatboxMessage` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `chatboxId` int NOT NULL,
+  `senderId` int NOT NULL,
+  `typeId` int DEFAULT NULL,
+  `sendAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `message_id` (`id`),
+  KEY `senderId` (`senderId`) USING BTREE,
+  KEY `chatboxId` (`chatboxId`) USING BTREE,
+  KEY `typeId` (`typeId`),
+  CONSTRAINT `ChatboxMessage_ibfk_1` FOREIGN KEY (`chatboxId`) REFERENCES `Chatbox` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ChatboxMessage_ibfk_2` FOREIGN KEY (`senderId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ChatboxMessage_ibfk_3` FOREIGN KEY (`typeId`) REFERENCES `ChatboxMessageType` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ChatboxMessageType`
+--
+
+DROP TABLE IF EXISTS `ChatboxMessageType`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ChatboxMessageType` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -255,8 +294,8 @@ CREATE TABLE `User_group` (
   `groupId` int NOT NULL,
   `userId` int NOT NULL,
   PRIMARY KEY (`groupId`,`userId`),
-  UNIQUE KEY `groupId` (`groupId`),
   KEY `userId` (`userId`),
+  KEY `groupId` (`groupId`) USING BTREE,
   CONSTRAINT `User_group_ibfk_1` FOREIGN KEY (`groupId`) REFERENCES `UserGroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `User_group_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
