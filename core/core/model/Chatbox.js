@@ -7,6 +7,16 @@ import ChatboxMember from './ChatboxMember.js'
 export default instantSqlTable({
     tableName: "Chatbox",
 
+    async create(ctx, { name }) {
+        const rs = await this.insert(ctx, { name })
+        const id = rs.insertId
+        return ChatboxMember.insertOrUpdate(ctx, {
+            chatboxId: id,
+            userId: ctx.userId,
+            roleId: 1, // creator
+        })
+    },
+
     async getUserInfo(ctx, userId) {
         const user = await User.getOne(ctx, { id: userId })
         return {
@@ -32,6 +42,14 @@ export default instantSqlTable({
         return ChatboxMember.list(ctx, {
             fields: ["userId"],
             where: { chatboxId }
+        })
+    },
+
+    async addMember(ctx, chatboxId, userId) {
+        return ChatboxMember.insert(ctx, {
+            chatboxId,
+            userId,
+            roleId: 2, // member
         })
     },
 

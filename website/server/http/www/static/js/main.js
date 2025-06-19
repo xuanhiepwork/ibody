@@ -24,7 +24,7 @@ const ctx = { ET: new EventTarget() }
 
         if (user) { localStorage.setItem("user", JSON.stringify(user)) } else localStorage.removeItem("user")
         localStorage.setItem("user_syncCode", ctx.cookies?.user_syncCode || "")
-        location.reload()
+        // location.reload()
     }
 
     ctx.refresh = () => {

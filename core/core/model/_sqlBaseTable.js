@@ -1,5 +1,5 @@
 import query from "core/connector/mysql.js"
-import { update, insertOrUpdate, listWithOpt, getOne, replaceInto, insert } from "../helper/sqlBuilder.js"
+import { update, insertOrUpdate, listWithOpt, getOne, replaceInto, insert, deleteOne } from "../helper/sqlBuilder.js"
 
 const basetable = {
     tableName: "",
@@ -30,6 +30,10 @@ const basetable = {
 
     async replaceInto(ctx, obj) {
         return query(replaceInto(this.tableName, obj))
+    },
+
+    async deleteOne (ctx, where) {
+        return (await query(deleteOne(this.tableName, where)))[0]
     },
 
 }

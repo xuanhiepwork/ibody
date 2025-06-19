@@ -1,7 +1,25 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+</script>
+
 <div class="chat-container" id="chatContainer">
     <div class="chat-sidebar" id="chatSidebar">
         <div class="chat-sidebar-header">
-            <h2>Tin nhắn</h2>
+            <h2>
+                Tin nhắn
+                <i class="fa-solid fa-plus" style="cursor: pointer;"></i>
+                <script>{
+                        document.currentScript.previousElementSibling.addEventListener("click", async function (e) {
+                            let chatboxName = prompt("Nhập tên chatbox");
+                            if (chatboxName === null) return
+                            await ctx.call("Chatbox", "create", {
+                                name: chatboxName
+                            })
+                            location.reload()
+                        })
+                    }</script>
+            </h2>
         </div>
         <div class="chat-list" id="chatList"></div>
     </div>
@@ -20,10 +38,52 @@
                     <div class="status">Đang hoạt động</div>
                 </div>
 
-                <div class="actions" style="height: 100%;">
-                    <a href="../videoCall.html" class="icon-btn" title="Bắt đầu cuộc gọi" style="position: absolute;right: 0;top: 50%;transform: translateY(-50%);">
+                <div class="actions" style="position: absolute;right: 0;top: 50%;transform: translateY(-50%);">
+                    <span name="add-member">
+                        <select id="member-to-add"></select>
+                        <script>{
+                                const elm = document.currentScript.previousElementSibling
+                                window.addEventListener("load", async function (e) {
+                                    const ops = document.createDocumentFragment()
+                                    ops.append(document.createElement("option"))
+                                    const users = (await ctx.call("User", "list")).result || []
+                                    users.forEach(u => {
+                                        const o = document.createElement("option")
+                                        o.setAttribute("value", u.id)
+                                        o.innerHTML = u.fullname
+                                        ops.append(o)
+                                    })
+                                    elm.append(ops)
+                                })
+                            }</script>
+                        <i class="fa-solid fa-user-plus" style="cursor: pointer;"></i>
+                        <script>{
+                                document.currentScript.previousElementSibling.addEventListener("click", async function (e) {
+                                    await ctx.call("Chatbox", "addMember",
+                                        document.getElementById('chatArea').dataset.chatboxId,
+                                        document.getElementById('member-to-add').value
+                                    )
+                                    alert("Đã thêm thành viên vào nhóm chat.")
+                                })
+                            }</script>
+                    </span>
+
+                    <a href="../videoCall.html" class="icon-btn" title="Bắt đầu cuộc gọi">
                         <i class="fas fa-video"></i>
                     </a>
+                    &nbsp;
+                    <a href="#" class="icon-btn" title="Xóa chatbox">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    <script>{
+                            document.currentScript.previousElementSibling.addEventListener("click", async function () {
+                                if (confirm("Bạn có muốn xóa chatbox này?")) {
+                                    await ctx.call("Chatbox", "deleteOne", { id: document.getElementById('chatArea').dataset.chatboxId })
+                                    location.reload()
+                                }
+                            })
+                        }</script>
+                    &nbsp;
                 </div>
             </div>
             <form class="chat-footer" id="messageForm">
@@ -35,7 +95,6 @@
     </div>
 </div>
 
-<script src="/socket.io/socket.io.js"></script>
 <script>{
         const chatContainer = document.getElementById('chatContainer');
 
@@ -230,8 +289,6 @@
             }
         }
 
-        // socketio
-        const socket = io();
         socket.emit("join-room-user", ctx.user.id)
         socket.on("message-chatbox-to-user", receiveMsg)
 

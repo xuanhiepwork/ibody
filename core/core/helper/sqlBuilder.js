@@ -43,6 +43,12 @@ export const getOne = (tableName, where) => [
     " LIMIT 1 ;"
 ].flat(Infinity).join("")
 
+export const deleteOne = (tableName, where) => [
+    "DELETE FROM ", tableName,
+    where ? [" WHERE ", processWhere(where)] : [],
+    " LIMIT 1 ;"
+].flat(Infinity).join("")
+
 export const replaceInto = (tableName, data) => {
     const payload = Object.entries(data)
         .filter(([field, value]) => value !== null && value !== undefined)
